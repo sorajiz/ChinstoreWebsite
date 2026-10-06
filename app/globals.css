@@ -3,23 +3,28 @@
 @tailwind utilities;
 
 :root {
-  --background: #F6F4EE;
-  --foreground: #18181B;
+  --background: #F8F7F4;
+  --foreground: #121214;
   --card-bg: #FFFFFF;
-  --card-border: #E5E1D8;
-  --surface: #EFECE4;
-  --surface-border: #DDD8CE;
-  --text-muted: #6B665E;
+  --card-border: #E4E1D8;
+  --surface: #EFECE5;
+  --surface-border: #DCD8CE;
+  --text-muted: #6B6860;
 }
 
 html.dark {
-  --background: #111113;
+  --background: #09090B;
   --foreground: #F4F4F5;
-  --card-bg: #18181B;
-  --card-border: #27272A;
-  --surface: #1E1E22;
-  --surface-border: #2D2D33;
+  --card-bg: #111114;
+  --card-border: #222226;
+  --surface: #18181C;
+  --surface-border: #28282E;
   --text-muted: #8E8E93;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: clip !important;
 }
 
 * {
@@ -29,37 +34,35 @@ html.dark {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  overflow-x: hidden;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom Webflow Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #08090E;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #181b29;
-  border-radius: 4px;
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(120, 120, 130, 0.25);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #252b40;
+  background: rgba(120, 120, 130, 0.45);
 }
 
-/* Background Layer 2: Matrix Lattice Grid (40px x 40px) */
+/* Background Layer 2: Matrix Lattice Grid (Khung vuông to 72px x 72px) */
 .cyber-grid {
-  background-size: 40px 40px;
+  background-size: 72px 72px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(120, 120, 140, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(120, 120, 140, 0.08) 1px, transparent 1px);
 }
 
 /* Background Layer 1: Ambient Glow (Linear / Webflow Style) */
@@ -273,11 +276,11 @@ body {
   animation: cyberPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* From Uiverse.io by Type-Delta - Pure CSS Sun/Moon Theme Toggle */
+/* Pure CSS Sun/Moon Theme Toggle - Compact & Pixel-Perfect */
 .themeToggle {
-  color: #bbb;
-  width: 2.2em;
-  height: 2.2em;
+  color: #888890;
+  width: 26px;
+  height: 26px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -286,12 +289,19 @@ body {
 .st-sunMoonThemeToggleBtn {
   position: relative;
   cursor: pointer;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .st-sunMoonThemeToggleBtn .themeToggleInput {
   opacity: 0;
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   position: absolute;
   inset: 0;
   cursor: pointer;
@@ -300,27 +310,28 @@ body {
 
 .st-sunMoonThemeToggleBtn svg {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.4s ease;
+  left: 3px;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: rotate(40deg);
 }
 
 .st-sunMoonThemeToggleBtn svg .sunMoon {
   transform-origin: center center;
-  transition: inherit;
+  transition: transform 0.4s ease, fill 0.3s ease;
   transform: scale(1);
 }
 
 .st-sunMoonThemeToggleBtn svg .sunRay {
   transform-origin: center center;
+  transition: transform 0.3s ease;
   transform: scale(0);
 }
 
 .st-sunMoonThemeToggleBtn svg mask > circle {
-  transition: transform 0.64s cubic-bezier(0.41, 0.64, 0.32, 1.575);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1.2);
   transform: translate(0px, 0px);
 }
 
@@ -340,17 +351,19 @@ body {
   animation-delay: 0.29s !important;
 }
 
+/* When checked (Light Theme: Moon transforms completely to a solid, round Sun) */
 .st-sunMoonThemeToggleBtn .themeToggleInput:checked + svg {
   transform: rotate(90deg);
+  color: #D97706;
 }
 .st-sunMoonThemeToggleBtn .themeToggleInput:checked + svg mask > circle {
-  transform: translate(16px, -3px);
+  transform: translate(32px, -32px);
 }
 .st-sunMoonThemeToggleBtn .themeToggleInput:checked + svg .sunMoon {
   transform: scale(0.55);
 }
 .st-sunMoonThemeToggleBtn .themeToggleInput:checked + svg .sunRay {
-  animation: showRay1832 0.4s ease 0s 1 forwards;
+  animation: showRay1832 0.35s ease 0s 1 forwards;
 }
 
 @keyframes showRay1832 {

@@ -23,6 +23,7 @@ import {
   Printer,
   ShieldCheck,
   ArrowLeft,
+  ArrowRight,
   Zap,
   Building,
   Coins,
@@ -474,7 +475,10 @@ export default function FocusedCheckoutCockpit({ initialOrder }: FocusedCheckout
                 </div>
 
                 <div className="p-4 rounded-xl bg-orange-950/20 border border-orange-500/30 text-xs text-orange-200 space-y-2">
-                  <p className="font-semibold">👉 Hướng dẫn khắc phục:</p>
+                  <p className="font-semibold flex items-center gap-1.5">
+                    <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Hướng dẫn khắc phục:</span>
+                  </p>
                   <p>
                     Vui lòng chuyển tiếp đúng <b>số tiền còn thiếu</b> với <b>CÙNG NỘI DUNG CHUYỂN KHOẢN: {orderCode}</b>. Khi nhận đủ tiền, hệ thống sẽ tự động duyệt đơn ngay!
                   </p>
@@ -714,8 +718,9 @@ export default function FocusedCheckoutCockpit({ initialOrder }: FocusedCheckout
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-500/20 text-[11px] text-cyan-200">
-                        ⚡ Hệ thống hỗ trợ <b>0-conf instant detection</b>. Ngay khi giao dịch xuất hiện trong Mempool, đơn hàng sẽ được kích hoạt!
+                      <div className="p-3 rounded-xl bg-cyan-950/30 border border-cyan-500/20 text-[11px] text-cyan-200 flex items-center gap-1.5">
+                        <Zap className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <span>Hệ thống hỗ trợ <b>0-conf instant detection</b>. Ngay khi giao dịch xuất hiện trong Mempool, đơn hàng sẽ được kích hoạt!</span>
                       </div>
                     </div>
                   </div>
@@ -723,8 +728,9 @@ export default function FocusedCheckoutCockpit({ initialOrder }: FocusedCheckout
 
                 {/* Simulation Control Panel for Verification */}
                 <div className="pt-4 border-t border-white/10 space-y-2">
-                  <div className="text-[10px] font-mono text-slate-400 uppercase">
-                    ⚡ Sandbox Simulation (Thử nghiệm các kịch bản thực tế):
+                  <div className="text-[10px] font-mono text-slate-400 uppercase flex items-center gap-1.5">
+                    <Zap className="w-3 h-3 text-[#5865F2]" />
+                    <span>Sandbox Simulation (Thử nghiệm các kịch bản thực tế):</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <button

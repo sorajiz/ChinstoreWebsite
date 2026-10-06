@@ -45,7 +45,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="py-20 relative z-10 border-t border-[#E5E1D8] dark:border-[#27272A]">
+    <section id="faq" className="py-20 relative z-10 border-t border-[#E5E1D8] dark:border-[#27272A]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Header */}

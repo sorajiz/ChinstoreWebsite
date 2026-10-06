@@ -18,7 +18,7 @@
     "instant": "Tức thì"
   },
   "hero": {
-    "badge": "⚡ PHIÊN BẢN CYBER 2.0 • TỰ ĐỘNG HÓA 100%",
+    "badge": "PHIÊN BẢN CYBER 2.0 • TỰ ĐỘNG HÓA 100%",
     "title_part1": "THƯƠNG MẠI SỐ",
     "title_part2": "KỶ NGUYÊN MỚI",
     "subtitle": "Trải nghiệm mua sắm công nghệ tương lai với giao dịch tự động 24/7 qua VietQR SePay & tiền mã hóa Litecoin (LTC). Nhận key và sản phẩm tức thì chỉ sau vài giây.",
@@ -100,7 +100,7 @@
     "total": "Tổng cộng:",
     "placeOrder": "Khởi Tạo Đơn & Nhận Mã Thanh Toán",
     "processing": "Đang khởi tạo đơn hàng...",
-    "secureNotice": "🔒 Giao dịch của bạn được mã hóa an toàn 256-bit SSL."
+    "secureNotice": "Giao dịch của bạn được mã hóa an toàn 256-bit SSL."
   },
   "payment": {
     "title": "Cổng Thanh Toán Tự Động",
@@ -115,7 +115,7 @@
     "accountName": "Chủ Tài Khoản:",
     "transferAmount": "Số Tiền Chính Xác:",
     "transferMemo": "Nội Dung Chuyển Khoản (Bắt Buộc):",
-    "memoNotice": "⚠️ Lưu ý quan trọng: Vui lòng ghi CHÍNH XÁC nội dung chuyển khoản để hệ thống tự động nhận diện và kích hoạt đơn hàng trong 5s.",
+    "memoNotice": "Lưu ý quan trọng: Vui lòng ghi CHÍNH XÁC nội dung chuyển khoản để hệ thống tự động nhận diện và kích hoạt đơn hàng trong 5s.",
     "autoPollingNotice": "Hệ thống đang tự động kiểm tra giao dịch mỗi 3 giây...",
     "ltcInstruction": "Quét mã QR bên dưới bằng ví Litecoin (Trust Wallet, Exodus, Binance...) hoặc gửi chính xác số LTC đến địa chỉ:",
     "ltcAddress": "Địa Chỉ Ví LTC Nhận:",
@@ -123,7 +123,7 @@
     "ltcRate": "Tỷ giá tham chiếu:",
     "ltcTimeLeft": "Thời Gian Giữ Hóa Đơn:",
     "ltcNetworkNotice": "Sau khi giao dịch được phát lên mạng lưới Litecoin, hệ thống sẽ xác nhận ngay lập tức.",
-    "simulateSuccessBtn": "⚡ Test Demo: Giả Lập Đã Thanh Toán Thành Công",
+    "simulateSuccessBtn": "Test Demo: Giả Lập Đã Thanh Toán Thành Công",
     "successCongratulations": "Chúc Mừng! Đơn Hàng Đã Thanh Toán",
     "digitalKeyHeader": "Mã Bản Quyền / Tài Nguyên Kỹ Thuật Số Của Bạn:",
     "invoiceSummary": "Chi Tiết Hóa Đơn",

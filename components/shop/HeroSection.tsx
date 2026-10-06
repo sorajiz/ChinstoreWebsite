@@ -44,7 +44,7 @@ export function HeroSection({ onQuickCheckout }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative pt-20 pb-14 sm:pt-28 sm:pb-20 px-4 max-w-7xl mx-auto w-full">
+    <section id="hero" className="relative pt-20 pb-14 sm:pt-28 sm:pb-20 px-4 max-w-7xl mx-auto w-full">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
         
         {/* CỘT TRÁI: TIÊU ĐỀ & HÀNH ĐỘNG NHANH */}

@@ -19,6 +19,8 @@ import {
   Printer,
   ShieldCheck,
   ArrowRight,
+  MessageSquare,
+  Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import RadialCountdownTimer from '@/components/ui/RadialCountdownTimer';
@@ -306,8 +308,9 @@ export default function SepayPaymentView({
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-xs text-cyan-300">
-                💬 Vui lòng chụp ảnh màn hình này hoặc cung cấp mã đơn <b className="text-white">#{orderCode}</b> gửi cho bộ phận hỗ trợ qua Telegram: <a href="https://t.me/" target="_blank" className="underline font-bold text-white">@ChinStoreSupport</a> để được duyệt cấp ngay tài khoản mới.
+              <div className="p-4 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-xs text-cyan-300 flex items-start gap-2">
+                <MessageSquare className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                <span>Vui lòng chụp ảnh màn hình này hoặc cung cấp mã đơn <b className="text-white">#{orderCode}</b> gửi cho bộ phận hỗ trợ qua Telegram: <a href="https://t.me/" target="_blank" className="underline font-bold text-white">@ChinStoreSupport</a> để được duyệt cấp ngay tài khoản mới.</span>
               </div>
             </div>
           ) : isUnderpaid ? (
@@ -340,9 +343,10 @@ export default function SepayPaymentView({
                 </div>
               </div>
 
-              <p className="text-xs text-slate-300">
-                👉 Vui lòng chuyển tiếp số tiền còn thiếu với <b>CÙNG NỘI DUNG CHUYỂN KHOẢN: {orderCode}</b> để đơn hàng được duyệt tự động.
-              </p>
+              <div className="flex items-start gap-2 text-xs text-slate-300">
+                <ArrowRight className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <span>Vui lòng chuyển tiếp số tiền còn thiếu với <b>CÙNG NỘI DUNG CHUYỂN KHOẢN: {orderCode}</b> để đơn hàng được duyệt tự động.</span>
+              </div>
             </div>
           ) : (
             /* ================= PENDING PAYMENT VIEW ================= */
@@ -469,8 +473,9 @@ export default function SepayPaymentView({
 
                 {/* Simulation Control Panel for Testing Edge Cases */}
                 <div className="pt-2 border-t border-white/10 space-y-2">
-                  <div className="text-[10px] font-mono text-slate-400 uppercase">
-                    ⚡ Bảng Điều Khiển Test Demo (Kiểm Thử Kịch Bản):
+                  <div className="text-[10px] font-mono text-slate-400 uppercase flex items-center gap-1.5">
+                    <Zap className="w-3 h-3 text-[#5865F2]" />
+                    <span>Bảng Điều Khiển Test Demo (Kiểm Thử Kịch Bản):</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <button

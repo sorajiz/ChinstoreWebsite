@@ -18,7 +18,7 @@
     "instant": "Instant"
   },
   "hero": {
-    "badge": "⚡ CYBER EDITION 2.0 • 100% AUTOMATED",
+    "badge": "CYBER EDITION 2.0 • 100% AUTOMATED",
     "title_part1": "NEXT-GEN DIGITAL",
     "title_part2": "COMMERCE ERA",
     "subtitle": "Experience futuristic technology shopping with 24/7 instant automated settlement via VietQR SePay & Litecoin (LTC) crypto. Receive license keys & products within seconds.",
@@ -100,7 +100,7 @@
     "total": "Total:",
     "placeOrder": "Generate Payment Invoice",
     "processing": "Generating order invoice...",
-    "secureNotice": "🔒 Encrypted with 256-bit military-grade SSL security."
+    "secureNotice": "Encrypted with 256-bit military-grade SSL security."
   },
   "payment": {
     "title": "Automated Payment Gateway",
@@ -115,7 +115,7 @@
     "accountName": "Account Holder:",
     "transferAmount": "Exact Amount:",
     "transferMemo": "Transfer Memo / Content (Mandatory):",
-    "memoNotice": "⚠️ Critical requirement: Enter the EXACT memo code so our bot automatically validates and fulfills within 5s.",
+    "memoNotice": "Critical requirement: Enter the EXACT memo code so our bot automatically validates and fulfills within 5s.",
     "autoPollingNotice": "Automated ledger polling active (checks every 3 seconds)...",
     "ltcInstruction": "Scan the QR code using any Litecoin wallet (Trust Wallet, Exodus, Binance...) or transfer exact LTC to:",
     "ltcAddress": "LTC Merchant Address:",
@@ -123,7 +123,7 @@
     "ltcRate": "Exchange Rate Reference:",
     "ltcTimeLeft": "Invoice Expiration Countdown:",
     "ltcNetworkNotice": "Once your transaction is broadcasted to the Litecoin network, confirmation triggers automatically.",
-    "simulateSuccessBtn": "⚡ Test Demo: Simulate Instant Payment Success",
+    "simulateSuccessBtn": "Test Demo: Simulate Instant Payment Success",
     "successCongratulations": "Success! Your Order is Paid in Full",
     "digitalKeyHeader": "Your Digital License Key / Access Credentials:",
     "invoiceSummary": "Invoice Breakdown",

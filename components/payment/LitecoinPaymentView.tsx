@@ -18,6 +18,7 @@ import {
   Printer,
   ArrowRight,
   ShieldCheck,
+  Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import RadialCountdownTimer from '@/components/ui/RadialCountdownTimer';
@@ -422,8 +423,9 @@ export default function LitecoinPaymentView({
 
                 {/* Test Simulation Panel */}
                 <div className="pt-2 border-t border-white/10 space-y-2">
-                  <div className="text-[10px] font-mono text-slate-400 uppercase">
-                    ⚡ Bảng Điều Khiển Test Demo (LTC):
+                  <div className="text-[10px] font-mono text-slate-400 uppercase flex items-center gap-1.5">
+                    <Zap className="w-3 h-3 text-[#5865F2]" />
+                    <span>Bảng Điều Khiển Test Demo (LTC):</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <button
