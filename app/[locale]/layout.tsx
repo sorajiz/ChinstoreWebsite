@@ -28,8 +28,28 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`dark ${jakarta.variable} ${mono.variable}`}>
-      <body className="min-h-screen bg-[#08090E] text-slate-200 font-sans selection:bg-brand-primary/30 selection:text-white antialiased">
+    <html lang={locale} className={`dark ${jakarta.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var t = localStorage.getItem('theme');
+                  if (t === 'light') {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                  } else {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen bg-[#F6F4EE] dark:bg-[#111113] text-[#18181B] dark:text-[#F4F4F5] font-sans selection:bg-brand-primary/30 selection:text-white antialiased transition-colors duration-300">
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <AuroraBackground>

@@ -69,21 +69,21 @@ export default function FeaturedCategories() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-indigo-300 text-xs font-medium backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2] text-xs font-semibold backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5 text-[#5865F2]" />
               <span>NGÀNH HÀNG TIÊU BIỂU</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black font-sans text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black font-sans text-slate-900 dark:text-white tracking-tight">
               Khám Phá Các Danh Mục Hot
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-lg font-sans">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg font-sans">
               Lựa chọn sản phẩm theo từng ngành hàng chuyên biệt chuẩn Plati.market.
             </p>
           </div>
 
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-indigo-400 hover:text-indigo-300 font-sans group"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#5865F2] hover:text-[#4752C4] font-sans group"
           >
             <span>Vào Cửa Hàng Đầy Đủ</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -96,36 +96,36 @@ export default function FeaturedCategories() {
             <Link
               key={cat.id}
               href={`/shop?category=${cat.slug}`}
-              className={`relative rounded-3xl p-6 glass-card border border-white/[0.06] transition-all duration-300 group overflow-hidden flex flex-col justify-between space-y-6 ${cat.borderGlow}`}
+              className={`relative rounded-3xl p-6 bg-white dark:bg-[#18181B] border border-[#E5E1D8] dark:border-[#27272A] shadow-sm transition-all duration-300 group overflow-hidden flex flex-col justify-between space-y-6 ${cat.borderGlow}`}
             >
               {/* Background Gradient */}
               <div
-                className={`absolute inset-0 bg-gradient-to-b ${cat.gradient} opacity-30 group-hover:opacity-60 transition-opacity`}
+                className={`absolute inset-0 bg-gradient-to-b ${cat.gradient} opacity-20 group-hover:opacity-40 transition-opacity`}
               />
 
               <div className="relative z-10 space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-inner">
+                  <div className="w-12 h-12 rounded-2xl bg-[#EFECE5]/60 dark:bg-[#202024] border border-[#E5E1D8] dark:border-[#27272A] flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-xs">
                     {cat.icon}
                   </div>
-                  <span className="text-[10px] font-mono font-medium tracking-wider px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-indigo-300">
+                  <span className="text-[10px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#EFECE5] dark:bg-[#27272A] border border-[#E5E1D8] dark:border-[#27272A] text-slate-700 dark:text-slate-300">
                     {cat.tag}
                   </span>
                 </div>
 
                 <div className="space-y-1.5">
-                  <h3 className="text-base font-bold text-white group-hover:text-indigo-300 transition-colors font-sans">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[#5865F2] dark:group-hover:text-indigo-400 transition-colors font-sans">
                     {cat.name}
                   </h3>
-                  <p className="text-xs text-slate-400 font-sans line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 font-sans line-clamp-2 leading-relaxed">
                     {cat.description}
                   </p>
                 </div>
               </div>
 
-              <div className="relative z-10 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-sans text-slate-400">
+              <div className="relative z-10 pt-3 border-t border-[#E5E1D8] dark:border-[#27272A] flex items-center justify-between text-xs font-sans text-slate-500 dark:text-slate-400">
                 <span>{cat.count}</span>
-                <span className="text-indigo-400 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
+                <span className="text-[#5865F2] group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
                   Xem ngay <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>

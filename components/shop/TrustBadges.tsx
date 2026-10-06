@@ -39,7 +39,7 @@ export default function TrustBadges() {
   ];
 
   return (
-    <section id="features" className="py-12 border-y border-white/[0.06] bg-[#070a14]/60 backdrop-blur-md">
+    <section id="features" className="py-12 border-y border-[#E5E1D8] dark:border-[#27272A] bg-[#EFECE5]/60 dark:bg-[#151518]/60 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {badges.map((b, idx) => {
@@ -47,21 +47,21 @@ export default function TrustBadges() {
             return (
               <div
                 key={idx}
-                className={`relative group rounded-2xl p-6 glass-card border border-white/10 ${b.glowColor} transition-all duration-300 hover:-translate-y-1.5 overflow-hidden`}
+                className={`relative group rounded-2xl p-6 bg-white dark:bg-[#18181B] border border-[#E5E1D8] dark:border-[#27272A] shadow-sm transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
               >
                 {/* Background Glow */}
                 <div
-                  className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${b.bgGlow} rounded-bl-full pointer-events-none opacity-40 group-hover:opacity-100 transition-opacity`}
+                  className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${b.bgGlow} rounded-bl-full pointer-events-none opacity-30 group-hover:opacity-70 transition-opacity`}
                 />
 
                 <div className="relative z-10 space-y-3">
-                  <div className="w-12 h-12 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Icon className={`w-6 h-6 ${b.glowColor}`} />
+                  <div className="w-12 h-12 rounded-xl bg-[#EFECE5]/60 dark:bg-[#202024] border border-[#E5E1D8] dark:border-[#27272A] flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Icon className="w-6 h-6 text-[#5865F2]" />
                   </div>
-                  <h3 className="text-base font-bold text-white font-display tracking-tight">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white font-display tracking-tight">
                     {b.title}
                   </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed font-sans">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-sans">
                     {b.desc}
                   </p>
                 </div>

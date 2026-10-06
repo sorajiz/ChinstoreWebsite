@@ -114,36 +114,36 @@ export default function ShopPageClient({
       <Navbar onOpenTrackModal={() => setTrackerOpen(true)} />
 
       {/* Shop Header Banner */}
-      <section className="relative pt-10 pb-8 sm:pt-14 sm:pb-12 border-b border-white/[0.06] bg-[#08090E]/80 backdrop-blur-md">
+      <section className="relative pt-10 pb-8 sm:pt-14 sm:pb-12 border-b border-[#E5E1D8] dark:border-[#27272A] bg-[#EFECE5]/80 dark:bg-[#151518]/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           {/* Breadcrumb */}
-          <div className="flex items-center space-x-2 text-xs font-medium text-slate-400">
-            <Link href="/" className="hover:text-white transition-colors">
+          <div className="flex items-center space-x-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+            <Link href="/" className="hover:text-[#5865F2] transition-colors">
               Trang Chủ
             </Link>
             <span>/</span>
-            <span className="text-indigo-300 font-semibold">Cửa Hàng Số (Marketplace)</span>
+            <span className="text-[#5865F2] font-semibold">Cửa Hàng Số (Marketplace)</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-300 text-xs font-medium">
-                <span className="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2] text-xs font-semibold">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>KHO SẢN PHẨM SỐ CHÍNH HÃNG</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-sans text-white tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-sans text-slate-900 dark:text-white tracking-tight">
                 Kho Tài Khoản &{' '}
-                <span className="bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#5865F2] via-indigo-500 to-purple-600 bg-clip-text text-transparent">
                   Sản Phẩm Số
                 </span>
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400 max-w-xl">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl">
                 Tự động giao hàng tức thì trong 3-5 giây sau khi thanh toán VietQR SePay hoặc Litecoin (LTC).
               </p>
             </div>
 
-            <div className="flex items-center gap-3 text-xs text-slate-400 bg-white/[0.03] p-3 rounded-2xl border border-white/[0.06] backdrop-blur-md shrink-0">
-              <ShieldCheck className="w-4 h-4 text-brand-emerald" />
+            <div className="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-[#18181B] p-3 rounded-2xl border border-[#E5E1D8] dark:border-[#27272A] shadow-xs shrink-0">
+              <ShieldCheck className="w-4 h-4 text-emerald-500" />
               <span>Khóa kho hàng nguyên tử (Atomic 10m)</span>
             </div>
           </div>

@@ -67,36 +67,36 @@ function SpotlightCard({ pillar }: { pillar: Pillar }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative rounded-3xl p-6 sm:p-7 glass-card border border-white/[0.06] transition-all duration-300 overflow-hidden group ${pillar.borderGlow}`}
+      className={`relative rounded-3xl p-6 sm:p-7 bg-white dark:bg-[#18181B] border border-[#E5E1D8] dark:border-[#27272A] shadow-sm transition-all duration-300 overflow-hidden group ${pillar.borderGlow}`}
     >
       {/* Dynamic Cursor Spotlight Radial Glow (Soft Indigo) */}
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-300"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(99, 102, 241, 0.14), transparent 80%)`,
+          background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(88, 101, 242, 0.12), transparent 80%)`,
         }}
       />
 
       {/* Background Subtle Gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${pillar.color} opacity-30 group-hover:opacity-60 transition-opacity`} />
+      <div className={`absolute inset-0 bg-gradient-to-br ${pillar.color} opacity-20 group-hover:opacity-40 transition-opacity`} />
 
       {/* Content */}
       <div className="relative z-10 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-300">
+          <div className="w-12 h-12 rounded-2xl bg-[#EFECE5]/60 dark:bg-[#202024] border border-[#E5E1D8] dark:border-[#27272A] flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-300">
             {pillar.icon}
           </div>
-          <span className="text-[10px] font-mono font-medium tracking-wider px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-300">
+          <span className="text-[10px] font-mono font-bold tracking-wider px-2.5 py-1 rounded-full bg-[#EFECE5]/80 dark:bg-[#27272A] border border-[#E5E1D8] dark:border-[#27272A] text-slate-700 dark:text-slate-300">
             {pillar.tag}
           </span>
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-lg font-bold text-white font-sans group-hover:text-indigo-300 transition-colors">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white font-sans group-hover:text-[#5865F2] dark:group-hover:text-indigo-400 transition-colors">
             {pillar.title}
           </h3>
-          <p className="text-xs text-slate-400 font-sans leading-relaxed">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-sans leading-relaxed">
             {pillar.desc}
           </p>
         </div>
@@ -111,14 +111,14 @@ export default function CorePillars() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-indigo-300 text-xs font-medium backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2] text-xs font-semibold backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#5865F2]" />
             <span>NỀN TẢNG TIÊU CHUẨN QUỐC TẾ</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-sans text-white tracking-tight">
-            Trải Nghiệm Mua Sắm <span className="bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">Không Tì Vết</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-sans text-slate-900 dark:text-white tracking-tight">
+            Trải Nghiệm Mua Sắm <span className="bg-gradient-to-r from-[#5865F2] via-indigo-500 to-purple-600 bg-clip-text text-transparent">Không Tì Vết</span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-400 font-sans leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-sans leading-relaxed">
             Kết hợp độ tin cậy của mô hình Plati.market và tốc độ giao dịch tự động của EnchantAlts, mang đến dịch vụ số cao cấp nhất cho game thủ & chuyên gia công nghệ.
           </p>
         </div>

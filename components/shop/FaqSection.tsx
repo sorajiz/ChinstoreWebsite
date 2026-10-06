@@ -45,21 +45,21 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="py-20 relative z-10 border-t border-white/[0.06]">
+    <section className="py-20 relative z-10 border-t border-[#E5E1D8] dark:border-[#27272A]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         {/* Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-indigo-300 text-xs font-semibold backdrop-blur-md">
-            <HelpCircle className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2] text-xs font-semibold backdrop-blur-md">
+            <HelpCircle className="w-3.5 h-3.5 text-[#5865F2]" />
             <span>GIẢI ĐÁP THẮC MẮC PHỔ BIẾN</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-            Câu Hỏi <span className="bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">Thường Gặp (FAQ)</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            Câu Hỏi <span className="bg-gradient-to-r from-[#5865F2] via-indigo-500 to-purple-600 bg-clip-text text-transparent">Thường Gặp (FAQ)</span>
           </h2>
 
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Mọi thông tin bạn cần biết về quy trình mua sắm, nhận tài nguyên và bảo hành tại ChinStore.
           </p>
         </div>
@@ -73,22 +73,22 @@ export default function FaqSection() {
                 key={faq.id}
                 className={`rounded-2xl transition-all duration-300 border ${
                   isOpen
-                    ? 'bg-[#0E1222] border-brand-primary/40 shadow-[0_0_25px_rgba(99,102,241,0.15)]'
-                    : 'bg-[#0C0E17]/80 hover:bg-[#0E1222]/80 border-white/[0.06]'
+                    ? 'bg-white dark:bg-[#18181B] border-[#5865F2]/50 shadow-md'
+                    : 'bg-white/80 dark:bg-[#18181B]/80 hover:bg-white dark:hover:bg-[#18181B] border-[#E5E1D8] dark:border-[#27272A]'
                 } backdrop-blur-xl overflow-hidden`}
               >
                 <button
                   onClick={() => toggleFaq(faq.id)}
                   className="w-full py-5 px-6 flex items-center justify-between text-left gap-4"
                 >
-                  <span className="text-sm sm:text-base font-bold text-white tracking-tight">
+                  <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight">
                     {faq.q}
                   </span>
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
                       isOpen
-                        ? 'bg-brand-primary text-white rotate-180'
-                        : 'bg-white/[0.05] text-slate-400'
+                        ? 'bg-[#5865F2] text-white rotate-180'
+                        : 'bg-[#EFECE5] dark:bg-[#27272A] text-slate-600 dark:text-slate-400'
                     }`}
                   >
                     <ChevronDown className="w-4 h-4" />
@@ -96,7 +96,7 @@ export default function FaqSection() {
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-5 pt-1 border-t border-white/[0.05] text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  <div className="px-6 pb-5 pt-1 border-t border-[#E5E1D8] dark:border-[#27272A] text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
                     {faq.a}
                   </div>
                 )}

@@ -7,15 +7,13 @@ import { useStore } from '@/lib/store';
 import { Product, Category } from '@/types';
 import { formatPrice } from '@/lib/utils';
 import {
-  Flame,
-  Zap,
   ShoppingBag,
-  ArrowRight,
-  ShieldCheck,
-  Sparkles,
+  Zap,
+  Tag,
+  AppWindow,
+  LayoutGrid,
   Eye,
-  CheckCircle2,
-  Lock,
+  Check,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -35,18 +33,16 @@ export default function FeaturedProductsSection({
 
   const filteredProducts = useMemo(() => {
     if (selectedCategory === 'all') {
-      return products.slice(0, 8);
+      return products;
     }
-    return products
-      .filter((p) => p.category?.slug === selectedCategory)
-      .slice(0, 8);
+    return products.filter((p) => p.category?.slug === selectedCategory);
   }, [products, selectedCategory]);
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
     e.stopPropagation();
     addItem(product, 1);
     toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`, {
-      icon: <ShoppingBag className="w-4 h-4 text-indigo-400" />,
+      icon: <ShoppingBag className="w-4 h-4 text-[#5865F2]" />,
     });
   };
 
@@ -59,70 +55,70 @@ export default function FeaturedProductsSection({
   };
 
   return (
-    <section id="featured-products" className="py-20 relative z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <section id="featured-products" className="py-12 sm:py-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-white/[0.06]">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-indigo-300 text-xs font-semibold backdrop-blur-md">
-              <Flame className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-              <span>SẢN PHẨM NỔI BẬT • BÁN CHẠY NHẤT</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-              Kho Tài Nguyên Số <span className="bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">Sẵn Hàng</span>
+        {/* Section Header (Exact Match to Image 3 & Image 4) */}
+        <div className="space-y-2">
+          <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 tracking-wider">
+            — Cửa hàng
+          </div>
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans">
+              Bảng giá sản phẩm
             </h2>
-            <p className="text-sm text-slate-400 max-w-xl">
-              Hệ thống kích hoạt và xuất key tự động trong 3 giây. Đầy đủ bảo hành 1 đổi 1 và hỗ trợ kỹ thuật 24/7.
-            </p>
+
+            {/* Total Products Pill (from Image 3 & 4) */}
+            <div className="px-3.5 py-1.5 rounded-xl border border-[#DDD8CE] dark:border-[#27272A] bg-white dark:bg-[#18181B] text-xs font-semibold text-slate-700 dark:text-slate-300 w-fit shadow-sm">
+              <span className="font-bold">{products.length}</span> sản phẩm
+            </div>
           </div>
 
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.08] text-sm font-semibold text-slate-200 hover:text-white transition-all group backdrop-blur-md w-fit"
-          >
-            <span>Xem Toàn Bộ Kho Hàng ({products.length})</span>
-            <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
+            Tìm món cần mua, xem giá và chọn gói phù hợp. Hàng tự động sẽ hiện trong tài khoản ngay sau khi thanh toán.
+          </p>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        {/* Category Filter Pills (Exact Match to Image 3 & Image 4 - No search bar as requested) */}
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none pt-2">
+          {/* All Category Pill */}
           <button
             onClick={() => setSelectedCategory('all')}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2 shadow-sm ${
               selectedCategory === 'all'
-                ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-[0_0_20px_rgba(99,102,241,0.35)]'
-                : 'bg-white/[0.03] hover:bg-white/[0.08] text-slate-400 hover:text-white border border-white/[0.06]'
+                ? 'bg-[#18181B] text-white dark:bg-white dark:text-[#18181B]'
+                : 'bg-white dark:bg-[#18181B] text-slate-600 dark:text-slate-400 border border-[#E5E1D8] dark:border-[#27272A] hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Tất Cả ({products.length})</span>
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>Tất cả</span>
+            <span className="text-[11px] opacity-75">{products.length}</span>
           </button>
 
+          {/* Dynamic Categories */}
           {categories.map((cat) => {
             const count = products.filter((p) => p.category?.slug === cat.slug).length;
+            const isSelected = selectedCategory === cat.slug;
             return (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.slug)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 flex items-center gap-1.5 ${
-                  selectedCategory === cat.slug
-                    ? 'bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-[0_0_20px_rgba(99,102,241,0.35)]'
-                    : 'bg-white/[0.03] hover:bg-white/[0.08] text-slate-400 hover:text-white border border-white/[0.06]'
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2 shadow-sm ${
+                  isSelected
+                    ? 'bg-[#18181B] text-white dark:bg-white dark:text-[#18181B]'
+                    : 'bg-white dark:bg-[#18181B] text-slate-600 dark:text-slate-400 border border-[#E5E1D8] dark:border-[#27272A] hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 <span>{cat.name}</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/[0.1] font-mono">
-                  {count}
-                </span>
+                <span className="text-[11px] opacity-75">{count}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Products Grid (Exact Match to Image 3 & Image 4) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-2">
           {filteredProducts.map((product) => (
             <ProductCardItem
               key={product.id}
@@ -153,127 +149,109 @@ function ProductCardItem({
   onBuyNow: (e: React.MouseEvent) => void;
   onQuickView: () => void;
 }) {
-  const defaultFallback = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop';
-  const initialImage = product.images?.[0] || defaultFallback;
-  const [imgSrc, setImgSrc] = useState(initialImage);
+  const hasImage = Boolean(product.images?.[0] && !product.images[0].includes('placeholder'));
+  const [imgError, setImgError] = useState(false);
 
-  const originalPrice = Math.round(product.priceVND * 1.3);
-  const stockCount = product.availableCount ?? 0;
+  const stockCount = product.availableCount ?? 1;
+  const isAuto = true; // All items in chinstore are instant delivery
 
   return (
     <div
       onClick={onQuickView}
-      className="group relative rounded-2xl p-[1px] bg-white/[0.06] hover:bg-gradient-to-b hover:from-brand-primary/50 hover:via-indigo-500/20 hover:to-transparent transition-all duration-300 cursor-pointer flex flex-col justify-between"
+      className="group rounded-2xl bg-white dark:bg-[#18181B] border border-[#E5E1D8] dark:border-[#27272A] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
     >
-      <div className="relative h-full flex flex-col justify-between rounded-[15px] bg-[#0C0E17]/90 backdrop-blur-xl p-4 overflow-hidden border border-white/[0.04] group-hover:border-transparent transition-colors">
-        
-        {/* Image Container with Badges */}
-        <div className="space-y-3">
-          <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-slate-900 border border-white/[0.06]">
+      <div>
+        {/* Top Image or Placeholder Area (Matches Image 3 & 4) */}
+        <div className="relative w-full aspect-[4/3] bg-[#EFECE5] dark:bg-[#202024] flex items-center justify-center overflow-hidden border-b border-[#E5E1D8] dark:border-[#27272A]">
+          {hasImage && !imgError ? (
             <Image
-              src={imgSrc}
+              src={product.images![0]}
               alt={product.name}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              onError={() => setImgSrc(defaultFallback)}
+              onError={() => setImgError(true)}
             />
-            
-            {/* Gradient overlay on image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0C0E17] via-transparent to-transparent opacity-60" />
-
-            {/* Top Badges */}
-            <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-              <span className="px-2 py-0.5 rounded-md bg-brand-primary/80 backdrop-blur-md text-[10px] font-bold text-white tracking-wide uppercase shadow-sm">
-                ⚡ Tức Thì
-              </span>
-              <span className="px-2 py-0.5 rounded-md bg-red-500/80 backdrop-blur-md text-[10px] font-bold text-white tracking-wide">
-                -25%
-              </span>
+          ) : (
+            <div className="flex items-center justify-center text-slate-400 dark:text-slate-500">
+              {product.category?.slug === 'discord' ? (
+                <AppWindow className="w-12 h-12 stroke-[1.2]" />
+              ) : (
+                <Tag className="w-12 h-12 stroke-[1.2]" />
+              )}
             </div>
+          )}
 
-            {/* Stock Pill Badge */}
-            <div className="absolute bottom-2.5 left-2.5">
-              <span
-                className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold backdrop-blur-md border ${
-                  stockCount > 0
-                    ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/30'
-                    : 'bg-red-950/80 text-red-300 border-red-500/30'
-                }`}
-              >
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    stockCount > 0 ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'
-                  }`}
-                />
-                {stockCount > 0 ? `Còn ${stockCount} sẵn sàng` : 'Tạm hết hàng'}
-              </span>
-            </div>
-
-            {/* Quick View Icon on Image hover */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onQuickView();
-              }}
-              className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-black/60 hover:bg-brand-primary text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200"
-              title="Xem nhanh chi tiết"
-            >
-              <Eye className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Category & Title */}
-          <div>
-            <div className="text-[11px] font-mono text-indigo-400 uppercase tracking-wider mb-1">
-              {product.category?.name || 'Tài nguyên số'}
-            </div>
-            <h3 className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-2 leading-snug">
-              {product.name}
-            </h3>
-            <p className="mt-1 text-xs text-slate-400 line-clamp-2 leading-relaxed">
-              {product.description}
-            </p>
-          </div>
-        </div>
-
-        {/* Price & Actions Footer */}
-        <div className="pt-4 mt-4 border-t border-white/[0.06] space-y-3">
-          <div className="flex items-baseline justify-between">
-            <div>
-              <div className="text-xs text-slate-500 line-through font-mono">
-                {formatPrice(originalPrice, currency)}
-              </div>
-              <div className="text-lg font-black text-white font-mono tracking-tight text-indigo-300">
-                {formatPrice(product.priceVND, currency)}
-              </div>
-            </div>
-            <span className="text-[10px] text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-              1 Đổi 1
+          {/* Top Badges (like "⚡ Giao tự động" & "Còn 17" in Image 3 & 4) */}
+          <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5 z-10">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/85 dark:bg-black/85 text-white text-[11px] font-bold backdrop-blur-md shadow-sm">
+              <Zap className="w-3 h-3 text-amber-400 fill-amber-400" />
+              <span>Giao tự động</span>
             </span>
+
+            {stockCount > 0 && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-black/75 dark:bg-black/75 text-emerald-400 text-[10px] font-extrabold backdrop-blur-md">
+                Còn {stockCount > 999 ? '999+' : stockCount}
+              </span>
+            )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={onAddToCart}
-              className="px-3 py-2 rounded-xl border border-white/[0.08] bg-white/[0.04] hover:bg-white/[0.1] text-xs font-semibold text-slate-200 hover:text-white transition-all flex items-center justify-center gap-1.5"
-            >
-              <ShoppingBag className="w-3.5 h-3.5 text-indigo-400" />
-              <span>Giỏ Hàng</span>
-            </button>
-
-            <button
-              onClick={onBuyNow}
-              className="px-3 py-2 rounded-xl bg-gradient-to-r from-brand-primary to-brand-secondary hover:brightness-110 text-xs font-semibold text-white transition-all shadow-[0_0_15px_rgba(99,102,241,0.3)] flex items-center justify-center gap-1.5"
-            >
-              <Zap className="w-3.5 h-3.5 fill-current" />
-              <span>Mua Ngay</span>
-            </button>
-          </div>
+          {/* Quick View Button on Hover */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuickView();
+            }}
+            className="absolute top-3 right-3 p-2 rounded-xl bg-black/60 hover:bg-[#5865F2] text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 shadow-md"
+            title="Xem nhanh"
+          >
+            <Eye className="w-3.5 h-3.5" />
+          </button>
         </div>
 
+        {/* Content Info (Matches Image 3 & 4) */}
+        <div className="p-4 space-y-2">
+          {/* Category Tag */}
+          <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            {product.category?.name || 'Tài khoản'}
+          </div>
+
+          {/* Product Title */}
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-[#5865F2] dark:group-hover:text-indigo-400 transition-colors">
+            {product.name}
+          </h3>
+
+          {/* Price */}
+          <div className="text-base font-extrabold text-slate-900 dark:text-white pt-1">
+            {formatPrice(product.priceVND, currency)}
+          </div>
+
+          {/* Stock Count (Green Text from Image 3 & 4) */}
+          <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            Còn {product.availableCount ?? 1.060} sản phẩm
+          </div>
+        </div>
+      </div>
+
+      {/* Actions Footer */}
+      <div className="px-4 pb-4 pt-1 flex items-center gap-2">
+        <button
+          onClick={onAddToCart}
+          className="flex-1 py-2 px-3 rounded-xl border border-[#E5E1D8] dark:border-[#27272A] bg-[#EFECE5]/50 dark:bg-[#202024]/50 hover:bg-[#E5E0D5] dark:hover:bg-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all flex items-center justify-center gap-1.5"
+        >
+          <ShoppingBag className="w-3.5 h-3.5 text-[#5865F2]" />
+          <span>Thêm giỏ</span>
+        </button>
+
+        <button
+          onClick={onBuyNow}
+          className="py-2 px-3.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1"
+        >
+          <Zap className="w-3.5 h-3.5 fill-current" />
+          <span>Mua ngay</span>
+        </button>
       </div>
     </div>
   );
 }
+
