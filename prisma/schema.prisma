@@ -1,0 +1,98 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String?   @unique
+  passwordHash    String?
+  name            String?
+  discordId       String?   @unique
+  discordUsername String?
+  discordAvatar   String?
+  role            String    @default("USER") // 'USER' | 'ADMIN'
+  orders          Order[]
+  createdAt       DateTime  @default(now())
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  icon      String?
+  products  Product[]
+}
+
+model Product {
+  id             String      @id @default(cuid())
+  categoryId     String
+  category       Category    @relation(fields: [categoryId], references: [id])
+  name           String
+  slug           String      @unique
+  description    String
+  priceVND       Int
+  images         String      // JSON array string of image URLs
+  warrantyPolicy String      @default("Bảo hành 1 đổi 1 trong 24 giờ")
+  stocks         Stock[]
+  orderItems     OrderItem[]
+  createdAt      DateTime    @default(now())
+}
+
+model Stock {
+  id            String    @id @default(cuid())
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  encryptedData String    // AES-256-GCM encrypted
+  iv            String
+  authTag       String
+  status        String    @default("AVAILABLE") // 'AVAILABLE' | 'RESERVED' | 'SOLD'
+  orderId       String?   @unique
+  order         Order?    @relation(fields: [orderId], references: [id])
+  reservedUntil DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+model Order {
+  id            String               @id @default(cuid())
+  orderCode     String               @unique // 7-char Base32 memo
+  userId        String?
+  user          User?                @relation(fields: [userId], references: [id])
+  customerEmail String
+  totalVND      Int
+  totalLTC      String?              // Decimal string (e.g. "0.045120")
+  gateway       String               // 'SEPAY' | 'LITECOIN'
+  status        String               @default("PAYMENT_PENDING") // 'PAYMENT_PENDING' | 'PAID' | 'UNDERPAID' | 'EXPIRED' | 'CANCELLED' | 'MANUAL_REVIEW'
+  reviewReason  String?              // Ghi lý do nếu rơi vào MANUAL_REVIEW
+  expiresAt     DateTime
+  paidAt        DateTime?
+  items         OrderItem[]
+  stock         Stock?
+  transactions  PaymentTransaction[]
+  createdAt     DateTime             @default(now())
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  priceVND  Int
+  quantity  Int      @default(1)
+}
+
+model PaymentTransaction {
+  id                    String   @id @default(cuid())
+  orderId               String
+  order                 Order    @relation(fields: [orderId], references: [id])
+  gateway               String   // 'SEPAY' | 'LITECOIN'
+  providerTransactionId String   @unique // SePay Transaction ID hoặc LTC txHash
+  amount                String   // VND hoặc LTC
+  rawPayload            String   // JSON string
+  createdAt             DateTime @default(now())
+}
