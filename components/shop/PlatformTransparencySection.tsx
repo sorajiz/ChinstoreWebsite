@@ -76,15 +76,6 @@ export function PlatformTransparencySection() {
             </p>
           </div>
 
-          <a
-            href="https://discord.gg"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-3 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-[#18181C] dark:hover:bg-[#202025] text-white border border-zinc-800 dark:border-zinc-700 text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 active:scale-95 shadow-xs"
-          >
-            <span>{t('discordBtn')}</span>
-            <ArrowRight className="w-4 h-4 stroke-[2]" />
-          </a>
         </div>
 
         {/* Card 3: Thanh toán QR (4 cột) */}

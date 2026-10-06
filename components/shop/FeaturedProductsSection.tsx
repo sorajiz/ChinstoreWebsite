@@ -106,43 +106,6 @@ export default function FeaturedProductsSection({
           </Link>
         </div>
 
-        {/* Category Filter Pills (Instant in-memory switch) */}
-        <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none pt-1">
-          {/* All Category Pill */}
-          <button
-            onClick={() => setSelectedCategory('all')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2 shadow-xs active:scale-95 cursor-pointer ${
-              selectedCategory === 'all'
-                ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-black'
-                : 'bg-white dark:bg-[#121215] text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-white'
-            }`}
-          >
-            <LayoutGrid className="w-3.5 h-3.5" />
-            <span>{t('all')}</span>
-            <span className="text-[11px] opacity-75">{products.length}</span>
-          </button>
-
-          {/* Dynamic Categories */}
-          {categories.map((cat) => {
-            const count = products.filter((p) => p.category?.slug === cat.slug).length;
-            const isSelected = selectedCategory === cat.slug;
-
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.slug)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2 shadow-xs active:scale-95 cursor-pointer ${
-                  isSelected
-                    ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-black'
-                    : 'bg-white dark:bg-[#121215] text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-white'
-                }`}
-              >
-                <span>{cat.name}</span>
-                <span className="text-[11px] opacity-75">{count}</span>
-              </button>
-            );
-          })}
-        </div>
 
         {/* Product Cards Grid: Exactly 4 products for clean, compact layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -237,28 +200,7 @@ function ProductCardItem({
             </div>
           )}
 
-          {/* Top Status Badges matching Image 3 */}
-          <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5 z-10">
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/85 text-white text-[11px] font-bold backdrop-blur-md shadow-xs">
-              {isManual ? (
-                <>
-                  <Wrench className="w-3 h-3 text-zinc-400" />
-                  <span>{t('manualDelivery')}</span>
-                </>
-              ) : (
-                <>
-                  <Zap className="w-3 h-3 text-emerald-400 fill-emerald-400" />
-                  <span>{t('autoDelivery')}</span>
-                </>
-              )}
-            </span>
 
-            {stockCount > 0 && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-black/75 text-emerald-400 text-[10px] font-extrabold backdrop-blur-md">
-                {t('stockCount', { count: stockCount > 999 ? '999+' : stockCount })}
-              </span>
-            )}
-          </div>
 
           {/* Quick View Button on Hover */}
           <button

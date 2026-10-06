@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { formatPrice } from '@/lib/utils';
+import AnimatedCounter from '@/components/ui/AnimatedCounter';
 
 interface HeroSectionProps {
   onQuickCheckout?: (product: any) => void;
@@ -81,22 +82,30 @@ export function HeroSection({ onQuickCheckout }: HeroSectionProps) {
             </a>
           </div>
 
-          {/* Metrics Bar */}
+          {/* Metrics Bar with Animated Rolling Numbers */}
           <div className="grid grid-cols-4 gap-4 pt-6 border-t border-zinc-200 dark:border-zinc-800 w-full max-w-xl">
             <div>
-              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">{t('stat1_value')}</div>
+              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">
+                <AnimatedCounter end={500} suffix="+" />
+              </div>
               <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">{t('stat1_label')}</div>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">{t('stat2_value')}</div>
+              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">
+                <AnimatedCounter end={1} suffix={t('stat2_value').includes('Min') ? ' Min' : ' Phút'} />
+              </div>
               <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">{t('stat2_label')}</div>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">{t('stat3_value')}</div>
+              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">
+                <AnimatedCounter end={2.5} decimals={1} suffix="K+" />
+              </div>
               <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">{t('stat3_label')}</div>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">{t('stat4_value')}</div>
+              <div className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-white font-mono tracking-tight">
+                <span className="tabular-nums font-mono">1:1</span>
+              </div>
               <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">{t('stat4_label')}</div>
             </div>
           </div>
