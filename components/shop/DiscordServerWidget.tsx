@@ -52,101 +52,39 @@ function DiscordCommunityGlobeBadge({ className = 'w-5 h-5' }: { className?: str
   );
 }
 
-// 1. Geometry Dash / Yellow Hazard Icon
-function HazardIcon() {
-  return (
-    <div
-      className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#F4CA16] border border-[#DEB20A] flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
-      title="Geometry Dash / Hazard"
-    >
-      <svg viewBox="0 0 24 24" className="w-5 h-5 text-black fill-current">
-        <path d="M12 2L1 21h22L12 2zm0 4.5l8.5 14.5H3.5L12 6.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z" />
-      </svg>
-    </div>
-  );
-}
-
-// 2. Minecraft Grass Block Icon
-function MinecraftBlockIcon() {
-  return (
-    <div
-      className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#5C8E32] border border-[#487226] overflow-hidden flex flex-col shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer relative"
-      title="Minecraft"
-    >
-      {/* Top Grass Green with overhang pixels */}
-      <div className="h-[40%] bg-[#5C8E32] relative w-full">
-        <div className="absolute -bottom-1 left-1 w-1.5 h-1.5 bg-[#5C8E32]" />
-        <div className="absolute -bottom-1 left-4 w-1.5 h-1 bg-[#5C8E32]" />
-        <div className="absolute -bottom-1 right-2 w-1.5 h-1.5 bg-[#5C8E32]" />
-      </div>
-      {/* Bottom Dirt Brown with pixel dots */}
-      <div className="h-[60%] bg-[#866043] relative w-full">
-        <div className="absolute top-1 left-2 w-1 h-1 bg-[#573D26]" />
-        <div className="absolute top-2 right-2 w-1 h-1 bg-[#A07452]" />
-        <div className="absolute bottom-1 left-4 w-1 h-1 bg-[#573D26]" />
-      </div>
-    </div>
-  );
-}
-
-// 3. Goose Goose Duck Icon
-function DuckIcon() {
-  return (
-    <div
-      className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#2B2D31] border border-[#35373C] flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
-      title="Goose Goose Duck"
-    >
-      <svg viewBox="0 0 24 24" className="w-5 h-5 fill-none">
-        <path
-          d="M7 17C7 14 9 12 11 12H13V7C13 5.34 14.34 4 16 4C17.66 4 19 5.34 19 7C19 8.2 18.27 9.22 17.22 9.68L17 14C17 16.5 15 18.5 12.5 18.5H8.5C7.67 18.5 7 17.83 7 17Z"
-          fill="#FFFFFF"
-        />
-        <path d="M19 6L23 7L19 8V6Z" fill="#F59E0B" />
-        <circle cx="16.5" cy="6" r="0.75" fill="#18181B" />
-      </svg>
-    </div>
-  );
-}
-
-// 4. Roblox Icon
-function RobloxIcon() {
-  return (
-    <div
-      className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#1E1F22] border border-[#2B2D31] flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
-      title="Roblox"
-    >
-      <div className="w-4 h-4 bg-white -rotate-12 flex items-center justify-center rounded-[2px] shadow-xs">
-        <div className="w-1.5 h-1.5 bg-[#1E1F22] rounded-[1px]" />
-      </div>
-    </div>
-  );
-}
-
-// 5. Community Group Icon
-function CommunityIcon() {
-  return (
-    <div
-      className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#2B2D31] border border-[#35373C] flex items-center justify-center shadow-xs hover:scale-105 active:scale-95 transition-transform cursor-pointer"
-      title="Community Group"
-    >
-      <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#949BA4] fill-current">
-        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-      </svg>
-    </div>
-  );
-}
-
-// 6. +1 Badge Icon
-function PlusOneBadge() {
-  return (
-    <div
-      className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#1E1F22] border border-[#2B2D31] flex items-center justify-center text-xs font-mono font-bold text-[#949BA4] hover:text-white transition-colors cursor-pointer"
-      title="+1 More Activity"
-    >
-      +1
-    </div>
-  );
-}
+// 6 Game Activity Icons matching Ảnh 2 100%
+const GAME_ACTIVITIES = [
+  {
+    id: 'geometry-dash',
+    name: 'Geometry Dash',
+    icon: '/games/geometry-dash.png',
+  },
+  {
+    id: 'minecraft',
+    name: 'Minecraft',
+    icon: '/games/minecraft.png',
+  },
+  {
+    id: 'goose-duck',
+    name: 'Goose Goose Duck',
+    icon: '/games/goose-goose-duck.jpg',
+  },
+  {
+    id: 'roblox',
+    name: 'Roblox',
+    icon: '/games/roblox.png',
+  },
+  {
+    id: 'south-park',
+    name: 'South Park',
+    icon: '/games/south-park.jpg',
+  },
+  {
+    id: 'plus-one',
+    name: '+1 Game khác',
+    icon: '/games/plus-one.jpg',
+  },
+];
 
 export default function DiscordServerWidget() {
   const locale = useLocale();
@@ -159,7 +97,7 @@ export default function DiscordServerWidget() {
 
     const fetchStats = async () => {
       try {
-        const res = await fetch('/api/discord-server', { cache: 'no-store' });
+        const res = await fetch(`/api/discord-server?t=${Date.now()}`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (isMounted && data) {
@@ -167,13 +105,13 @@ export default function DiscordServerWidget() {
           }
         }
       } catch (err) {
-        // Fallback already in state, zero failure
+        // Fallback already in state
       }
     };
 
     fetchStats();
-    // Realtime polling every 25 seconds
-    const interval = setInterval(fetchStats, 25000);
+    // Realtime polling every 20 seconds
+    const interval = setInterval(fetchStats, 20000);
     return () => {
       isMounted = false;
       clearInterval(interval);
@@ -200,10 +138,10 @@ export default function DiscordServerWidget() {
   };
 
   return (
-    <div className="relative rounded-3xl bg-[#121215] border border-zinc-200 dark:border-[#27272A] shadow-2xl overflow-hidden transition-all duration-300">
+    <div className="relative w-full max-w-[390px] sm:max-w-[420px] mx-auto rounded-3xl bg-[#1E1F22] border border-[#2B2D31]/80 shadow-2xl transition-all duration-300">
       
-      {/* 1. Header Animated Banner matching Ảnh 2 */}
-      <div className="relative w-full h-32 sm:h-36 bg-zinc-950 overflow-hidden">
+      {/* 1. Header Animated Server Banner matching Ảnh 2 */}
+      <div className="relative w-full h-28 sm:h-32 bg-zinc-950 rounded-t-3xl overflow-hidden">
         <Image
           src={stats.banner || '/discord-banner.gif'}
           alt={stats.name}
@@ -212,16 +150,16 @@ export default function DiscordServerWidget() {
           className="object-cover object-center transform hover:scale-105 transition-transform duration-700 ease-out"
           priority
         />
-        {/* Soft dark gradient fade into card body */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#121215] via-transparent to-black/20" />
+        {/* Soft bottom dark gradient fade */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1E1F22] via-transparent to-black/20" />
       </div>
 
       {/* 2. Avatar & Content Body matching Ảnh 2 */}
-      <div className="relative px-6 pb-6 pt-0 space-y-4">
+      <div className="relative px-5 sm:px-6 pb-6 pt-0 space-y-4">
         
-        {/* Overlapping Avatar (Realtime pill deleted as requested!) */}
+        {/* Overlapping Avatar */}
         <div className="-mt-12 sm:-mt-14 flex items-end justify-between relative z-20">
-          <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border-4 border-[#121215] bg-zinc-900 shadow-xl shrink-0">
+          <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border-4 border-[#1E1F22] bg-zinc-900 shadow-xl shrink-0">
             <Image
               src={stats.icon || '/logo.png'}
               alt={stats.name}
@@ -233,10 +171,10 @@ export default function DiscordServerWidget() {
           </div>
         </div>
 
-        {/* Server Name & Pink Community Globe Badge with Tooltip Popover (Ảnh 4) */}
+        {/* Server Name & Pink Community Globe Badge with Non-Clipped Tooltip Popover (Ảnh 4) */}
         <div className="space-y-1 pt-1">
           <div className="flex items-center gap-2 relative">
-            <h3 className="text-lg sm:text-xl font-black text-white tracking-tight font-sans">
+            <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight font-sans">
               {stats.name}
             </h3>
 
@@ -249,9 +187,9 @@ export default function DiscordServerWidget() {
             >
               <DiscordCommunityGlobeBadge className="w-5 h-5 shrink-0 hover:scale-110 active:scale-95 transition-transform" />
 
-              {/* Tooltip Popover matching Ảnh 4 */}
+              {/* Tooltip Popover matching Ảnh 4 - Clearly visible & never clipped */}
               <div
-                className={`absolute top-full left-1/2 sm:left-0 -translate-x-1/2 sm:translate-x-0 mt-2.5 w-72 sm:w-80 p-3.5 sm:p-4 rounded-2xl bg-[#111214] border border-[#2B2D31] shadow-2xl shadow-black/90 z-50 transition-all duration-200 pointer-events-auto ${
+                className={`absolute top-full left-0 sm:-left-8 mt-2.5 w-72 sm:w-80 p-3.5 sm:p-4 rounded-2xl bg-[#111214] border border-[#2B2D31] shadow-2xl shadow-black/95 z-50 transition-all duration-200 pointer-events-auto ${
                   isTooltipOpen
                     ? 'opacity-100 scale-100 visible translate-y-0'
                     : 'opacity-0 scale-95 invisible -translate-y-1'
@@ -261,7 +199,7 @@ export default function DiscordServerWidget() {
                 role="tooltip"
               >
                 {/* Tooltip Arrow Caret pointing UP to the badge */}
-                <div className="absolute -top-1.5 left-1/2 sm:left-2.5 -translate-x-1/2 sm:translate-x-0 w-3 h-3 bg-[#111214] border-l border-t border-[#2B2D31] rotate-45" />
+                <div className="absolute -top-1.5 left-2 sm:left-9 w-3 h-3 bg-[#111214] border-l border-t border-[#2B2D31] rotate-45" />
 
                 {/* Header */}
                 <h4 className="text-sm font-bold text-white text-center font-sans tracking-wide">
@@ -276,7 +214,7 @@ export default function DiscordServerWidget() {
                 {/* Dual-pill boost tags matching Ảnh 4 */}
                 <div className="grid grid-cols-2 rounded-xl overflow-hidden font-bold text-xs shadow-md">
                   {/* Left: Cấp 3 */}
-                  <div className="bg-[#8A43AD] py-2 px-3 flex items-center justify-center gap-1.5 text-white">
+                  <div className="bg-[#8A43AD] py-2 px-3 flex items-center justify-center gap-1.5 text-white whitespace-nowrap">
                     <span className="text-xs">💎</span>
                     <span>
                       {locale === 'vi'
@@ -286,7 +224,7 @@ export default function DiscordServerWidget() {
                   </div>
 
                   {/* Right: 34 Nâng Cấp */}
-                  <div className="bg-[#E05697] py-2 px-3 flex items-center justify-center text-white text-center">
+                  <div className="bg-[#E05697] py-2 px-3 flex items-center justify-center text-white text-center whitespace-nowrap">
                     <span>
                       {locale === 'vi'
                         ? `${stats.premium_subscription_count || 34} Nâng Cấp`
@@ -301,14 +239,14 @@ export default function DiscordServerWidget() {
           {/* Member Count & Online Count Line matching Ảnh 2 */}
           <div className="flex items-center gap-4 text-xs font-medium text-zinc-300 font-mono pt-0.5">
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#23A55A] shrink-0" />
               <span>
                 <strong className="text-white font-bold">{formatNumber(stats.approximate_presence_count)}</strong> {locale === 'vi' ? 'Trực tuyến' : 'Online'}
               </span>
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-zinc-400 shrink-0" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#80848E] shrink-0" />
               <span>
                 <strong className="text-white font-bold">{formatNumber(stats.approximate_member_count)}</strong> {locale === 'vi' ? 'thành viên' : 'members'}
               </span>
@@ -318,34 +256,48 @@ export default function DiscordServerWidget() {
 
         {/* Description & Founded Info matching Ảnh 2 */}
         <div className="space-y-1 text-xs text-zinc-400 font-sans border-t border-zinc-800/80 pt-3">
-          <p className="text-zinc-400">
+          <p className="text-[#949BA4]">
             {stats.foundedDate || 'Thành lập từ thg 11 2025'}
           </p>
-          <p className="text-zinc-200 font-semibold">
+          <p className="text-[#DBDEE1] font-semibold">
             {stats.description || 'Trùm Scammers VN'}
           </p>
         </div>
 
-        {/* Game Activity Badges Row matching Ảnh 2 */}
-        <div className="flex items-center gap-2 pt-1">
-          <HazardIcon />
-          <MinecraftBlockIcon />
-          <DuckIcon />
-          <RobloxIcon />
-          <CommunityIcon />
-          <PlusOneBadge />
+        {/* Game Activity Badges Row matching Ảnh 2 - with Hover Tooltips showing game name below */}
+        <div className="flex items-center justify-between gap-1.5 sm:gap-2 pt-1 relative">
+          {GAME_ACTIVITIES.map((game) => (
+            <div key={game.id} className="relative group/game flex flex-col items-center">
+              {/* App Icon */}
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden bg-[#1E1F22] border border-[#2B2D31] hover:border-zinc-400 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer shadow-md shadow-black/40">
+                <Image
+                  src={game.icon}
+                  alt={game.name}
+                  fill
+                  className="object-cover"
+                  sizes="44px"
+                />
+              </div>
+
+              {/* Hover Tooltip displaying game name below the icon */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-[#111214] border border-[#2B2D31] text-white text-[11px] font-bold rounded-lg shadow-xl whitespace-nowrap opacity-0 group-hover/game:opacity-100 group-hover/game:visible invisible transition-all duration-150 pointer-events-none z-30 transform group-hover/game:translate-y-0 translate-y-1">
+                {/* Arrow pointing UP */}
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#111214] border-l border-t border-[#2B2D31] rotate-45" />
+                {game.name}
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Join Server Button matching Ảnh 2 */}
+        {/* Join Server Button matching Ảnh 2 (cleanly centered, green, no arrow) */}
         <div className="pt-2">
           <a
             href={stats.instant_invite}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-3 px-4 rounded-xl bg-[#23A55A] hover:bg-[#1F924F] active:bg-[#1A7C43] text-white font-bold text-sm text-center flex items-center justify-center gap-2 shadow-lg hover:shadow-emerald-900/30 transition-all duration-200 active:scale-[0.98]"
+            className="w-full py-3 px-4 rounded-xl bg-[#23A55A] hover:bg-[#1F924F] active:bg-[#1A7C43] text-white font-bold text-sm text-center flex items-center justify-center shadow-lg hover:shadow-emerald-950/40 transition-all duration-200 active:scale-[0.98]"
           >
-            <span>{locale === 'vi' ? 'Đi tới Máy chủ' : 'Join Server'}</span>
-            <span className="font-bold">→</span>
+            {locale === 'vi' ? 'Đi tới Máy chủ' : 'Join Server'}
           </a>
         </div>
 
@@ -353,4 +305,5 @@ export default function DiscordServerWidget() {
     </div>
   );
 }
+
 
