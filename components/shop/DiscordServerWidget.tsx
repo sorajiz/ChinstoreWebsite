@@ -1,9 +1,9 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useLocale } from 'next-intl';
-import { Users, Zap } from 'lucide-react';
+import { Users } from 'lucide-react';
 
 interface DiscordStats {
   id: string;
@@ -22,13 +22,13 @@ interface DiscordStats {
 const DEFAULT_STATS: DiscordStats = {
   id: '1434004045940391948',
   name: 'Chin Si Cem | Scammers',
-  description: 'Trum Scammers VN',
+  description: 'Trùm Scammers VN',
   icon: '/logo.png',
   banner: '/discord-banner.gif',
   approximate_member_count: 1197,
   approximate_presence_count: 251,
   instant_invite: 'https://discord.gg/mSG6dR4JMv',
-  foundedDate: 'Thanh lap tu thg 11 2025',
+  foundedDate: 'Thành lập từ thg 11 2025',
   premium_tier: 3,
   premium_subscription_count: 34,
 };
@@ -49,15 +49,6 @@ function DiscordCommunityGlobeBadge({ className = 'w-5 h-5' }: { className?: str
     </svg>
   );
 }
-
-const GAME_ACTIVITIES = [
-  { id: 'geometry-dash', name: 'Geometry Dash', icon: '/games/geometry-dash.png' },
-  { id: 'minecraft', name: 'Minecraft', icon: '/games/minecraft.png' },
-  { id: 'goose-duck', name: 'Goose Goose Duck', icon: '/games/goose-goose-duck.jpg' },
-  { id: 'roblox', name: 'Roblox', icon: '/games/roblox.png' },
-  { id: 'south-park', name: 'South Park', icon: '/games/south-park.jpg' },
-  { id: 'plus-one', name: '+1 Game khac', icon: '/games/plus-one.jpg' },
-];
 
 export default function DiscordServerWidget() {
   const locale = useLocale();
@@ -101,71 +92,72 @@ export default function DiscordServerWidget() {
     <div className="relative w-full">
       <div className="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-3xl pointer-events-none" />
 
-      <div className="relative rounded-3xl bg-[#111213] border border-[#27272A] shadow-2xl shadow-black/60 overflow-visible">
-
-        {/* HEADER */}
-        <div className="flex items-center justify-between px-5 pt-5 pb-3">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-            <span className="text-[11px] font-bold tracking-widest text-zinc-400 uppercase font-mono">
-              {isVi ? 'MAY CHU CONG DONG' : 'COMMUNITY SERVER'}
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-[#8A43AD] to-[#E05697] text-white text-[11px] font-bold shadow-md">
-            <span>💎</span>
-            <span>{isVi ? `Cap ${stats.premium_tier}` : `Level ${stats.premium_tier}`}</span>
-          </div>
-        </div>
-
-        {/* BANNER */}
-        <div
-          className="relative mx-4 rounded-2xl overflow-hidden bg-zinc-950"
+      <div className="relative rounded-3xl bg-[#111214] border border-[#27272A] shadow-2xl shadow-black/60 overflow-visible p-4 sm:p-5">
+        {/* BANNER (Nhấn để tham gia máy chủ Discord) */}
+        <a
+          href={stats.instant_invite}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative block w-full rounded-2xl overflow-hidden bg-zinc-950 transition-all duration-300"
           style={{ aspectRatio: '16/7' }}
+          title={isVi ? 'Tham gia máy chủ Discord' : 'Join Discord Server'}
         >
           <Image
             src={stats.banner || '/discord-banner.gif'}
             alt={stats.name}
             fill
             unoptimized
-            className="object-cover object-center hover:scale-[1.03] transition-transform duration-700 ease-out"
+            className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+          {/* Badges trên Banner */}
           <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-sm border border-white/10 text-xs font-bold text-white">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-xs font-bold text-white shadow-lg">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>{formatNumber(stats.approximate_presence_count)} {isVi ? 'truc tuyen' : 'online'}</span>
+              <span>
+                {formatNumber(stats.approximate_presence_count)} {isVi ? 'trực tuyến' : 'online'}
+              </span>
             </div>
-            <div className="px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-sm border border-white/10 text-[10px] font-mono font-bold text-zinc-300">
-              {stats.premium_subscription_count} boosts
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[11px] font-mono font-bold text-zinc-300 shadow-lg">
+              <span>{stats.premium_subscription_count} boosts</span>
             </div>
           </div>
-        </div>
+        </a>
 
         {/* SERVER INFO */}
-        <div className="px-5 pt-4 pb-2 space-y-3">
+        <div className="pt-4 space-y-3">
           <div className="space-y-1.5">
-            <p className="text-[11px] text-[#949BA4] font-mono tracking-wide uppercase">
+            <p className="text-[11px] text-[#949BA4] font-mono tracking-wide">
               {stats.foundedDate}
             </p>
             <div className="flex items-start gap-3">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden border-2 border-[#27272A] shrink-0 bg-zinc-900">
+              <a
+                href={stats.instant_invite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative w-11 h-11 rounded-xl overflow-hidden border-2 border-[#27272A] hover:border-emerald-500 shrink-0 bg-zinc-900 transition-colors"
+              >
                 <Image
                   src={stats.icon || '/logo.png'}
                   alt={stats.name}
                   fill
                   className="object-cover"
-                  sizes="40px"
+                  sizes="44px"
                 />
-              </div>
+              </a>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <h3 className="text-base font-bold text-white leading-tight font-sans truncate">
+                  <a
+                    href={stats.instant_invite}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-bold text-white leading-tight font-sans truncate hover:text-emerald-400 transition-colors"
+                  >
                     {stats.name}
-                  </h3>
+                  </a>
+                  {/* Quả địa cầu (Community Globe Badge) */}
                   <div
                     className="relative inline-flex items-center cursor-pointer shrink-0"
                     onMouseEnter={handleMouseEnter}
@@ -185,18 +177,18 @@ export default function DiscordServerWidget() {
                     >
                       <div className="absolute -top-1.5 left-3 w-3 h-3 bg-[#111214] border-l border-t border-[#2B2D31] rotate-45" />
                       <h4 className="text-xs font-bold text-white text-center mb-0.5">
-                        {isVi ? 'May Chu Cong Dong' : 'Community Server'}
+                        {isVi ? 'Máy Chủ Cộng Đồng' : 'Community Server'}
                       </h4>
                       <p className="text-[11px] text-zinc-400 text-center mb-2.5 leading-relaxed">
-                        {isVi ? 'Ai cung co the tham gia may chu nay.' : 'Anyone can join this server.'}
+                        {isVi ? 'Ai cũng có thể tham gia máy chủ này.' : 'Anyone can join this server.'}
                       </p>
                       <div className="grid grid-cols-2 rounded-lg overflow-hidden text-[11px] font-bold">
                         <div className="bg-[#8A43AD] py-1.5 px-2 flex items-center justify-center gap-1 text-white">
                           <span>💎</span>
-                          <span>{isVi ? `Cap ${stats.premium_tier}` : `Level ${stats.premium_tier}`}</span>
+                          <span>{isVi ? `Cấp ${stats.premium_tier}` : `Level ${stats.premium_tier}`}</span>
                         </div>
                         <div className="bg-[#E05697] py-1.5 px-2 flex items-center justify-center text-white">
-                          {isVi ? `${stats.premium_subscription_count} Nang Cap` : `${stats.premium_subscription_count} Boosts`}
+                          {isVi ? `${stats.premium_subscription_count} Nâng Cấp` : `${stats.premium_subscription_count} Boosts`}
                         </div>
                       </div>
                     </div>
@@ -207,82 +199,21 @@ export default function DiscordServerWidget() {
             </div>
           </div>
 
-          {/* Stats row */}
-          <div className="flex items-center gap-3 text-xs text-zinc-400 font-mono">
-            <div className="flex items-center gap-1">
+          {/* Dòng Thống Kê (Realtime Stats) */}
+          <div className="flex items-center gap-3 text-xs text-zinc-400 font-mono pt-1">
+            <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
               <strong className="text-white">{formatNumber(stats.approximate_presence_count)}</strong>
-              <span>{isVi ? 'truc tuyen' : 'online'}</span>
+              <span>{isVi ? 'trực tuyến' : 'online'}</span>
             </div>
             <span className="text-zinc-700">·</span>
-            <div className="flex items-center gap-1">
-              <Users className="w-3 h-3 text-zinc-500 shrink-0" />
+            <div className="flex items-center gap-1.5">
+              <Users className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
               <strong className="text-white">{formatNumber(stats.approximate_member_count)}</strong>
-              <span>{isVi ? 'thanh vien' : 'members'}</span>
+              <span>{isVi ? 'thành viên' : 'members'}</span>
             </div>
           </div>
         </div>
-
-        <div className="mx-5 border-t border-[#27272A]" />
-
-        {/* GAME ACTIVITY */}
-        <div className="px-5 pt-3 pb-3">
-          <p className="text-[10px] text-[#5C5F66] uppercase font-mono tracking-widest mb-2">
-            {isVi ? 'Hoat dong tro choi' : 'Game Activity'}
-          </p>
-          <div className="flex items-center gap-2">
-            {GAME_ACTIVITIES.map((game) => (
-              <div key={game.id} className="relative group/game flex-1">
-                <div className="relative w-full aspect-square rounded-xl overflow-hidden border border-[#27272A] hover:border-zinc-500 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer bg-[#18181C]">
-                  <Image
-                    src={game.icon}
-                    alt={game.name}
-                    fill
-                    className="object-cover"
-                    sizes="48px"
-                  />
-                </div>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-0.5 bg-[#111214] border border-[#2B2D31] text-white text-[10px] font-bold rounded-md shadow-xl whitespace-nowrap opacity-0 group-hover/game:opacity-100 invisible group-hover/game:visible transition-all duration-150 pointer-events-none z-30">
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 bg-[#111214] border-r border-b border-[#2B2D31] rotate-45 -mt-1" />
-                  {game.name}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mx-5 border-t border-[#27272A]" />
-
-        {/* CTA */}
-        <div className="px-5 pt-4 pb-5">
-          <a
-            href={stats.instant_invite}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative w-full py-3.5 px-5 rounded-xl bg-[#23A55A] hover:bg-[#1F924F] active:bg-[#1A7C43] text-white font-bold text-sm text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/30 hover:shadow-emerald-900/40 transition-all duration-200 active:scale-[0.98] overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-            <span className="relative">{isVi ? 'Tham Gia May Chu' : 'Join Server'}</span>
-            <span className="relative text-base leading-none group-hover:translate-x-0.5 transition-transform">→</span>
-          </a>
-        </div>
-
-        {/* TRUST FOOTER */}
-        <div className="flex items-center justify-around border-t border-[#27272A] px-5 py-3">
-          <div className="flex items-center gap-1.5 text-[11px] text-[#5C5F66] font-mono">
-            <Zap className="w-3 h-3 text-emerald-500" />
-            <span>{isVi ? 'Tham gia mien phi' : 'Free to Join'}</span>
-          </div>
-          <div className="w-px h-4 bg-[#2B2D31]" />
-          <div className="flex items-center gap-1.5 text-[11px] text-[#5C5F66] font-mono">
-            <svg viewBox="0 0 16 16" className="w-3 h-3 shrink-0" fill="none">
-              <path d="M8 1.5L13.5 4v4c0 3.5-2.5 5.5-5.5 6.5C5 13.5 2.5 11.5 2.5 8V4L8 1.5z" stroke="#5C5F66" strokeWidth="1.5" />
-              <path d="M5.5 8l2 2 3-3" stroke="#23A55A" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <span>{isVi ? 'Cong dong an toan' : 'Safe Community'}</span>
-          </div>
-        </div>
-
       </div>
     </div>
   );
