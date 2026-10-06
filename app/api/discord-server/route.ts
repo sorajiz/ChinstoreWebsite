@@ -13,6 +13,8 @@ interface DiscordServerStats {
   approximate_presence_count: number;
   instant_invite: string;
   foundedDate: string;
+  premium_tier: number;
+  premium_subscription_count: number;
 }
 
 // Fallback data matching real server stats in case Discord API is temporarily rate-limited
@@ -21,11 +23,13 @@ const FALLBACK_STATS: DiscordServerStats = {
   name: 'Chin Sì Cem | Scammers',
   description: 'Trùm Scammers VN',
   icon: 'https://cdn.discordapp.com/icons/1434004045940391948/207e41f3283f785578928a930450b97e.png',
-  banner: 'https://cdn.discordapp.com/banners/1434004045940391948/a_e6fc63e8f7598709c75a34bcbfb1211c.png',
+  banner: '/discord-banner.gif',
   approximate_member_count: 1197,
   approximate_presence_count: 251,
   instant_invite: 'https://discord.gg/mSG6dR4JMv',
   foundedDate: 'Thành lập từ thg 11 2025',
+  premium_tier: 3,
+  premium_subscription_count: 34,
 };
 
 export async function GET() {
@@ -52,10 +56,10 @@ export async function GET() {
         : FALLBACK_STATS.icon;
 
       const bannerUrl = guild.banner
-        ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png`
-        : (profile.custom_banner_hash
-          ? `https://cdn.discordapp.com/banners/${guild.id}/${profile.custom_banner_hash}.png`
-          : FALLBACK_STATS.banner);
+        ? (guild.banner.startsWith('a_')
+          ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.gif?size=600`
+          : `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png?size=600`)
+        : '/discord-banner.gif';
 
       return NextResponse.json({
         id: guild.id || FALLBACK_STATS.id,
@@ -69,6 +73,8 @@ export async function GET() {
           data.approximate_presence_count ?? profile.online_count ?? FALLBACK_STATS.approximate_presence_count,
         instant_invite: 'https://discord.gg/mSG6dR4JMv',
         foundedDate: 'Thành lập từ thg 11 2025',
+        premium_tier: guild.premium_tier ?? 3,
+        premium_subscription_count: guild.premium_subscription_count ?? 34,
       });
     }
 

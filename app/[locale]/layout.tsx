@@ -51,6 +51,41 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
+                // Intercept and suppress Chrome/browser extension errors (e.g. M_ID crash from 3rd-party extensions)
+                if (typeof window !== 'undefined') {
+                  function isExtensionError(event) {
+                    try {
+                      var fn = (event && (event.filename || event.error?.stack || '')) + '';
+                      var msg = (event && (event.message || event.reason?.message || event.reason?.stack || event.reason || '')) + '';
+                      return (
+                        fn.indexOf('chrome-extension://') !== -1 ||
+                        fn.indexOf('moz-extension://') !== -1 ||
+                        msg.indexOf('M_ID') !== -1 ||
+                        msg.indexOf('chrome-extension://') !== -1 ||
+                        msg.indexOf('eppiocemhmnlbhjplcgkofciiegomcon') !== -1
+                      );
+                    } catch (e) {
+                      return false;
+                    }
+                  }
+
+                  window.addEventListener('error', function(e) {
+                    if (isExtensionError(e)) {
+                      e.stopImmediatePropagation();
+                      e.preventDefault();
+                      return true;
+                    }
+                  }, true);
+
+                  window.addEventListener('unhandledrejection', function(e) {
+                    if (isExtensionError(e)) {
+                      e.stopImmediatePropagation();
+                      e.preventDefault();
+                      return true;
+                    }
+                  }, true);
+                }
+
                 try {
                   var t = localStorage.getItem('theme');
                   if (t === 'light') {
