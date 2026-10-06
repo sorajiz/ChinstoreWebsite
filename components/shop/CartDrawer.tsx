@@ -76,22 +76,20 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden flex max-md:items-end max-md:justify-center md:items-stretch md:justify-end">
+    <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
       {/* Backdrop */}
       <div
         onClick={() => setCartOpen(false)}
         className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
       />
 
-      {/* Cart Container: Bottom Sheet on Mobile (Ảnh 2), Slide-over Drawer on PC (Ảnh 1) */}
+      {/* Cart Container: Wide slide-over drawer on PC & Mobile (No rounded corners, spacious, matching Ảnh 1) */}
       <div
-        className="relative z-10 w-full bg-[#0E0E12] text-[#F4F4F5] shadow-2xl flex flex-col transition-colors
-          max-md:rounded-t-3xl max-md:rounded-b-none max-md:border-t max-md:border-x-0 max-md:border-b-0 max-md:border-[#27272A] max-md:max-h-[85vh] max-md:overflow-hidden max-md:animate-in max-md:slide-in-from-bottom max-md:duration-300
-          md:w-[420px] md:h-full md:rounded-none md:border-y-0 md:border-r-0 md:border-l md:border-[#27272A] md:animate-in md:slide-in-from-right md:duration-300 md:ease-out"
+        className="relative z-10 w-full sm:w-[480px] md:w-[520px] h-full rounded-none border-l border-[#27272A] bg-[#0E0E12] text-[#F4F4F5] shadow-2xl flex flex-col transition-colors animate-in slide-in-from-right duration-300 ease-out"
       >
         
         {/* Header matching Screenshot: [🛒 Giỏ hàng] ... [✕] */}
-        <div className="px-6 py-4.5 border-b border-[#27272A] flex items-center justify-between bg-transparent shrink-0">
+        <div className="px-6 py-5 border-b border-[#27272A] flex items-center justify-between bg-transparent shrink-0">
           <div className="flex items-center gap-2.5">
             <ShoppingCart className="w-5 h-5 text-[#F4F4F5] stroke-[2]" />
             <h2 className="text-base sm:text-lg font-bold text-[#F4F4F5] font-sans">
@@ -108,22 +106,22 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
         </div>
 
         {/* Body: Empty State matching Screenshot OR Item List */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 sm:p-8">
           {cart.length === 0 ? (
-            /* Empty State matching Screenshot 1 & 2 */
-            <div className="text-center py-16 sm:py-24 space-y-3.5 flex flex-col items-center justify-center">
-              <IsometricBoxIcon className="w-16 h-16 text-zinc-500 stroke-[1.8]" />
+            /* Empty State matching Screenshot 1 & 2 - spacious & well-separated */
+            <div className="text-center py-28 sm:py-36 space-y-6 flex flex-col items-center justify-center">
+              <IsometricBoxIcon className="w-20 h-20 text-zinc-500 stroke-[1.8] mb-2" />
               
-              <h3 className="text-sm sm:text-base font-semibold text-zinc-300 font-sans">
+              <h3 className="text-base sm:text-lg font-semibold text-zinc-300 font-sans tracking-wide">
                 {t('emptyTitle')}
               </h3>
 
               <button
                 onClick={handleExploreProducts}
-                className="inline-flex items-center gap-1.5 text-sm font-bold text-white hover:text-zinc-300 transition-colors group cursor-pointer pt-1"
+                className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-white hover:text-zinc-300 transition-colors group cursor-pointer pt-2"
               >
                 <span>{t('exploreProducts')}</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                <span className="group-hover:translate-x-1.5 transition-transform">→</span>
               </button>
             </div>
           ) : (
