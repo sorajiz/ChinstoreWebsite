@@ -178,10 +178,10 @@
     "digitalDeliver": "Giao hàng kỹ thuật số tự động"
   },
   "cart": {
-    "title": "Giỏ Hàng Của Bạn",
+    "title": "Giỏ hàng",
     "emptyTitle": "Giỏ hàng đang trống",
     "emptyDesc": "Chưa có sản phẩm nào trong giỏ. Hãy chọn cho mình những món đồ công nghệ tuyệt vời!",
-    "exploreProducts": "Mua Sắm Ngay",
+    "exploreProducts": "Khám phá sản phẩm",
     "subtotal": "Tạm tính",
     "discount": "Giảm giá",
     "total": "Tổng thanh toán",

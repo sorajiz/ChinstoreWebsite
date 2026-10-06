@@ -178,10 +178,10 @@
     "digitalDeliver": "Instant Digital Automated Delivery"
   },
   "cart": {
-    "title": "Your Cyber Cart",
+    "title": "Cart",
     "emptyTitle": "Your cart is empty",
-    "emptyDesc": "No cyber products added yet. Pick from our futuristic catalog!",
-    "exploreProducts": "Shop Now",
+    "emptyDesc": "No products added yet. Pick from our premium catalog!",
+    "exploreProducts": "Explore Products",
     "subtotal": "Subtotal",
     "discount": "Discount",
     "total": "Total Amount",
