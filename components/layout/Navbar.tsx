@@ -14,6 +14,7 @@ import {
   Globe,
   ShieldCheck,
   User as UserIcon,
+  Search,
 } from 'lucide-react';
 import { CurrencyType } from '@/types';
 import AuthModal from '@/components/auth/AuthModal';
@@ -48,8 +49,8 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
       <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#08090E]/85 border-b border-white/[0.06] transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Brand Logo */}
-            <div className="flex items-center space-x-3">
+            {/* Brand Logo & Live Status */}
+            <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-3 group">
                 <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-brand-primary via-indigo-600 to-brand-secondary p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_20px_rgba(99,102,241,0.35)]">
                   <div className="w-full h-full bg-[#0C0E17] rounded-[10px] flex items-center justify-center">
@@ -68,10 +69,25 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                   </span>
                 </div>
               </Link>
+
+              {/* Status Badge */}
+              <div className="hidden xl:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <span>Tự Động 24/7 • 12ms</span>
+              </div>
             </div>
 
-            {/* Desktop Nav Links */}
+            {/* Desktop Nav Links & Quick Search */}
             <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
+              <Link
+                href="/shop"
+                className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] text-xs text-slate-400 hover:text-white transition-all mr-2"
+              >
+                <Search className="w-3.5 h-3.5 text-indigo-400" />
+                <span>Tìm kiếm...</span>
+                <kbd className="text-[10px] bg-white/[0.08] px-1.5 py-0.5 rounded text-slate-400 font-mono">⌘K</kbd>
+              </Link>
+
               <Link
                 href="/"
                 className="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white rounded-lg transition-colors hover:bg-white/[0.04]"
@@ -84,6 +100,12 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
               >
                 {t('shop')}
               </Link>
+              <a
+                href="/#featured-products"
+                className="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white rounded-lg transition-colors hover:bg-white/[0.04]"
+              >
+                Hot Deals
+              </a>
               <a
                 href="/#features"
                 className="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-white rounded-lg transition-colors hover:bg-white/[0.04]"

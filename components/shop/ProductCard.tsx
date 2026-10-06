@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ShoppingBag, Zap, ShieldCheck } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { Product } from '@/types';
+import { formatPrice } from '@/lib/utils';
 import { toast } from 'sonner';
 
 interface ProductCardProps {
@@ -142,8 +143,8 @@ export function ProductCard({
 
           <div className="mt-4 flex items-baseline justify-between pt-3 border-t border-white/[0.04]">
             <span className="text-xs text-slate-500 font-medium">Đơn giá</span>
-            <div className="text-lg font-bold text-white tracking-tight">
-              {priceVND.toLocaleString('vi-VN')} <span className="text-xs text-slate-400 font-normal">VND</span>
+            <div className="text-lg font-bold text-white tracking-tight font-mono text-indigo-300">
+              {formatPrice(priceVND, currency)}
             </div>
           </div>
         </div>
