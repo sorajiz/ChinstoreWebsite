@@ -72,51 +72,63 @@ body {
 .cyber-grid {
   background-size: 72px 72px;
   background-image: 
-    linear-gradient(to right, rgba(120, 120, 140, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(120, 120, 140, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(120, 120, 140, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(120, 120, 140, 0.05) 1px, transparent 1px);
 }
 
-/* Background Layer 1: Ambient Glow (Linear / Webflow Style) */
+/* Background Layer 1: Ambient Glow - Pure Monochrome Dark & Grey */
 .aurora-floating-orb {
-  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, rgba(140, 140, 150, 0.01) 40%, transparent 70%);
   filter: blur(120px);
 }
 
 .aurora-glow-1 {
-  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.22) 0%, rgba(79, 70, 229, 0.12) 35%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(220, 220, 230, 0.03) 0%, rgba(120, 120, 130, 0.015) 35%, transparent 70%);
   filter: blur(120px);
 }
 
 .aurora-glow-2 {
-  background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.18) 0%, rgba(6, 182, 212, 0.08) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(180, 180, 190, 0.025) 0%, rgba(100, 100, 110, 0.01) 40%, transparent 70%);
   filter: blur(120px);
 }
 
 .aurora-glow-3 {
-  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.1) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(200, 200, 210, 0.025) 0%, rgba(120, 120, 130, 0.01) 40%, transparent 70%);
   filter: blur(120px);
 }
 
-/* Glassmorphism Classes (Webflow Dark Obsidian) */
+/* Glassmorphism Classes (Webflow Dark Slate & Obsidian) */
 .glass-panel {
-  background: rgba(12, 14, 23, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(18, 18, 21, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid #27272A;
 }
 
 .glass-card {
-  background: rgba(12, 14, 23, 0.7);
+  background: rgba(18, 18, 21, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid #27272A;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  background: rgba(16, 19, 31, 0.85);
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 12px 35px -10px rgba(99, 102, 241, 0.2), 0 0 15px -2px rgba(139, 92, 246, 0.12);
+  background: rgba(24, 24, 28, 0.95);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* Luxury Smooth Slowly Scroll Reveal */
+.scroll-reveal-slow {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.scroll-reveal-slow.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Uiverse Glow Border Animation - Electric Indigo & Soft Violet */

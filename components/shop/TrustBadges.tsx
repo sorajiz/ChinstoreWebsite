@@ -26,15 +26,15 @@ export default function TrustBadges() {
       icon: Download,
       title: t('badge3_title'),
       desc: t('badge3_desc'),
-      glowColor: 'group-hover:border-purple-500/40 text-purple-400',
-      bgGlow: 'from-purple-500/10 to-transparent',
+      glowColor: 'group-hover:border-zinc-500 text-zinc-300',
+      bgGlow: 'from-zinc-500/10 to-transparent',
     },
     {
       icon: Headset,
       title: t('badge4_title'),
       desc: t('badge4_desc'),
-      glowColor: 'group-hover:border-pink-500/40 text-pink-400',
-      bgGlow: 'from-pink-500/10 to-transparent',
+      glowColor: 'group-hover:border-zinc-500 text-zinc-300',
+      bgGlow: 'from-zinc-600/10 to-transparent',
     },
   ];
 

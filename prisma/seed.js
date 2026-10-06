@@ -74,9 +74,17 @@ async function main() {
     },
   });
 
+  const catDiscord = await prisma.category.create({
+    data: {
+      name: 'Discord Nitro & Decao',
+      slug: 'discord-services',
+      icon: 'Bot',
+    },
+  });
+
   const catStreaming = await prisma.category.create({
     data: {
-      name: 'Streaming, VPN & Music',
+      name: 'Streaming, YouTube & Music',
       slug: 'streaming-vpn',
       icon: 'Film',
     },
@@ -84,6 +92,83 @@ async function main() {
 
   // 3. Products with Serialized Stock
   const productsToCreate = [
+    // Discord Services (Nitro, Deco, Server Boosts)
+    {
+      name: 'Discord Nitro Boost 3 Tháng (Kèm 2 Server Boosts & Badge)',
+      slug: 'discord-nitro-boost-3-months',
+      description: 'Gói đăng ký Discord Nitro Boost 3 tháng chính chủ. Tặng kèm 2 Server Boosts, mở khóa gửi file 500MB, stream 4K 60fps, emoji & sticker toàn server, tùy biến banner và theme cá nhân.',
+      priceVND: 45000,
+      images: JSON.stringify([
+        'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80',
+      ]),
+      warrantyPolicy: 'Bảo hành toàn bộ 3 tháng, 1 đổi 1 tức thì nếu lỗi thanh toán',
+      categoryId: catDiscord.id,
+      stockItems: [
+        'DISCORD_NITRO_PROMO_3M_CHIN_998273_TOKEN_ACTIVE',
+        'DISCORD_NITRO_PROMO_3M_CHIN_441928_TOKEN_ACTIVE',
+        'DISCORD_NITRO_PROMO_3M_CHIN_772194_TOKEN_ACTIVE',
+      ],
+    },
+    {
+      name: 'Gói 14x Server Boosts Discord Level 3 (Bảo Hành 3 Tháng Không Rớt)',
+      slug: 'discord-14x-server-boosts-level-3',
+      description: 'Nâng cấp máy chủ Discord của bạn lên Level 3 tối đa với 14 Boosts cùng lúc. Mở khóa vanity URL (link mời tùy chỉnh), 100 slot emoji mới, âm thanh 384Kbps và banner máy chủ.',
+      priceVND: 125000,
+      images: JSON.stringify([
+        'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?auto=format&fit=crop&w=1000&q=80',
+      ]),
+      warrantyPolicy: 'Bảo hành không rớt boosts trong 90 ngày, bù ngay nếu bot lỗi',
+      categoryId: catDiscord.id,
+      stockItems: [
+        'BOOST_ORDER_SERVER_14X_TOKEN_VERIFIED_KEY_CHIN_8819',
+        'BOOST_ORDER_SERVER_14X_TOKEN_VERIFIED_KEY_CHIN_2291',
+      ],
+    },
+    {
+      name: 'Discord Avatar Deco & Profile Effects (Kho Mẫu Trang Trí Hot Trend)',
+      slug: 'discord-avatar-deco-profile-effects',
+      description: 'Vật phẩm trang trí khung avatar chuyển động và hiệu ứng hồ sơ profile effect độc quyền Discord Shop. Tự do kích hoạt và đồng bộ trên mọi nền tảng máy tính và điện thoại.',
+      priceVND: 35000,
+      images: JSON.stringify([
+        'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=80',
+      ]),
+      warrantyPolicy: 'Vĩnh viễn theo tài khoản nhận quà',
+      categoryId: catDiscord.id,
+      stockItems: [
+        'DISCORD_GIFT_DECO_EFFECT_CODE_CHIN_88291',
+        'DISCORD_GIFT_DECO_EFFECT_CODE_CHIN_55192',
+      ],
+    },
+    {
+      name: 'YouTube Premium 1 Năm (Nâng Cấp Email Chính Chủ 0 Quảng Cáo)',
+      slug: 'youtube-premium-1-year-family-invite',
+      description: 'Nâng cấp trực tiếp trên tài khoản Gmail cá nhân của bạn. Xem video hoàn toàn không quảng cáo, chạy nền khi tắt màn hình, tải video offline và miễn phí YouTube Music Premium.',
+      priceVND: 220000,
+      images: JSON.stringify([
+        'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80',
+      ]),
+      warrantyPolicy: 'Bảo hành trọn đời 12 tháng, giữ nguyên lịch sử xem và kênh đã đăng ký',
+      categoryId: catStreaming.id,
+      stockItems: [
+        'YT_FAMILY_SLOT_INVITE_LINK_CHIN_PREMIUM_99182',
+        'YT_FAMILY_SLOT_INVITE_LINK_CHIN_PREMIUM_44219',
+      ],
+    },
+    {
+      name: 'CapCut Pro Team 1 Năm (Bản Quyền Đầy Đủ Hiệu Ứng AI)',
+      slug: 'capcut-pro-team-1-year',
+      description: 'Kích hoạt CapCut Pro mở khóa 100% tính năng AI: tự động tạo phụ đề thông minh, xóa phông nền 4K, bộ lọc màu điện ảnh và thư viện âm thanh bản quyền không giới hạn.',
+      priceVND: 95000,
+      images: JSON.stringify([
+        'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=1000&q=80',
+      ]),
+      warrantyPolicy: 'Bảo hành 1 năm 1 đổi 1 trong tài khoản',
+      categoryId: catStreaming.id,
+      stockItems: [
+        'CAPCUT_PRO_TEAM_INVITE_CODE_CHIN_99182',
+        'CAPCUT_PRO_TEAM_INVITE_CODE_CHIN_33219',
+      ],
+    },
     // Minecraft Category (EnchantAlts style)
     {
       name: 'Minecraft Java & Bedrock Full Access (FA) + Migrated',

@@ -151,27 +151,27 @@ export default function VouchWall() {
               </div>
 
               {/* Bottom Metadata */}
-              <div className="pt-3 border-t border-[#E5E1D8] dark:border-[#27272A] flex items-center justify-between text-[11px]">
-                <span className="text-[#5865F2] font-mono font-medium truncate max-w-[180px]">
+              <div className="pt-3 border-t border-zinc-100 dark:border-[#27272A] flex items-center justify-between text-[11px]">
+                <span className="text-zinc-600 dark:text-zinc-400 font-mono font-medium truncate max-w-[180px]">
                   {review.product}
                 </span>
-                <span className="text-slate-400 dark:text-slate-500 font-mono shrink-0">{review.timeAgo}</span>
+                <span className="text-zinc-400 dark:text-zinc-500 font-mono shrink-0">{review.timeAgo}</span>
               </div>
             </div>
           ))}
         </div>
 
         {/* Discord Community Callout */}
-        <div className="relative rounded-2xl p-6 sm:p-8 bg-white dark:bg-[#18181B] border border-[#E5E1D8] dark:border-[#27272A] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md">
+        <div className="relative rounded-3xl p-6 sm:p-8 bg-white dark:bg-[#121215] border border-zinc-200 dark:border-[#27272A] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="w-12 h-12 rounded-2xl bg-[#5865F2]/10 border border-[#5865F2]/20 flex items-center justify-center text-[#5865F2] shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-[#18181C] border border-zinc-200 dark:border-[#27272A] flex items-center justify-center text-zinc-800 dark:text-zinc-200 shrink-0">
               <Users className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-base font-bold text-slate-900 dark:text-white">
+              <h4 className="text-base font-bold text-zinc-950 dark:text-[#F4F4F5]">
                 Gia Nhập Cộng Đồng ChinStore Discord
               </h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+              <p className="text-xs text-zinc-600 dark:text-[#94949E] mt-0.5">
                 Hơn 5,200+ thành viên đang hoạt động, cập nhật giveaway tài khoản và voucher mỗi tuần.
               </p>
             </div>
@@ -181,7 +181,7 @@ export default function VouchWall() {
             href="https://discord.gg"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs sm:text-sm font-semibold transition-all shadow-md shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 text-xs sm:text-sm font-bold transition-all shadow-sm shrink-0 active:scale-95"
           >
             <span>Tham Gia Discord Ngay</span>
             <ExternalLink className="w-4 h-4" />

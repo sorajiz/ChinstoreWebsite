@@ -2,18 +2,35 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 
 export default function FaqSection() {
   const t = useTranslations('faq');
   const [openId, setOpenId] = useState<string | null>('1');
+
+  const steps = [
+    {
+      num: 1,
+      title: t('step1_title'),
+      desc: t('step1_desc'),
+    },
+    {
+      num: 2,
+      title: t('step2_title'),
+      desc: t('step2_desc'),
+    },
+    {
+      num: 3,
+      title: t('step3_title'),
+      desc: t('step3_desc'),
+    },
+  ];
 
   const faqs = [
     { id: '1', q: t('q1'), a: t('a1') },
     { id: '2', q: t('q2'), a: t('a2') },
     { id: '3', q: t('q3'), a: t('a3') },
     { id: '4', q: t('q4'), a: t('a4') },
-    { id: '5', q: t('q5'), a: t('a5') },
   ];
 
   const toggleFaq = (id: string) => {
@@ -21,50 +38,76 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-20 relative z-10 border-t border-zinc-200 dark:border-zinc-800">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <section id="faq" className="py-16 sm:py-24 relative z-10 border-t border-zinc-200 dark:border-zinc-800/80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-20">
         
-        {/* Header */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-200/80 dark:bg-zinc-800/80 border border-zinc-300 dark:border-zinc-700/80 text-zinc-800 dark:text-zinc-200 text-xs font-semibold backdrop-blur-md">
-            <HelpCircle className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
-            <span>{t('badge')}</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
-            {t('title')}<span className="text-zinc-600 dark:text-zinc-400 font-extrabold">{t('titleHighlight')}</span>
+        {/* Onboarding 3 Steps matching Image 4 */}
+        <div className="space-y-8">
+          <h2 className="text-xl sm:text-2xl font-black text-zinc-950 dark:text-[#F4F4F5] tracking-tight font-sans">
+            {t('onboardingTitle')}
           </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {steps.map((step) => (
+              <div key={step.num} className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 font-mono font-bold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                  {step.num}
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-zinc-950 dark:text-[#F4F4F5]">
+                    {step.title}
+                  </h4>
+                  <p className="text-xs text-zinc-600 dark:text-[#94949E] leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Accordion List */}
-        <div className="space-y-3">
-          {faqs.map((faq) => {
-            const isOpen = openId === faq.id;
-            return (
-              <div
-                key={faq.id}
-                className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#121215] overflow-hidden transition-all duration-200"
-              >
-                <button
-                  onClick={() => toggleFaq(faq.id)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-zinc-900 dark:text-white hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-zinc-400 shrink-0 transition-transform duration-300 ${
-                      isOpen ? 'rotate-180 text-zinc-900 dark:text-white' : ''
-                    }`}
-                  />
-                </button>
+        {/* FAQ Section 2 Columns matching Image 4 */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 pt-8 border-t border-zinc-200 dark:border-zinc-800/80">
+          
+          {/* Left Column: Heading Info */}
+          <div className="lg:col-span-5 space-y-3 text-left">
+            <span className="text-xs font-mono font-bold tracking-wider text-zinc-500 uppercase">
+              {t('faqCategory')}
+            </span>
+            <h3 className="text-3xl sm:text-4xl font-black text-zinc-950 dark:text-[#F4F4F5] tracking-tight font-sans">
+              {t('faqTitle')}
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-[#94949E] leading-relaxed pt-2">
+              {t('faqSubtitle')}
+            </p>
+          </div>
 
-                {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/60 mt-1">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+          {/* Right Column: Clean Accordion */}
+          <div className="lg:col-span-7 divide-y divide-zinc-200 dark:divide-zinc-800/80">
+            {faqs.map((faq) => {
+              const isOpen = openId === faq.id;
+              return (
+                <div key={faq.id} className="py-4 sm:py-5">
+                  <button
+                    onClick={() => toggleFaq(faq.id)}
+                    className="w-full text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-zinc-900 dark:text-[#F4F4F5] hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <span className="text-zinc-400 shrink-0">
+                      {isOpen ? <Minus className="w-4 h-4 stroke-[2]" /> : <Plus className="w-4 h-4 stroke-[2]" />}
+                    </span>
+                  </button>
+
+                  {isOpen && (
+                    <div className="pt-3 text-xs sm:text-sm text-zinc-600 dark:text-[#94949E] leading-relaxed pr-6">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
         </div>
 
       </div>

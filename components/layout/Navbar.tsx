@@ -48,24 +48,12 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
   const { setCartOpen, currency, setCurrency, getCartItemCount } = useStore();
   const itemCount = getCartItemCount();
 
-  // Scroll logic: Header remains visible at top, hides when scrolling down, reappears when scrolling up
+  // Scroll logic: Header remains permanently visible at top with Glassmorphism, tracks active section
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-
-          // Header scroll show/hide
-          if (currentScrollY <= 30) {
-            setIsVisible(true);
-          } else if (currentScrollY > lastScrollY && currentScrollY > 60) {
-            setIsVisible(false); // Hide when scrolling DOWN
-          } else if (currentScrollY < lastScrollY) {
-            setIsVisible(true); // Reveal when scrolling UP
-          }
-          setLastScrollY(currentScrollY);
-
           // Scrollspy detection for active section
           const sections = ['hero', 'featured-products', 'features', 'reviews', 'faq'];
           for (const sectionId of sections) {
@@ -78,7 +66,6 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
               }
             }
           }
-
           ticking = false;
         });
         ticking = true;
@@ -87,7 +74,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   // Language options matching Image 3 style
   const languageOptions: SelectOption[] = [
@@ -119,27 +106,21 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
 
   return (
     <>
-      {/* Main Floating Capsule Header (No sidebar on PC - only top header) */}
-      <header
-        className={`fixed top-0 sm:top-3 left-0 right-0 z-50 transition-all duration-300 px-3 sm:px-6 max-w-7xl mx-auto w-full ${
-          isVisible
-            ? 'translate-y-0 opacity-100 pointer-events-auto'
-            : '-translate-y-28 opacity-0 pointer-events-none'
-        }`}
-      >
-        <div className="relative w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 bg-white/95 dark:bg-[#111114]/95 border border-[#E4E1D8] dark:border-[#222228] shadow-2xl backdrop-blur-2xl transition-colors duration-300">
+      {/* Permanent Fixed Glass Header (Does not hide on scroll, Pure Glassmorphism) */}
+      <header className="fixed top-0 sm:top-3 left-0 right-0 z-50 px-3 sm:px-6 max-w-7xl mx-auto w-full transition-all duration-300">
+        <div className="relative w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 bg-white/85 dark:bg-[#09090B]/85 border border-[#E4E1D8] dark:border-[#27272A] shadow-xl backdrop-blur-2xl transition-colors duration-300">
           <div className="flex items-center justify-between">
             
             {/* Left: Brand Logo & Navigation Links */}
             <div className="flex items-center space-x-6">
               <Link href="/" className="flex items-center space-x-2.5 group">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#5865F2] via-indigo-600 to-purple-600 p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_15px_rgba(88,101,242,0.35)]">
-                  <div className="w-full h-full bg-white dark:bg-[#111114] rounded-full flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-[#5865F2] group-hover:rotate-12 transition-transform duration-300" />
+                <div className="w-8 h-8 rounded-full bg-zinc-900 dark:bg-zinc-800 border border-zinc-700 p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-sm">
+                  <div className="w-full h-full bg-zinc-900 dark:bg-[#121215] rounded-full flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-zinc-100 group-hover:rotate-12 transition-transform duration-300" />
                   </div>
                 </div>
-                <span className="text-lg font-black tracking-wider text-slate-900 dark:text-white font-sans">
-                  chin<span className="text-[#5865F2]">store</span>
+                <span className="text-lg font-black tracking-wider text-zinc-950 dark:text-white font-sans">
+                  chin<span className="text-zinc-500 dark:text-zinc-400">store</span>
                 </span>
               </Link>
 
@@ -171,7 +152,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-1.5"
                 >
-                  <DiscordIcon className="w-3.5 h-3.5 text-[#5865F2]" />
+                  <DiscordIcon className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-300" />
                   <span>Discord</span>
                 </a>
                 <a
@@ -233,12 +214,12 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
               <button
                 id="open-cart-btn"
                 onClick={() => setCartOpen(true)}
-                className="relative p-2 rounded-full bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D] text-slate-700 dark:text-slate-300 hover:text-[#5865F2] transition-all hover:scale-105 active:scale-95 group"
+                className="relative p-2 rounded-full bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D] text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-all hover:scale-105 active:scale-95 group cursor-pointer"
                 aria-label="Open cart drawer"
               >
                 <ShoppingBag className="w-4 h-4" />
                 {itemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 bg-[#5865F2] text-white text-[9px] font-bold rounded-full flex items-center justify-center shadow-md">
+                  <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 text-[9px] font-bold rounded-full flex items-center justify-center shadow-md">
                     {itemCount}
                   </span>
                 )}
@@ -250,9 +231,9 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                   <div className="relative">
                     <button
                       onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#5865F2]/10 border border-[#5865F2]/30 text-[#5865F2] text-xs font-semibold hover:bg-[#5865F2]/20 transition-all shadow-sm"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-[#18181C] border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-zinc-200 text-xs font-semibold hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all shadow-sm"
                     >
-                      <div className="w-5 h-5 rounded-full bg-[#5865F2] text-white flex items-center justify-center font-bold text-[10px]">
+                      <div className="w-5 h-5 rounded-full bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-900 flex items-center justify-center font-bold text-[10px]">
                         {session.user.name ? session.user.name.charAt(0).toUpperCase() : 'U'}
                       </div>
                       <span className="truncate max-w-[80px]">
@@ -262,7 +243,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                     </button>
 
                     {userDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-white dark:bg-[#151518] border border-zinc-200 dark:border-zinc-800 p-2 shadow-2xl backdrop-blur-xl z-50">
+                      <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-zinc-800 p-2 shadow-2xl backdrop-blur-xl z-50">
                         <button
                           onClick={() => {
                             setUserDropdownOpen(false);
@@ -289,7 +270,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 ) : (
                   <button
                     onClick={handleDiscordLogin}
-                    className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-bold transition-all shadow-sm active:scale-95"
+                    className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
                   >
                     <DiscordIcon className="w-3.5 h-3.5 fill-current" />
                     <span>Login Discord</span>
@@ -300,7 +281,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
               {/* Mobile Hamburger Toggle Button (Clean & Compact) */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D] transition-colors"
+                className="md:hidden p-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D] transition-colors cursor-pointer"
                 aria-label="Menu"
               >
                 {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -309,22 +290,22 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
           </div>
         </div>
 
-        {/* Mobile Full-Width Dropdown Menu (Fixes Image 1 & 2 Overflow & Black Strip Bug) */}
+        {/* Mobile Full-Width Dropdown Menu (Enhanced Responsive Multi-Selects) */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-2 w-full rounded-2xl bg-white/98 dark:bg-[#121215]/98 border border-[#E4E1D8] dark:border-[#24242C] p-4 space-y-4 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-3 duration-200">
+          <div className="md:hidden mt-2 w-full rounded-2xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-[#27272A] p-4 space-y-4 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-3 duration-200">
             {/* Navigation links */}
-            <div className="flex flex-col space-y-1 text-sm font-semibold border-b border-[#E4E1D8] dark:border-[#24242C] pb-3">
+            <div className="flex flex-col space-y-1 text-sm font-semibold border-b border-zinc-200 dark:border-[#27272A] pb-3">
               <a
                 href="#hero"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5"
+                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
               >
                 {t('home')}
               </a>
               <a
                 href="#featured-products"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5"
+                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
               >
                 {t('shop')}
               </a>
@@ -333,36 +314,37 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-2"
+                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-2"
               >
-                <DiscordIcon className="w-4 h-4 text-[#5865F2]" />
+                <DiscordIcon className="w-4 h-4 text-zinc-400" />
                 <span>Discord</span>
               </a>
               <a
                 href="#features"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5"
+                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
               >
                 {t('features')}
               </a>
               <a
                 href="#reviews"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5"
+                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
               >
                 Reviews
               </a>
             </div>
 
-            {/* Quick Multi-Select Controls on Mobile (Currency & Language matching Image 3) */}
-            <div className="flex items-center justify-between gap-2 pt-1">
-              <div className="flex items-center gap-2">
+            {/* Complete, Accessible Multi-Select Controls on Mobile */}
+            <div className="space-y-2 pt-1">
+              <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">Cấu hình hiển thị</div>
+              <div className="grid grid-cols-2 gap-2">
                 <CustomSelectDropdown
                   options={languageOptions}
                   selectedValue={locale}
                   onSelect={handleLanguageSelect}
                   triggerPrefix={<Globe className="w-3.5 h-3.5" />}
-                  widthClass="w-44"
+                  widthClass="w-full"
                   title="Ngôn ngữ"
                 />
 
@@ -371,13 +353,14 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                   selectedValue={currency}
                   onSelect={handleCurrencySelect}
                   triggerPrefix={<Coins className="w-3.5 h-3.5" />}
-                  widthClass="w-52"
+                  widthClass="w-full"
                   title="Tiền tệ"
                 />
               </div>
 
-              {/* Theme Toggle in Mobile Menu */}
-              <div className="p-1 rounded-xl bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D]">
+              {/* Theme Toggle row in Mobile Menu */}
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-100 dark:bg-[#18181C] border border-zinc-200 dark:border-[#27272A] mt-2">
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Giao diện (Dark / Light)</span>
                 <ThemeToggle id="mobile-menu-theme-toggle" />
               </div>
             </div>
@@ -390,7 +373,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                     setMobileMenuOpen(false);
                     router.push('/profile');
                   }}
-                  className="w-full flex items-center justify-center gap-2 py-3 text-[#5865F2] bg-[#5865F2]/10 hover:bg-[#5865F2]/20 rounded-xl font-bold transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-3 text-zinc-950 dark:text-white bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl font-bold transition-colors"
                 >
                   <UserIcon className="w-4 h-4" />
                   <span>Tài Khoản: {session.user.name}</span>
@@ -401,7 +384,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                     setMobileMenuOpen(false);
                     handleDiscordLogin();
                   }}
-                  className="w-full flex items-center justify-center gap-2 py-3 text-white bg-[#5865F2] hover:bg-[#4752C4] rounded-xl font-bold shadow-lg shadow-[#5865F2]/25 transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-3 text-zinc-950 dark:text-zinc-950 bg-white hover:bg-zinc-100 border border-zinc-300 dark:border-zinc-700 rounded-xl font-bold shadow-md transition-all active:scale-95"
                 >
                   <DiscordIcon className="w-4 h-4 fill-current" />
                   <span>Login Discord</span>

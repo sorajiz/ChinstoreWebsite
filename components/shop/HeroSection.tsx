@@ -50,13 +50,6 @@ export function HeroSection({ onQuickCheckout }: HeroSectionProps) {
         {/* CỘT TRÁI: TIÊU ĐỀ & HÀNH ĐỘNG NHANH */}
         <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
           
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-200/80 dark:bg-zinc-800/80 border border-zinc-300 dark:border-zinc-700/80 text-zinc-800 dark:text-zinc-200 text-xs font-semibold backdrop-blur-md">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-bold">{t('badge')}</span>
-            <Sparkles className="w-3.5 h-3.5 ml-1 text-zinc-500 dark:text-zinc-400" />
-          </div>
-
           {/* Headline Typography */}
           <h1 className="text-4xl sm:text-5xl xl:text-6xl font-black tracking-tight text-zinc-950 dark:text-white leading-[1.12] font-sans">
             {t('title_part1')} <br />

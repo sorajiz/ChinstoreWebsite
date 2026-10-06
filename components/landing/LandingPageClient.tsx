@@ -5,9 +5,11 @@ import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@/navigation';
 import Navbar from '@/components/layout/Navbar';
 import HeroSection from '@/components/shop/HeroSection';
+import QuickCategoryPills from '@/components/shop/QuickCategoryPills';
 import LiveActivityTicker from '@/components/shop/LiveActivityTicker';
 import FeaturedProductsSection from '@/components/shop/FeaturedProductsSection';
 import FlashDealBanner from '@/components/shop/FlashDealBanner';
+import PlatformTransparencySection from '@/components/shop/PlatformTransparencySection';
 import CorePillars from '@/components/shop/CorePillars';
 import FeaturedCategories from '@/components/shop/FeaturedCategories';
 import VouchWall from '@/components/shop/VouchWall';
@@ -18,7 +20,8 @@ import OrderTrackerModal from '@/components/shop/OrderTrackerModal';
 import CheckoutModal from '@/components/shop/CheckoutModal';
 import QuickViewModal from '@/components/shop/QuickViewModal';
 import Footer from '@/components/layout/Footer';
-import { ArrowRight, ShieldCheck } from 'lucide-react';
+import ScrollReveal from '@/components/ui/ScrollReveal';
+import { ArrowRight } from 'lucide-react';
 import { Category, Product } from '@/types';
 
 interface LandingPageClientProps {
@@ -43,88 +46,115 @@ export default function LandingPageClient({
     setCheckoutOpen(true);
   };
 
+  const handleSelectQuickCategory = (categorySlug: string) => {
+    const el = document.getElementById('featured-products');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      router.push(`/shop?category=${categorySlug}`);
+    }
+  };
+
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* 1. Header Navigation */}
+    <div className="flex flex-col min-h-screen bg-[#FDFCFB] dark:bg-[#09090B] text-zinc-900 dark:text-[#F4F4F5] transition-colors">
+      {/* 1. Header Navigation (Fixed Glass, Permanent) */}
       <Navbar onOpenTrackModal={() => setTrackerOpen(true)} />
 
       {/* 2. Cyber Hero Section */}
       <HeroSection onQuickCheckout={handleQuickCheckout} />
 
-      {/* 3. Live Social Proof Marquee Ticker */}
+      {/* 3. Image 1: Quick Category Horizontal Strip */}
+      <ScrollReveal delayMs={100}>
+        <QuickCategoryPills onSelectCategory={handleSelectQuickCategory} />
+      </ScrollReveal>
+
+      {/* 4. Live Social Proof Marquee Ticker */}
       <LiveActivityTicker />
 
-      {/* 4. Trending & Featured Products Section */}
-      <FeaturedProductsSection
-        products={initialProducts}
-        categories={initialCategories}
-        onQuickCheckout={handleQuickCheckout}
-      />
+      {/* 5. Image 3: Trending & Featured Products Section */}
+      <ScrollReveal delayMs={150}>
+        <FeaturedProductsSection
+          products={initialProducts}
+          categories={initialCategories}
+          onQuickCheckout={handleQuickCheckout}
+        />
+      </ScrollReveal>
 
-      {/* 5. Cyber Flash Deal & Voucher Banner */}
-      <FlashDealBanner />
+      {/* 6. Cyber Flash Deal & Voucher Banner */}
+      <ScrollReveal delayMs={150}>
+        <FlashDealBanner />
+      </ScrollReveal>
 
-      {/* 6. Core Pillars (Cursor Spotlight Bento Grid) */}
-      <CorePillars />
+      {/* 7. Image 2: Platform Transparency Bento Grid (Giao ngay hay 24-48h) */}
+      <ScrollReveal delayMs={150}>
+        <PlatformTransparencySection />
+      </ScrollReveal>
 
-      {/* 7. Featured Category Niches */}
-      <FeaturedCategories />
+      {/* 8. Core Pillars */}
+      <ScrollReveal delayMs={150}>
+        <CorePillars />
+      </ScrollReveal>
 
-      {/* 8. Verified Gamer Reviews & Discord Wall */}
-      <VouchWall />
+      {/* 9. Featured Category Niches (Minecraft, Discord, Streaming, AI) */}
+      <ScrollReveal delayMs={150}>
+        <FeaturedCategories />
+      </ScrollReveal>
 
-      {/* 9. Security & Trust Badges */}
-      <TrustBadges />
+      {/* 10. Verified Gamer Reviews & Discord Wall */}
+      <ScrollReveal delayMs={150}>
+        <VouchWall />
+      </ScrollReveal>
 
-      {/* 10. Frequently Asked Questions (FAQ) */}
-      <FaqSection />
+      {/* 11. Security & Trust Badges */}
+      <ScrollReveal delayMs={150}>
+        <TrustBadges />
+      </ScrollReveal>
 
-      {/* 11. High-Impact Call-to-Action Banner */}
-      <section className="py-20 relative z-10 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl p-8 sm:p-14 overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-[#121215]/95 shadow-xl text-center space-y-6">
-            {/* Ambient Glow */}
-            <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-zinc-500/10 blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-zinc-700/10 blur-3xl pointer-events-none" />
+      {/* 12. Image 4: Onboarding 3 Steps + FAQ Accordion */}
+      <ScrollReveal delayMs={150}>
+        <FaqSection />
+      </ScrollReveal>
 
-            <div className="relative z-10 max-w-3xl mx-auto space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-200/80 dark:bg-zinc-800/80 border border-zinc-300 dark:border-zinc-700/80 text-zinc-800 dark:text-zinc-200 text-xs font-semibold backdrop-blur-md">
-                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>{tCta('badge')}</span>
+      {/* 13. Image 5: Minimalist High-Impact CTA Banner */}
+      <ScrollReveal delayMs={150}>
+        <section className="py-20 relative z-10 border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50 dark:bg-[#09090B]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 py-4">
+              <div className="max-w-2xl space-y-3">
+                <span className="text-xs font-mono font-bold tracking-wider text-zinc-500 uppercase">
+                  {tCta('badge')}
+                </span>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-950 dark:text-[#F4F4F5] tracking-tight leading-tight font-sans">
+                  {tCta('titlePart1')} <br className="hidden sm:inline" />
+                  {tCta('titlePart2')}
+                </h2>
+                <p className="text-sm sm:text-base text-zinc-600 dark:text-[#94949E] font-normal leading-relaxed">
+                  {tCta('subtitle')}
+                </p>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-sans text-zinc-950 dark:text-white tracking-tight leading-tight">
-                {tCta('titlePart1')} <br />
-                <span className="text-zinc-600 dark:text-zinc-400 font-extrabold">
-                  {tCta('titlePart2')}
-                </span>
-              </h2>
-
-              <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-sans max-w-xl mx-auto leading-relaxed">
-                {tCta('subtitle')}
-              </p>
-
-              <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+              <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
                 <Link
                   href="/shop"
-                  className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl font-bold text-sm sm:text-base text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-950 shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200 shadow-sm transition-all hover:scale-[1.02] active:scale-95"
                 >
                   <span>{tCta('exploreStore')}</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
 
-                <button
-                  onClick={() => setTrackerOpen(true)}
-                  className="px-6 py-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-bold text-sm transition-all flex items-center gap-2 shadow-xs active:scale-95"
+                <a
+                  href="https://discord.gg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200 px-2 py-1 transition-colors"
                 >
-                  <ShieldCheck className="w-4 h-4 text-zinc-500" />
-                  <span>{tCta('trackOldOrder')}</span>
-                </button>
+                  {tCta('trackOldOrder')}
+                </a>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
 
       {/* Global Drawers & Modals */}
       <CartDrawer onProceedToCheckout={() => setCheckoutOpen(true)} />
@@ -140,7 +170,7 @@ export default function LandingPageClient({
         onPayPendingOrder={(order) => router.push(`/order/${order.orderCode}`)}
       />
 
-      {/* Footer */}
+      {/* 14. Image 5: Comprehensive Dark & Grey Footer */}
       <Footer />
     </div>
   );
