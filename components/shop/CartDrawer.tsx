@@ -7,6 +7,7 @@ import { useRouter } from '@/navigation';
 import { useStore } from '@/lib/store';
 import { formatPrice } from '@/lib/utils';
 import { X, Trash2, ArrowRight, ShoppingCart, Plus, Minus } from 'lucide-react';
+import RollingArrowButton from '@/components/ui/RollingArrowButton';
 import { toast } from 'sonner';
 
 interface CartDrawerProps {
@@ -75,27 +76,31 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-hidden flex max-md:items-end max-md:justify-center md:items-stretch md:justify-end">
       {/* Backdrop */}
       <div
         onClick={() => setCartOpen(false)}
-        className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
       />
 
-      {/* Centered Modal Card matching reference screenshot */}
-      <div className="relative w-full max-w-md rounded-2xl sm:rounded-3xl bg-[#FAF9F5] dark:bg-[#121215] border border-zinc-200 dark:border-[#27272A] shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 transition-colors">
+      {/* Cart Container: Bottom Sheet on Mobile (Ảnh 2), Slide-over Drawer on PC (Ảnh 1) */}
+      <div
+        className="relative z-10 w-full bg-[#0E0E12] text-[#F4F4F5] shadow-2xl flex flex-col transition-colors
+          max-md:rounded-t-3xl max-md:rounded-b-none max-md:border-t max-md:border-x-0 max-md:border-b-0 max-md:border-[#27272A] max-md:max-h-[85vh] max-md:overflow-hidden max-md:animate-in max-md:slide-in-from-bottom max-md:duration-300
+          md:w-[420px] md:h-full md:rounded-none md:border-y-0 md:border-r-0 md:border-l md:border-[#27272A] md:animate-in md:slide-in-from-right md:duration-300 md:ease-out"
+      >
         
         {/* Header matching Screenshot: [🛒 Giỏ hàng] ... [✕] */}
-        <div className="px-6 py-4.5 border-b border-zinc-200 dark:border-[#27272A] flex items-center justify-between bg-transparent">
+        <div className="px-6 py-4.5 border-b border-[#27272A] flex items-center justify-between bg-transparent shrink-0">
           <div className="flex items-center gap-2.5">
-            <ShoppingCart className="w-5 h-5 text-zinc-900 dark:text-[#F4F4F5] stroke-[2]" />
-            <h2 className="text-base sm:text-lg font-bold text-zinc-950 dark:text-[#F4F4F5] font-sans">
+            <ShoppingCart className="w-5 h-5 text-[#F4F4F5] stroke-[2]" />
+            <h2 className="text-base sm:text-lg font-bold text-[#F4F4F5] font-sans">
               {t('title')} {itemCount > 0 && <span className="text-sm font-normal text-zinc-500">({itemCount})</span>}
             </h2>
           </div>
           <button
             onClick={() => setCartOpen(false)}
-            className="p-1 rounded-lg text-zinc-400 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors cursor-pointer"
+            className="p-1 rounded-lg text-zinc-400 hover:text-white transition-colors cursor-pointer"
             aria-label="Close cart"
           >
             <X className="w-5 h-5 stroke-[2]" />
@@ -105,20 +110,20 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
         {/* Body: Empty State matching Screenshot OR Item List */}
         <div className="flex-1 overflow-y-auto p-6">
           {cart.length === 0 ? (
-            /* Empty State matching Screenshot */
-            <div className="text-center py-12 sm:py-16 space-y-4 flex flex-col items-center justify-center">
-              <IsometricBoxIcon className="w-16 h-16 text-zinc-400 dark:text-zinc-500" />
+            /* Empty State matching Screenshot 1 & 2 */
+            <div className="text-center py-16 sm:py-24 space-y-3.5 flex flex-col items-center justify-center">
+              <IsometricBoxIcon className="w-16 h-16 text-zinc-500 stroke-[1.8]" />
               
-              <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-[#F4F4F5] font-sans">
+              <h3 className="text-sm sm:text-base font-semibold text-zinc-300 font-sans">
                 {t('emptyTitle')}
               </h3>
 
               <button
                 onClick={handleExploreProducts}
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white transition-colors group cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-sm font-bold text-white hover:text-zinc-300 transition-colors group cursor-pointer pt-1"
               >
                 <span>{t('exploreProducts')}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
               </button>
             </div>
           ) : (
@@ -190,7 +195,7 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
 
         {/* Footer with Subtotal & Checkout Button */}
         {cart.length > 0 && (
-          <div className="p-6 border-t border-zinc-200 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#18181C]/50 space-y-4">
+          <div className="p-6 border-t border-zinc-200 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#18181C]/50 space-y-4 shrink-0">
             <div className="flex items-center justify-between text-sm">
               <span className="text-zinc-600 dark:text-zinc-400 font-medium">{t('subtotal')}</span>
               <span className="text-lg font-black text-zinc-950 dark:text-white font-mono">

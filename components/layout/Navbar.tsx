@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter, usePathname, Link } from '@/navigation';
 import { useSession, signIn, signOut } from 'next-auth/react';
@@ -55,7 +56,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           // Scrollspy detection for active section
-          const sections = ['hero', 'featured-products', 'features', 'reviews', 'faq'];
+          const sections = ['hero', 'featured-products', 'transparency', 'faq'];
           for (const sectionId of sections) {
             const el = document.getElementById(sectionId);
             if (el) {
@@ -114,13 +115,18 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
             {/* Left: Brand Logo & Navigation Links */}
             <div className="flex items-center space-x-6">
               <Link href="/" className="flex items-center space-x-2.5 group">
-                <div className="w-8 h-8 rounded-full bg-zinc-900 dark:bg-zinc-800 border border-zinc-700 p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-sm">
-                  <div className="w-full h-full bg-zinc-900 dark:bg-[#121215] rounded-full flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-zinc-100 group-hover:rotate-12 transition-transform duration-300" />
-                  </div>
+                <div className="w-8 h-8 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-700/80 transition-transform duration-300 group-hover:scale-105 shadow-xs shrink-0">
+                  <Image
+                    src="/logo.png"
+                    alt="ChinStore"
+                    width={32}
+                    height={32}
+                    className="w-full h-full object-cover"
+                    priority
+                  />
                 </div>
-                <span className="text-lg font-black tracking-wider text-zinc-950 dark:text-white font-sans">
-                  chin<span className="text-zinc-500 dark:text-zinc-400">store</span>
+                <span className="text-lg font-black tracking-tight text-zinc-950 dark:text-white font-sans">
+                  ChinStore
                 </span>
               </Link>
 
@@ -147,33 +153,24 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                   {t('shop')}
                 </a>
                 <a
-                  href="https://discord.gg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-1.5"
-                >
-                  <DiscordIcon className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-300" />
-                  <span>Discord</span>
-                </a>
-                <a
-                  href="#features"
+                  href="#transparency"
                   className={`px-3 py-1.5 rounded-full transition-all ${
-                    activeSection === 'features'
+                    activeSection === 'transparency'
                       ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
-                  {t('features')}
+                  {t('transparency')}
                 </a>
                 <a
-                  href="#reviews"
+                  href="#faq"
                   className={`px-3 py-1.5 rounded-full transition-all ${
-                    activeSection === 'reviews'
+                    activeSection === 'faq'
                       ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
-                  Reviews
+                  {t('faq')}
                 </a>
               </nav>
             </div>
@@ -310,28 +307,18 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 {t('shop')}
               </a>
               <a
-                href="https://discord.gg"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-2"
-              >
-                <DiscordIcon className="w-4 h-4 text-zinc-400" />
-                <span>Discord</span>
-              </a>
-              <a
-                href="#features"
+                href="#transparency"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
               >
-                {t('features')}
+                {t('transparency')}
               </a>
               <a
-                href="#reviews"
+                href="#faq"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
               >
-                Reviews
+                {t('faq')}
               </a>
             </div>
 

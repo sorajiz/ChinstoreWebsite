@@ -1,9 +1,11 @@
 {
   "common": {
-    "brand": "CHIN STORE",
+    "brand": "ChinStore",
     "tagline": "Next-Gen Cyber & Digital Commerce Platform",
     "home": "Home",
-    "shop": "Store",
+    "shop": "Products",
+    "transparency": "Commitment",
+    "faq": "FAQ",
     "features": "Features",
     "trackOrder": "Track Order",
     "cart": "Cart",
@@ -29,7 +31,7 @@
     "title_part2": "Premium Accounts",
     "subtitle": "Leading platform providing Minecraft Alts Full Access, Steam CS2 Prime, AI Chatbot Pro & Premium Accounts. Instant automated delivery via VietQR & Crypto within 3 seconds.",
     "ctaPricing": "View Product Pricing",
-    "ctaBestSellers": "Best Sellers",
+    "ctaBestSellers": "Explore Products",
     "stat1_value": "500+",
     "stat1_label": "Members Purchased",
     "stat2_value": "1 Min",
@@ -263,6 +265,6 @@
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
     "systemOnline": "100% Online Systems",
-    "rights": "All rights reserved by CHIN STORE Cyber Platform."
+    "rights": "ChinStore exclusive rights reserved."
   }
 }

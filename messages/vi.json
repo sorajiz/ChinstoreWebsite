@@ -1,9 +1,11 @@
 {
   "common": {
-    "brand": "CHIN STORE",
+    "brand": "ChinStore",
     "tagline": "Nền Tảng Thương Mại Số Cyber & Gear Tương Lai",
     "home": "Trang Chủ",
-    "shop": "Cửa Hàng",
+    "shop": "Sản Phẩm",
+    "transparency": "Cam Kết",
+    "faq": "Hỏi Đáp",
     "features": "Tính Năng",
     "trackOrder": "Tra Cứu Đơn",
     "cart": "Giỏ Hàng",
@@ -29,7 +31,7 @@
     "title_part2": "Tài Khoản Bản Quyền",
     "subtitle": "Nền tảng cung cấp Minecraft Alts Full Access, Steam CS2 Prime, AI Chatbot Pro & Premium Accounts. Quét mã VietQR SePay hoặc Crypto nhận dữ liệu tức thì sau 3 giây.",
     "ctaPricing": "Xem Bảng Giá Sản Phẩm",
-    "ctaBestSellers": "Sản Phẩm Bán Chạy",
+    "ctaBestSellers": "Khám Phá Hàng Hóa",
     "stat1_value": "500+",
     "stat1_label": "Member Đã Mua",
     "stat2_value": "1 Phút",
@@ -263,6 +265,6 @@
     "terms": "Điều Khoản Giao Dịch",
     "privacy": "Chính Sách Bảo Mật",
     "systemOnline": "Hệ Thống Trực Tuyến 100%",
-    "rights": "Bản quyền thuộc về CHIN STORE Cyber Platform."
+    "rights": "ChinStore bản quyền độc nhất."
   }
 }

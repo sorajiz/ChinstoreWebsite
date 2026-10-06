@@ -1,10 +1,12 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Toaster } from 'sonner';
 import AuroraBackground from '@/components/ui/AuroraBackground';
 import AuthProvider from '@/components/providers/AuthProvider';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
+import BottomNavigation from '@/components/layout/BottomNavigation';
 import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 
 const jakarta = Plus_Jakarta_Sans({
@@ -19,6 +21,16 @@ const mono = JetBrains_Mono({
   display: 'swap',
 });
 
+export const metadata: Metadata = {
+  title: 'ChinStore',
+  description: 'ChinStore - Nền tảng tài nguyên số & dịch vụ bản quyền thế hệ mới.',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
+};
+
 export default async function LocaleLayout({
   children,
   params: { locale },
@@ -31,6 +43,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`dark ${jakarta.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="icon" type="image/png" href="/icon.png" />
+        <link rel="shortcut icon" href="/icon.png" />
+        <link rel="apple-touch-icon" href="/icon.png" />
+        <title>ChinStore</title>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -58,6 +74,7 @@ export default async function LocaleLayout({
                 {children}
               </AuroraBackground>
             </SmoothScrollProvider>
+            <BottomNavigation />
             <Toaster
               position="top-right"
               richColors

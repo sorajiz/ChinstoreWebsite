@@ -398,3 +398,87 @@ body {
   }
 }
 
+/* From Uiverse.io by Creatlydev - Dark Monochrome (Black, Grey, White) */
+.uiverse-explore-btn {
+  line-height: 1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #18181c;
+  color: #f4f4f5;
+  border: 1px solid #27272a;
+  border-radius: 10rem;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem 0.625rem 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s, border-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.uiverse-explore-btn:hover {
+  background-color: #000000;
+  border-color: #3f3f46;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.uiverse-explore-btn .button__icon-wrapper {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  color: #121215;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.uiverse-explore-btn:hover .button__icon-wrapper {
+  color: #ffffff;
+  background-color: #27272a;
+}
+
+.uiverse-explore-btn .button__icon-svg--copy {
+  position: absolute;
+  transform: translate(-150%, 150%);
+}
+
+.uiverse-explore-btn:hover .button__icon-svg:first-child {
+  transition: transform 0.3s ease-in-out;
+  transform: translate(150%, -150%);
+}
+
+.uiverse-explore-btn:hover .button__icon-svg--copy {
+  transition: transform 0.3s ease-in-out 0.1s;
+  transform: translate(0);
+}
+
+/* Light Mode Overrides */
+html:not(.dark) .uiverse-explore-btn {
+  background-color: #27272a;
+  border-color: #3f3f46;
+  color: #ffffff;
+}
+
+html:not(.dark) .uiverse-explore-btn:hover {
+  background-color: #09090b;
+}
+
+html:not(.dark) .uiverse-explore-btn .button__icon-wrapper {
+  color: #18181b;
+  background-color: #f4f4f5;
+}
+
+html:not(.dark) .uiverse-explore-btn:hover .button__icon-wrapper {
+  color: #ffffff;
+  background-color: #3f3f46;
+}
+

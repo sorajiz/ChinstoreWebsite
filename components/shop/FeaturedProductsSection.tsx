@@ -20,6 +20,7 @@ import {
   Plus,
   Minus,
 } from 'lucide-react';
+import RollingArrowButton from '@/components/ui/RollingArrowButton';
 import { toast } from 'sonner';
 
 interface FeaturedProductsSectionProps {
@@ -97,13 +98,9 @@ export default function FeaturedProductsSection({
             </p>
           </div>
 
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100 hover:text-zinc-600 dark:hover:text-white px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-[#18181C] border border-zinc-200 dark:border-[#27272A] transition-all group shrink-0 active:scale-95 shadow-xs"
-          >
-            <span>{t('exploreProducts')}</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-zinc-500 group-hover:text-zinc-950 dark:group-hover:text-white" />
-          </Link>
+          <RollingArrowButton href="/shop">
+            {t('exploreProducts')}
+          </RollingArrowButton>
         </div>
 
 
@@ -170,9 +167,6 @@ function ProductCardItem({
   const stockCount = product.availableCount ?? 1;
   const isManual = index % 4 === 0;
 
-  // Simulated 7-day sales counter for social proof (Image 3)
-  const salesCount = ((index * 23 + 17) % 75) + 12;
-
   return (
     <div
       onClick={onQuickView}
@@ -217,13 +211,10 @@ function ProductCardItem({
 
         {/* Content Info matching Image 3 */}
         <div className="p-4 space-y-2">
-          {/* Category & Sales Count Line */}
-          <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-[#94949E]">
+          {/* Category Line */}
+          <div className="flex items-center text-[11px] text-zinc-500 dark:text-[#94949E]">
             <span className="font-semibold capitalize">
               {product.category?.name || 'Vật phẩm'}
-            </span>
-            <span className="font-mono">
-              {t('sales7Days', { count: salesCount })}
             </span>
           </div>
 

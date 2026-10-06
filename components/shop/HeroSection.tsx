@@ -8,6 +8,7 @@ import {
   ArrowRight,
   Sparkles,
   Flame,
+  ShoppingBag,
   CheckCircle2,
   Lock,
 } from 'lucide-react';
@@ -77,7 +78,7 @@ export function HeroSection({ onQuickCheckout }: HeroSectionProps) {
               href="#featured-products"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-sm text-zinc-800 dark:text-zinc-200 bg-white dark:bg-[#121215] hover:bg-zinc-100 dark:hover:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-800 transition-all shadow-xs active:scale-[0.98]"
             >
-              <Flame className="w-4 h-4 text-amber-500" />
+              <ShoppingBag className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
               <span>{t('ctaBestSellers')}</span>
             </a>
           </div>

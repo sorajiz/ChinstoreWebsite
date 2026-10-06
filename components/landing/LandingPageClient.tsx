@@ -15,6 +15,7 @@ import CheckoutModal from '@/components/shop/CheckoutModal';
 import QuickViewModal from '@/components/shop/QuickViewModal';
 import Footer from '@/components/layout/Footer';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+import RollingArrowButton from '@/components/ui/RollingArrowButton';
 import { ArrowRight } from 'lucide-react';
 import { Category, Product } from '@/types';
 
@@ -100,16 +101,12 @@ export default function LandingPageClient({
               </div>
 
               <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
-                <Link
-                  href="/shop"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200 shadow-sm transition-all hover:scale-[1.02] active:scale-95"
-                >
-                  <span>{tCta('exploreStore')}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                <RollingArrowButton href="/shop">
+                  {tCta('exploreStore')}
+                </RollingArrowButton>
 
                 <a
-                  href="https://discord.gg"
+                  href="https://discord.gg/mSG6dR4JMv"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs font-semibold text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200 px-2 py-1 transition-colors"
