@@ -93,10 +93,8 @@ export function HeroSection({ onQuickCheckout }: HeroSectionProps) {
 
         </div>
 
-        {/* CỘT PHẢI: REALTIME DISCORD SERVER GUILD CARD (Ảnh 4) */}
+        {/* CỘT PHẢI: REALTIME DISCORD SERVER GUILD CARD */}
         <div className="lg:col-span-5 relative w-full">
-          {/* Ambient Glow */}
-          <div className="absolute inset-0 bg-emerald-500/10 dark:bg-emerald-500/15 blur-3xl rounded-3xl pointer-events-none" />
           <DiscordServerWidget />
         </div>
 

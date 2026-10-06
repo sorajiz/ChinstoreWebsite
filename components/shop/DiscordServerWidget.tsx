@@ -33,23 +33,6 @@ const DEFAULT_STATS: DiscordStats = {
   premium_subscription_count: 34,
 };
 
-function DiscordCommunityGlobeBadge({ className = 'w-5 h-5' }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 1.5l1.8 1.8 2.5-.5 1 2.3 2.5.9.1 2.5 2.1 1.4-.9 2.4 1.4 2.1-1.8 1.8.5 2.5-2.3 1-.9 2.5-2.5.1-1.4 2.1-2.4-.9-2.1 1.4-1.8-1.8-2.5.5-1-2.3-2.5-.9-.1-2.5-2.1-1.4.9-2.4-1.4-2.1 1.8-1.8-.5-2.5 2.3-1 .9-2.5 2.5-.1 1.4-2.1 2.4.9 2.1-1.4z"
-        fill="#EB459E"
-      />
-      <circle cx="12" cy="12" r="5.2" fill="white" />
-      <circle cx="12" cy="12" r="5.2" stroke="#EB459E" strokeWidth="1" fill="none" />
-      <ellipse cx="12" cy="12" rx="2.5" ry="5.2" stroke="#EB459E" strokeWidth="1" fill="none" />
-      <line x1="6.8" y1="12" x2="17.2" y2="12" stroke="#EB459E" strokeWidth="1" />
-      <line x1="7.6" y1="9.2" x2="16.4" y2="9.2" stroke="#EB459E" strokeWidth="0.8" />
-      <line x1="7.6" y1="14.8" x2="16.4" y2="14.8" stroke="#EB459E" strokeWidth="0.8" />
-    </svg>
-  );
-}
-
 export default function DiscordServerWidget() {
   const locale = useLocale();
   const [stats, setStats] = useState<DiscordStats>(DEFAULT_STATS);
@@ -79,12 +62,10 @@ export default function DiscordServerWidget() {
   const isVi = locale === 'vi';
 
   return (
-    <div className="relative w-full" data-sora-opt="heavy">
-      <div className="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-3xl pointer-events-none" />
-
-      {/* CARD HIỂN THỊ THUẦN TÚY (Chỉ như tượng trang trí - không bấm/không chuyển trang) */}
+    <div className="relative w-full">
+      {/* CARD HIỂN THỊ THUẦN TÚY (Chỉ như tượng trang trí - không vòm xanh, không popup, không bấm được) */}
       <div className="relative rounded-3xl bg-[#111214] border border-[#27272A] shadow-2xl shadow-black/60 overflow-hidden p-4 sm:p-5 select-none cursor-default">
-        {/* BANNER (Đã xóa 2 badge theo Ảnh 3, không thể click) */}
+        {/* BANNER (Đã xóa 2 badge, không thể click) */}
         <div
           className="relative block w-full rounded-2xl overflow-hidden bg-zinc-950"
           style={{ aspectRatio: '16/7' }}
@@ -101,7 +82,7 @@ export default function DiscordServerWidget() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
         </div>
 
-        {/* SERVER INFO (Đã xóa tooltip popup theo Ảnh 1, không link, thuần trưng bày) */}
+        {/* SERVER INFO (Đã xóa quả địa cầu hồng theo Ảnh 2, không link, thuần trưng bày) */}
         <div className="pt-4 space-y-3">
           <div className="space-y-1.5">
             <p className="text-[11px] text-[#949BA4] font-mono tracking-wide">
@@ -122,10 +103,6 @@ export default function DiscordServerWidget() {
                   <h3 className="text-base font-bold text-white leading-tight font-sans truncate">
                     {stats.name}
                   </h3>
-                  {/* Quả địa cầu biểu tượng Discord Community (Chỉ trang trí, không bật popup) */}
-                  <span className="inline-flex items-center shrink-0 pointer-events-none" aria-hidden="true">
-                    <DiscordCommunityGlobeBadge className="w-4 h-4" />
-                  </span>
                 </div>
                 <p className="text-xs text-[#949BA4] mt-0.5 leading-tight">{stats.description}</p>
               </div>
