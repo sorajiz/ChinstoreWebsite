@@ -55,19 +55,21 @@ export default function CustomSelectDropdown({
 
   return (
     <div ref={containerRef} className="relative inline-block text-left select-none">
-      {/* Trigger Button (Sleek Dark & Grey Pill matching Image 3) */}
+      {/* Trigger Button (Enlarged, comfortable touch target) */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-[#16161A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all shadow-xs active:scale-95"
+        className="flex items-center justify-between sm:justify-start gap-2 h-9 sm:h-10 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-zinc-100 dark:bg-[#16161A] border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all shadow-xs active:scale-95 cursor-pointer"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         title={title}
       >
-        {triggerPrefix && <span className="text-zinc-500 dark:text-zinc-400">{triggerPrefix}</span>}
-        <span className="font-mono font-bold tracking-tight">{currentOption?.label || selectedValue}</span>
+        <div className="flex items-center gap-2">
+          {triggerPrefix && <span className="text-zinc-500 dark:text-zinc-400 shrink-0">{triggerPrefix}</span>}
+          <span className="font-mono font-bold tracking-tight">{currentOption?.label || selectedValue}</span>
+        </div>
         <ChevronDown
-          className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${
+          className={`w-4 h-4 text-zinc-400 transition-transform duration-200 shrink-0 ${
             isOpen ? 'rotate-180 text-zinc-900 dark:text-white' : ''
           }`}
         />

@@ -99,10 +99,10 @@ export default function FeaturedProductsSection({
 
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-zinc-900 dark:text-zinc-200 hover:text-zinc-600 dark:hover:text-white px-4 py-2 rounded-xl bg-zinc-100 dark:bg-[#18181C] border border-zinc-200 dark:border-[#27272A] transition-all group shrink-0 active:scale-95"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100 hover:text-zinc-600 dark:hover:text-white px-4 py-2.5 rounded-xl bg-zinc-100 dark:bg-[#18181C] border border-zinc-200 dark:border-[#27272A] transition-all group shrink-0 active:scale-95 shadow-xs"
           >
-            <span>{t('viewAllProducts')}</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span>{t('exploreProducts')}</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-zinc-500 group-hover:text-zinc-950 dark:group-hover:text-white" />
           </Link>
         </div>
 
@@ -144,9 +144,9 @@ export default function FeaturedProductsSection({
           })}
         </div>
 
-        {/* Product Cards Grid matching Image 3 layout */}
+        {/* Product Cards Grid: Exactly 4 products for clean, compact layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product, idx) => (
+          {filteredProducts.slice(0, 4).map((product, idx) => (
             <ProductCardItem
               key={product.id}
               product={product}

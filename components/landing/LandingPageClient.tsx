@@ -6,14 +6,8 @@ import { Link, useRouter } from '@/navigation';
 import Navbar from '@/components/layout/Navbar';
 import HeroSection from '@/components/shop/HeroSection';
 import QuickCategoryPills from '@/components/shop/QuickCategoryPills';
-import LiveActivityTicker from '@/components/shop/LiveActivityTicker';
 import FeaturedProductsSection from '@/components/shop/FeaturedProductsSection';
-import FlashDealBanner from '@/components/shop/FlashDealBanner';
 import PlatformTransparencySection from '@/components/shop/PlatformTransparencySection';
-import CorePillars from '@/components/shop/CorePillars';
-import FeaturedCategories from '@/components/shop/FeaturedCategories';
-import VouchWall from '@/components/shop/VouchWall';
-import TrustBadges from '@/components/shop/TrustBadges';
 import FaqSection from '@/components/shop/FaqSection';
 import CartDrawer from '@/components/shop/CartDrawer';
 import OrderTrackerModal from '@/components/shop/OrderTrackerModal';
@@ -63,15 +57,12 @@ export default function LandingPageClient({
       {/* 2. Cyber Hero Section */}
       <HeroSection onQuickCheckout={handleQuickCheckout} />
 
-      {/* 3. Image 1: Quick Category Horizontal Strip */}
+      {/* 3. Quick Category Horizontal Strip */}
       <ScrollReveal delayMs={100}>
         <QuickCategoryPills onSelectCategory={handleSelectQuickCategory} />
       </ScrollReveal>
 
-      {/* 4. Live Social Proof Marquee Ticker */}
-      <LiveActivityTicker />
-
-      {/* 5. Image 3: Trending & Featured Products Section */}
+      {/* 4. Trending & Featured Products Section (Clean 4 Cards + 'Khám phá sản phẩm →') */}
       <ScrollReveal delayMs={150}>
         <FeaturedProductsSection
           products={initialProducts}
@@ -80,42 +71,17 @@ export default function LandingPageClient({
         />
       </ScrollReveal>
 
-      {/* 6. Cyber Flash Deal & Voucher Banner */}
-      <ScrollReveal delayMs={150}>
-        <FlashDealBanner />
-      </ScrollReveal>
-
-      {/* 7. Image 2: Platform Transparency Bento Grid (Giao ngay hay 24-48h) */}
+      {/* 5. Platform Transparency Bento Grid (Bilingual ChinStore Guarantee) */}
       <ScrollReveal delayMs={150}>
         <PlatformTransparencySection />
       </ScrollReveal>
 
-      {/* 8. Core Pillars */}
-      <ScrollReveal delayMs={150}>
-        <CorePillars />
-      </ScrollReveal>
-
-      {/* 9. Featured Category Niches (Minecraft, Discord, Streaming, AI) */}
-      <ScrollReveal delayMs={150}>
-        <FeaturedCategories />
-      </ScrollReveal>
-
-      {/* 10. Verified Gamer Reviews & Discord Wall */}
-      <ScrollReveal delayMs={150}>
-        <VouchWall />
-      </ScrollReveal>
-
-      {/* 11. Security & Trust Badges */}
-      <ScrollReveal delayMs={150}>
-        <TrustBadges />
-      </ScrollReveal>
-
-      {/* 12. Image 4: Onboarding 3 Steps + FAQ Accordion */}
+      {/* 6. Onboarding 3 Steps + FAQ Accordion */}
       <ScrollReveal delayMs={150}>
         <FaqSection />
       </ScrollReveal>
 
-      {/* 13. Image 5: Minimalist High-Impact CTA Banner */}
+      {/* 7. Minimalist High-Impact CTA Banner (Refined Authentic Copy) */}
       <ScrollReveal delayMs={150}>
         <section className="py-20 relative z-10 border-t border-zinc-200 dark:border-zinc-800/80 bg-zinc-50 dark:bg-[#09090B]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -170,7 +136,7 @@ export default function LandingPageClient({
         onPayPendingOrder={(order) => router.push(`/order/${order.orderCode}`)}
       />
 
-      {/* 14. Image 5: Comprehensive Dark & Grey Footer */}
+      {/* 8. Comprehensive Dark & Grey Footer with Jump Links */}
       <Footer />
     </div>
   );

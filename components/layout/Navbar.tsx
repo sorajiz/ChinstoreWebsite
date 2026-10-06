@@ -270,9 +270,9 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 ) : (
                   <button
                     onClick={handleDiscordLogin}
-                    className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                    className="flex items-center gap-2 px-4 py-2 text-zinc-950 dark:text-zinc-950 bg-white hover:bg-zinc-100 dark:bg-white dark:hover:bg-zinc-100 border border-zinc-300 dark:border-transparent rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer"
                   >
-                    <DiscordIcon className="w-3.5 h-3.5 fill-current" />
+                    <DiscordIcon className="w-4 h-4 fill-current text-zinc-950" />
                     <span>Login Discord</span>
                   </button>
                 )}
@@ -356,12 +356,6 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                   widthClass="w-full"
                   title="Tiền tệ"
                 />
-              </div>
-
-              {/* Theme Toggle row in Mobile Menu */}
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-100 dark:bg-[#18181C] border border-zinc-200 dark:border-[#27272A] mt-2">
-                <span className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Giao diện (Dark / Light)</span>
-                <ThemeToggle id="mobile-menu-theme-toggle" />
               </div>
             </div>
 
