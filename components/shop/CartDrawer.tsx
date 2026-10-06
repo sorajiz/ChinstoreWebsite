@@ -47,11 +47,11 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#090d1c] border-l border-white/10 shadow-2xl flex flex-col justify-between">
+        <div className="w-screen max-w-md bg-[#121215] border-l border-[#27272A] shadow-2xl flex flex-col justify-between">
           {/* Header */}
-          <div className="p-6 border-b border-white/10 flex items-center justify-between">
+          <div className="p-6 border-b border-[#27272A] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-cyan-400" />
+              <ShoppingBag className="w-5 h-5 text-zinc-200" />
               <h2 className="text-lg font-bold text-white font-display">
                 {t('title')} ({itemCount})
               </h2>
@@ -148,9 +148,9 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
 
           {/* Footer & Checkout Action */}
           {cart.length > 0 && (
-            <div className="p-6 border-t border-white/10 bg-[#070a14] space-y-4">
+            <div className="p-6 border-t border-[#27272A] bg-[#0E0E12] space-y-4">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-400">{t('subtotal')}</span>
+                <span className="text-zinc-400">{t('subtotal')}</span>
                 <span className="text-lg font-bold text-white font-mono">
                   {formatPrice(totalVND, currency)}
                 </span>
@@ -162,10 +162,10 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
                   setCartOpen(false);
                   onProceedToCheckout();
                 }}
-                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,240,255,0.3)] active:scale-98"
+                className="w-full py-3.5 px-4 rounded-xl bg-white hover:bg-zinc-100 text-zinc-950 font-bold text-sm transition-all duration-150 flex items-center justify-center gap-2 shadow-sm active:scale-95 cursor-pointer"
               >
                 <span>{t('checkout')}</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
           )}

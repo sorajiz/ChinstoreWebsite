@@ -55,20 +55,20 @@ export default function CustomSelectDropdown({
 
   return (
     <div ref={containerRef} className="relative inline-block text-left select-none">
-      {/* Trigger Button (Sleek Dark Pill matching Image 3) */}
+      {/* Trigger Button (Sleek Dark & Grey Pill matching Image 3) */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D] text-slate-800 dark:text-slate-200 hover:border-[#5865F2]/50 hover:bg-black/5 dark:hover:bg-white/5 transition-all shadow-xs"
+        className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-[#16161A] border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all shadow-xs active:scale-95"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         title={title}
       >
-        {triggerPrefix && <span className="text-slate-500 dark:text-slate-400">{triggerPrefix}</span>}
+        {triggerPrefix && <span className="text-zinc-500 dark:text-zinc-400">{triggerPrefix}</span>}
         <span className="font-mono font-bold tracking-tight">{currentOption?.label || selectedValue}</span>
         <ChevronDown
-          className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
-            isOpen ? 'rotate-180 text-[#5865F2]' : ''
+          className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${
+            isOpen ? 'rotate-180 text-zinc-900 dark:text-white' : ''
           }`}
         />
       </button>
@@ -76,11 +76,11 @@ export default function CustomSelectDropdown({
       {/* Floating Dropdown Card (Matches Image 3 Visual Design) */}
       {isOpen && (
         <div
-          className={`absolute right-0 mt-2 ${widthClass} z-50 rounded-2xl bg-white dark:bg-[#151518] border border-[#DDD8CE] dark:border-[#282830] p-2 shadow-2xl backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-150`}
+          className={`absolute right-0 mt-2 ${widthClass} z-50 rounded-2xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-zinc-800 p-2 shadow-2xl backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-150`}
           role="listbox"
         >
           {/* Inner Options Container */}
-          <div className="rounded-xl bg-[#F6F4EE]/60 dark:bg-[#1C1C22]/80 border border-[#E5E1D8] dark:border-[#2E2E38] p-1.5 space-y-1">
+          <div className="rounded-xl bg-zinc-50 dark:bg-[#18181D] border border-zinc-200 dark:border-zinc-800 p-1.5 space-y-1">
             {options.map((opt) => {
               const isSelected = opt.value === selectedValue;
               return (
@@ -91,10 +91,10 @@ export default function CustomSelectDropdown({
                     onSelect(opt.value);
                     setIsOpen(false);
                   }}
-                  className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-bold transition-all text-left group ${
+                  className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-bold transition-all text-left active:scale-[0.98] group ${
                     isSelected
-                      ? 'bg-black/5 dark:bg-white/10 text-slate-900 dark:text-white'
-                      : 'text-slate-600 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+                      ? 'bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-white'
+                      : 'text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 hover:text-zinc-900 dark:hover:text-white'
                   }`}
                   role="option"
                   aria-selected={isSelected}
@@ -104,7 +104,7 @@ export default function CustomSelectDropdown({
                     className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-colors ${
                       isSelected
                         ? 'bg-[#2563EB] text-white shadow-xs'
-                        : 'border border-slate-400 dark:border-slate-600 bg-transparent group-hover:border-slate-500'
+                        : 'border border-zinc-400 dark:border-zinc-600 bg-transparent group-hover:border-zinc-500'
                     }`}
                   >
                     {isSelected && <Check className="w-3 h-3 stroke-[3]" />}

@@ -15,11 +15,22 @@
 html.dark {
   --background: #09090B;
   --foreground: #F4F4F5;
-  --card-bg: #111114;
-  --card-border: #222226;
+  --card-bg: #121215;
+  --card-border: #27272A;
   --surface: #18181C;
-  --surface-border: #28282E;
-  --text-muted: #8E8E93;
+  --surface-border: #2C2C32;
+  --text-muted: #94949E;
+}
+
+/* Lenis Smooth Scroll Recommended CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 html, body {

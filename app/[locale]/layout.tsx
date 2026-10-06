@@ -4,6 +4,7 @@ import { getMessages } from 'next-intl/server';
 import { Toaster } from 'sonner';
 import AuroraBackground from '@/components/ui/AuroraBackground';
 import AuthProvider from '@/components/providers/AuthProvider';
+import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
 import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 
 const jakarta = Plus_Jakarta_Sans({
@@ -49,12 +50,14 @@ export default async function LocaleLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-[#F6F4EE] dark:bg-[#111113] text-[#18181B] dark:text-[#F4F4F5] font-sans selection:bg-brand-primary/30 selection:text-white antialiased transition-colors duration-300">
+      <body className="min-h-screen bg-[#F8F7F4] dark:bg-[#09090B] text-[#121214] dark:text-[#F4F4F5] font-sans selection:bg-brand-primary/30 selection:text-white antialiased transition-colors duration-300">
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
-            <AuroraBackground>
-              {children}
-            </AuroraBackground>
+            <SmoothScrollProvider>
+              <AuroraBackground>
+                {children}
+              </AuroraBackground>
+            </SmoothScrollProvider>
             <Toaster
               position="top-right"
               richColors

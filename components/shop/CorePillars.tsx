@@ -1,53 +1,49 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Zap, ShieldCheck, Coins, Lock, Sparkles } from 'lucide-react';
 
 interface Pillar {
   icon: React.ReactNode;
-  title: string;
-  tag: string;
-  desc: string;
-  color: string;
+  titleKey: string;
+  tagKey: string;
+  descKey: string;
   borderGlow: string;
 }
 
-const PILLARS: Pillar[] = [
+const PILLAR_CONFIGS: Pillar[] = [
   {
-    icon: <Zap className="w-6 h-6 text-indigo-400" />,
-    title: 'Giao Dịch Tự Động 24/7',
-    tag: 'TỨC THÌ < 5S',
-    desc: 'Hệ thống SePay IPN và Litecoin Mempool xử lý hoàn toàn tự động, giao dữ liệu tài khoản và key ngay trên màn hình hóa đơn.',
-    color: 'from-indigo-500/15 to-purple-500/5',
-    borderGlow: 'hover:border-indigo-400/40 hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]',
+    icon: <Zap className="w-6 h-6 text-zinc-400" />,
+    titleKey: 'p1Title',
+    tagKey: 'p1Tag',
+    descKey: 'p1Desc',
+    borderGlow: 'hover:border-zinc-500 hover:shadow-[0_0_30px_rgba(120,120,130,0.15)]',
   },
   {
     icon: <ShieldCheck className="w-6 h-6 text-emerald-400" />,
-    title: 'Bảo Hành 1 Đổi 1 Uy Tín',
-    tag: 'CAM KẾT 100%',
-    desc: 'Mọi tài khoản Minecraft, Steam, AI đều được kiểm tra kỹ lưỡng (Live-check) trước khi bàn giao. Lỗi là đổi mới không kỳ kèo.',
-    color: 'from-emerald-500/15 to-teal-500/5',
-    borderGlow: 'hover:border-emerald-400/40 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
+    titleKey: 'p2Title',
+    tagKey: 'p2Tag',
+    descKey: 'p2Desc',
+    borderGlow: 'hover:border-emerald-500/40 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
   },
   {
-    icon: <Coins className="w-6 h-6 text-purple-400" />,
-    title: 'VietQR & Litecoin 0-Conf',
-    tag: 'ĐA CỔNG THANH TOÁN',
-    desc: 'Hỗ trợ quét VietQR mọi ngân hàng Việt Nam và tiền điện tử Litecoin (LTC) ẩn danh, tốc độ 0-conf cực nhanh, phí mạng cực thấp.',
-    color: 'from-purple-500/15 to-indigo-500/5',
-    borderGlow: 'hover:border-purple-400/40 hover:shadow-[0_0_30px_rgba(139,92,246,0.2)]',
+    icon: <Coins className="w-6 h-6 text-zinc-300" />,
+    titleKey: 'p3Title',
+    tagKey: 'p3Tag',
+    descKey: 'p3Desc',
+    borderGlow: 'hover:border-zinc-400 hover:shadow-[0_0_30px_rgba(160,160,170,0.15)]',
   },
   {
     icon: <Lock className="w-6 h-6 text-amber-400" />,
-    title: 'Kho Hàng Mã Hóa AES-256',
-    tag: 'BẢO MẬT QUÂN ĐỘI',
-    desc: 'Dữ liệu nhạy cảm được mã hóa AES-256-GCM với khóa riêng biệt. Chỉ đơn hàng thanh toán thành công mới được giải mã trực tiếp.',
-    color: 'from-amber-500/15 to-orange-500/5',
-    borderGlow: 'hover:border-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]',
+    titleKey: 'p4Title',
+    tagKey: 'p4Tag',
+    descKey: 'p4Desc',
+    borderGlow: 'hover:border-amber-500/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]',
   },
 ];
 
-function SpotlightCard({ pillar }: { pillar: Pillar }) {
+function SpotlightCard({ pillar, t }: { pillar: Pillar; t: any }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
@@ -67,37 +63,34 @@ function SpotlightCard({ pillar }: { pillar: Pillar }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative rounded-3xl p-6 sm:p-7 bg-white dark:bg-[#18181B] border border-[#E5E1D8] dark:border-[#27272A] shadow-sm transition-all duration-300 overflow-hidden group ${pillar.borderGlow}`}
+      className={`relative rounded-3xl p-6 sm:p-7 bg-white dark:bg-[#121215] border border-zinc-200 dark:border-zinc-800 shadow-sm transition-all duration-300 overflow-hidden group ${pillar.borderGlow}`}
     >
-      {/* Dynamic Cursor Spotlight Radial Glow (Soft Indigo) */}
+      {/* Dynamic Cursor Spotlight Radial Glow */}
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-300"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(88, 101, 242, 0.12), transparent 80%)`,
+          background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(200, 200, 220, 0.08), transparent 80%)`,
         }}
       />
-
-      {/* Background Subtle Gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${pillar.color} opacity-20 group-hover:opacity-40 transition-opacity`} />
 
       {/* Content */}
       <div className="relative z-10 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-[#EFECE5]/60 dark:bg-[#202024] border border-[#E5E1D8] dark:border-[#27272A] flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-300">
+          <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700/80 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-300">
             {pillar.icon}
           </div>
-          <span className="text-[10px] font-mono font-bold tracking-wider px-2.5 py-1 rounded-full bg-[#EFECE5]/80 dark:bg-[#27272A] border border-[#E5E1D8] dark:border-[#27272A] text-slate-700 dark:text-slate-300">
-            {pillar.tag}
+          <span className="text-[10px] font-mono font-bold tracking-wider px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300">
+            {t(pillar.tagKey)}
           </span>
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white font-sans group-hover:text-[#5865F2] dark:group-hover:text-indigo-400 transition-colors">
-            {pillar.title}
+          <h3 className="text-lg font-bold text-zinc-950 dark:text-white font-sans group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
+            {t(pillar.titleKey)}
           </h3>
-          <p className="text-xs text-slate-600 dark:text-slate-400 font-sans leading-relaxed">
-            {pillar.desc}
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed">
+            {t(pillar.descKey)}
           </p>
         </div>
       </div>
@@ -106,27 +99,29 @@ function SpotlightCard({ pillar }: { pillar: Pillar }) {
 }
 
 export default function CorePillars() {
+  const t = useTranslations('pillars');
+
   return (
     <section id="features" className="py-16 sm:py-24 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2] text-xs font-semibold backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#5865F2]" />
-            <span>NỀN TẢNG TIÊU CHUẨN QUỐC TẾ</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-200/80 dark:bg-zinc-800/80 border border-zinc-300 dark:border-zinc-700/80 text-zinc-800 dark:text-zinc-200 text-xs font-semibold backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
+            <span>{t('badge')}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-sans text-slate-900 dark:text-white tracking-tight">
-            Trải Nghiệm Mua Sắm <span className="bg-gradient-to-r from-[#5865F2] via-indigo-500 to-purple-600 bg-clip-text text-transparent">Không Tì Vết</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-sans text-zinc-950 dark:text-white tracking-tight">
+            {t('title')}<span className="text-zinc-600 dark:text-zinc-400 font-extrabold">{t('titleHighlight')}</span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-sans leading-relaxed">
-            Kết hợp độ tin cậy của mô hình Plati.market và tốc độ giao dịch tự động của EnchantAlts, mang đến dịch vụ số cao cấp nhất cho game thủ & chuyên gia công nghệ.
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-sans leading-relaxed">
+            {t('subtitle')}
           </p>
         </div>
 
         {/* Pillars Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PILLARS.map((pillar, idx) => (
-            <SpotlightCard key={idx} pillar={pillar} />
+          {PILLAR_CONFIGS.map((pillar, idx) => (
+            <SpotlightCard key={idx} pillar={pillar} t={t} />
           ))}
         </div>
       </div>

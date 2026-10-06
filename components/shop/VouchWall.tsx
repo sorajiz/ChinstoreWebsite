@@ -3,6 +3,8 @@
 import React from 'react';
 import { Star, ShieldCheck, CheckCircle2, MessageSquare, ExternalLink, Users } from 'lucide-react';
 
+import { useTranslations } from 'next-intl';
+
 interface Review {
   id: string;
   author: string;
@@ -19,89 +21,91 @@ const REVIEWS: Review[] = [
   {
     id: '1',
     author: 'Minh Hoàng',
-    avatarColor: 'from-indigo-500 to-purple-600',
-    role: 'Game Thủ Bedwars',
+    avatarColor: 'from-zinc-700 to-zinc-900',
+    role: 'Gamer Bedwars',
     product: 'Minecraft Java & Bedrock FA',
     rating: 5,
     content: 'Quét mã VietQR SePay xong chưa kịp chớp mắt là hệ thống tự động nhảy thông tin tài khoản luôn. Đổi mail với pass ngon lành, Hypixel unbanned 100%!',
-    timeAgo: '14 phút trước',
+    timeAgo: '14m ago',
     verified: true,
   },
   {
     id: '2',
-    author: 'Quốc Bảo (Alex)',
-    avatarColor: 'from-cyan-500 to-blue-600',
+    author: 'Alex Carter',
+    avatarColor: 'from-zinc-600 to-zinc-800',
     role: 'CS2 Trader',
     product: 'Steam CS2 Prime VIP',
     rating: 5,
-    content: 'Acc sạch có huy chương đẹp, hỗ trợ cấp mã Steam Guard cực kỳ nhanh. Mua bên này lần thứ 4 rồi, rất yên tâm về khoản bảo hành.',
-    timeAgo: '35 phút trước',
+    content: 'Clean account with nice medal, instant Steam Guard support. 4th time purchasing here, totally satisfied with 1-to-1 warranty.',
+    timeAgo: '35m ago',
     verified: true,
   },
   {
     id: '3',
-    author: 'Thanh Hải Dev',
-    avatarColor: 'from-emerald-500 to-teal-600',
-    role: 'Fullstack Developer',
+    author: 'David Thanh',
+    avatarColor: 'from-zinc-700 to-zinc-800',
+    role: 'Fullstack Dev',
     product: 'Claude 3.5 Sonnet Pro',
     rating: 5,
-    content: 'Dùng code qua API mượt mà không bị limit như chỗ khác. Thanh toán bằng LTC xác nhận 0-conf siêu nhanh, phí rẻ hơn chuyển khoản.',
-    timeAgo: '1 giờ trước',
+    content: 'Works seamlessly via API. Paid via LTC, instant 0-conf confirmation was lightning fast and network fee was almost zero.',
+    timeAgo: '1h ago',
     verified: true,
   },
   {
     id: '4',
     author: 'Duy Anh',
-    avatarColor: 'from-amber-500 to-rose-600',
+    avatarColor: 'from-zinc-600 to-zinc-900',
     role: 'Hypixel MVP+',
     product: 'Hypixel MVP+ Account',
     rating: 5,
-    content: 'Rank MVP+ vĩnh viễn đúng mô tả, level cao cày bedwars sướng. Shop uy tín số 1 Việt Nam!',
-    timeAgo: '3 giờ trước',
+    content: 'Rank MVP+ permanent exactly as advertised, high level bedwars. Top 1 trusted store!',
+    timeAgo: '3h ago',
     verified: true,
   },
   {
     id: '5',
-    author: 'Linh Trần',
-    avatarColor: 'from-pink-500 to-rose-600',
-    role: 'Designer & Content Creator',
+    author: 'Sarah Linh',
+    avatarColor: 'from-zinc-700 to-zinc-900',
+    role: 'Designer',
     product: 'ChatGPT Plus GPT-4o',
     rating: 5,
-    content: 'Tài khoản cấp riêng profile dùng ổn định không bị văng phiên làm việc. Giá học sinh sinh viên nhưng chất lượng 5 sao.',
-    timeAgo: '5 giờ trước',
+    content: 'Private profile, super stable work sessions without kicking. Affordable price and 5-star quality.',
+    timeAgo: '5h ago',
     verified: true,
   },
   {
     id: '6',
     author: 'Tuấn Khang',
-    avatarColor: 'from-purple-500 to-indigo-600',
-    role: 'Movie Enthusiast',
+    avatarColor: 'from-zinc-600 to-zinc-800',
+    role: 'Tech Lead',
     product: 'Netflix 4K UHD Profile',
     rating: 5,
-    content: 'Xem 4K mượt mà trên TV, đúng hồ sơ riêng có mã PIN không sợ ai vào xem chung. Sẽ ủng hộ shop dài lâu.',
-    timeAgo: '8 giờ trước',
+    content: 'Smooth 4K playback, own profile with PIN. Will definitely support long term.',
+    timeAgo: '8h ago',
     verified: true,
   },
 ];
 
 export default function VouchWall() {
+  const t = useTranslations('vouch');
+
   return (
     <section id="reviews" className="py-20 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2] text-xs font-semibold backdrop-blur-md">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#5865F2]" />
-            <span>UY TÍN KIỂM CHỨNG • 15,000+ KHÁCH HÀNG</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-200/80 dark:bg-zinc-800/80 border border-zinc-300 dark:border-zinc-700/80 text-zinc-800 dark:text-zinc-200 text-xs font-semibold backdrop-blur-md">
+            <ShieldCheck className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
+            <span>{t('badge')}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-            Đánh Giá Từ <span className="bg-gradient-to-r from-[#5865F2] via-indigo-500 to-purple-600 bg-clip-text text-transparent">Cộng Đồng Game Thủ</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
+            {t('title')}<span className="text-zinc-600 dark:text-zinc-400 font-extrabold">{t('titleHighlight')}</span>
           </h2>
 
-          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            Xem những phản hồi thực tế từ các khách hàng đã giao dịch và nhận tài nguyên số tự động tại ChinStore.
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            {t('subtitle')}
           </p>
         </div>
 
@@ -110,7 +114,7 @@ export default function VouchWall() {
           {REVIEWS.map((review) => (
             <div
               key={review.id}
-              className="relative rounded-2xl p-6 bg-white dark:bg-[#18181B] border border-[#E5E1D8] dark:border-[#27272A] shadow-sm hover:border-[#5865F2]/40 transition-all duration-300 flex flex-col justify-between space-y-4"
+              className="relative rounded-2xl p-6 bg-white dark:bg-[#121215] border border-zinc-200 dark:border-zinc-800 shadow-xs hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-300 flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3">
                 {/* User Info Bar */}

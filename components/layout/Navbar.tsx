@@ -262,16 +262,16 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                     </button>
 
                     {userDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-white dark:bg-[#151518] border border-[#E4E1D8] dark:border-[#282830] p-2 shadow-2xl backdrop-blur-xl z-50">
+                      <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-white dark:bg-[#151518] border border-zinc-200 dark:border-zinc-800 p-2 shadow-2xl backdrop-blur-xl z-50">
                         <button
                           onClick={() => {
                             setUserDropdownOpen(false);
                             router.push('/profile');
                           }}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl transition-colors text-left"
+                          className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 rounded-xl transition-colors text-left"
                         >
-                          <UserIcon className="w-3.5 h-3.5 text-[#5865F2]" />
-                          <span>Tủ đồ & Tài khoản</span>
+                          <UserIcon className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
+                          <span>{t('myProfile')}</span>
                         </button>
                         <button
                           onClick={() => {
@@ -281,7 +281,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                           className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-500 hover:bg-rose-500/10 rounded-xl transition-colors text-left"
                         >
                           <LogOut className="w-3.5 h-3.5" />
-                          <span>Đăng xuất</span>
+                          <span>{t('logout')}</span>
                         </button>
                       </div>
                     )}
@@ -289,7 +289,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 ) : (
                   <button
                     onClick={handleDiscordLogin}
-                    className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(88,101,242,0.35)] hover:shadow-[0_0_20px_rgba(88,101,242,0.5)] active:scale-95"
+                    className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 text-xs font-bold transition-all shadow-sm active:scale-95"
                   >
                     <DiscordIcon className="w-3.5 h-3.5 fill-current" />
                     <span>Login Discord</span>
