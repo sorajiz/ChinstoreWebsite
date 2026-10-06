@@ -51,6 +51,7 @@ export default function BottomNavigation() {
   return (
     <nav
       aria-label="Mobile Navigation"
+      data-sora-opt="glass"
       className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0E0E12]/95 dark:bg-[#0E0E12]/95 backdrop-blur-2xl border-t border-[#27272A] px-3 py-1.5 flex items-center justify-around shadow-2xl transition-colors"
       style={{ paddingBottom: 'max(0.375rem, env(safe-area-inset-bottom))' }}
     >

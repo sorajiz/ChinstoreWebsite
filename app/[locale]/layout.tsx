@@ -96,10 +96,19 @@ export default async function LocaleLayout({
                     document.documentElement.classList.remove('light');
                   }
                 } catch (e) {}
+
+                // Sora Performance Engine v5.0 Configuration
+                window.SORA_PERF_CONFIG = {
+                  targetFPS: 60,
+                  profile: 'auto',
+                  debug: false,
+                  hud: false
+                };
               })();
             `,
           }}
         />
+        <script src="/sora-performance-engine-v5.js" defer />
       </head>
       <body className="min-h-screen bg-[#F8F7F4] dark:bg-[#09090B] text-[#121214] dark:text-[#F4F4F5] font-sans selection:bg-brand-primary/30 selection:text-white antialiased transition-colors duration-300">
         <NextIntlClientProvider messages={messages}>

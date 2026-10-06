@@ -84,7 +84,7 @@ export default function FeaturedProductsSection({
   };
 
   return (
-    <section id="featured-products" className="py-12 sm:py-16 relative z-10">
+    <section id="featured-products" data-sora-opt="content" className="py-12 sm:py-16 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Section Header matching Image 3 */}

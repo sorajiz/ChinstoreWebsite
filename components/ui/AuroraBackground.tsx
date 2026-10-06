@@ -37,7 +37,10 @@ export default function AuroraBackground({ children }: { children?: React.ReactN
       />
 
       {/* 2. Dải ánh sáng Parallax Ambient Glow siêu mịn */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden blur-[140px] opacity-20 dark:opacity-35">
+      <div 
+        data-sora-opt="particle"
+        className="fixed inset-0 z-0 pointer-events-none overflow-hidden blur-[140px] opacity-20 dark:opacity-35"
+      >
         <div 
           className="absolute rounded-full bg-gradient-to-br from-indigo-500/30 dark:from-indigo-600/35 via-purple-500/20 dark:via-purple-600/25 to-transparent transition-transform duration-700 ease-out"
           style={{

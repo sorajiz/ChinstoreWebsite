@@ -79,6 +79,7 @@ export default function CartDrawer({ onProceedToCheckout }: CartDrawerProps) {
     <div className="fixed inset-0 z-50 overflow-hidden flex flex-col justify-end md:flex-row md:justify-end">
       {/* Backdrop */}
       <div
+        data-sora-opt="glass"
         onClick={() => setCartOpen(false)}
         className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
       />

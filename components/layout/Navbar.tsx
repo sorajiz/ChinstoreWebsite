@@ -109,7 +109,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
     <>
       {/* Permanent Fixed Glass Header (Does not hide on scroll, Pure Glassmorphism) */}
       <header className="fixed top-0 sm:top-3 left-0 right-0 z-50 px-3 sm:px-6 max-w-7xl mx-auto w-full transition-all duration-300">
-        <div className="relative w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 bg-white/85 dark:bg-[#09090B]/85 border border-[#E4E1D8] dark:border-[#27272A] shadow-xl backdrop-blur-2xl transition-colors duration-300">
+        <div data-sora-opt="glass" className="relative w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 bg-white/85 dark:bg-[#09090B]/85 border border-[#E4E1D8] dark:border-[#27272A] shadow-xl backdrop-blur-2xl transition-colors duration-300">
           <div className="flex items-center justify-between">
             
             {/* Left: Brand Logo & Navigation Links */}
