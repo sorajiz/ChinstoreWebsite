@@ -10,8 +10,11 @@ export default function BottomNavigation() {
   const t = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
-  const { setCartOpen, getCartItemCount } = useStore();
+  const { setCartOpen, getCartItemCount, isCartOpen } = useStore();
   const itemCount = getCartItemCount();
+
+  // Khi giỏ hàng đang mở trên mobile, ẩn thanh bottom nav để giỏ hàng chiếm trọn màn hình thoải mái
+  if (isCartOpen) return null;
 
   const isHome = pathname === '/' || pathname === '';
   const isShop = pathname === '/shop';
@@ -26,22 +29,15 @@ export default function BottomNavigation() {
   };
 
   const handleShopClick = () => {
-    if (isHome) {
-      const el = document.getElementById('featured-products');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
+    if (isShop) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      router.push('/shop');
     }
-    router.push('/shop');
   };
 
   const handleCartClick = () => {
     setCartOpen(true);
-  };
-
-  const handleWalletClick = () => {
-    router.push('/profile');
   };
 
   const handleAccountClick = () => {
@@ -52,7 +48,7 @@ export default function BottomNavigation() {
     <nav
       aria-label="Mobile Navigation"
       data-sora-opt="glass"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0E0E12]/95 dark:bg-[#0E0E12]/95 backdrop-blur-2xl border-t border-[#27272A] px-3 py-1.5 flex items-center justify-around shadow-2xl transition-colors"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#0E0E12]/95 backdrop-blur-2xl border-t border-zinc-200/90 dark:border-[#27272A] px-3 py-1.5 flex items-center justify-around shadow-2xl transition-colors duration-200"
       style={{ paddingBottom: 'max(0.375rem, env(safe-area-inset-bottom))' }}
     >
       {/* 1. Trang chủ */}
@@ -60,8 +56,8 @@ export default function BottomNavigation() {
         onClick={handleHomeClick}
         className={`flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
           isHome
-            ? 'bg-zinc-800 text-white rounded-xl py-1.5 px-3.5 shadow-xs'
-            : 'text-zinc-400 hover:text-white py-1.5 px-2.5'
+            ? 'bg-zinc-950 text-white dark:bg-zinc-800 dark:text-white rounded-xl py-1.5 px-3.5 shadow-xs font-bold'
+            : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white py-1.5 px-2.5'
         }`}
       >
         <Home className="w-5 h-5 stroke-[2]" />
@@ -70,30 +66,30 @@ export default function BottomNavigation() {
         </span>
       </button>
 
-      {/* 2. Cửa hàng */}
+      {/* 2. Cửa hàng (Chuyển trực tiếp vào trang mua sắm /shop) */}
       <button
         onClick={handleShopClick}
         className={`flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
           isShop
-            ? 'bg-zinc-800 text-white rounded-xl py-1.5 px-3.5 shadow-xs'
-            : 'text-zinc-400 hover:text-white py-1.5 px-2.5'
+            ? 'bg-zinc-950 text-white dark:bg-zinc-800 dark:text-white rounded-xl py-1.5 px-3.5 shadow-xs font-bold'
+            : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white py-1.5 px-2.5'
         }`}
       >
         <ShoppingBag className="w-5 h-5 stroke-[2]" />
         <span className="text-[11px] font-semibold tracking-tight leading-none">
-          {t('shop')}
+          {t('store')}
         </span>
       </button>
 
-      {/* 3. Giỏ */}
+      {/* 3. Giỏ hàng */}
       <button
         onClick={handleCartClick}
-        className="relative flex flex-col items-center justify-center gap-1 text-zinc-400 hover:text-white py-1.5 px-2.5 transition-all cursor-pointer"
+        className="relative flex flex-col items-center justify-center gap-1 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white py-1.5 px-2.5 transition-all cursor-pointer"
       >
         <div className="relative">
           <ShoppingCart className="w-5 h-5 stroke-[2]" />
           {itemCount > 0 && (
-            <span className="absolute -top-1.5 -right-2 min-w-4 h-4 px-1 rounded-full bg-white text-zinc-950 font-bold text-[10px] flex items-center justify-center shadow-xs">
+            <span className="absolute -top-1.5 -right-2 min-w-4 h-4 px-1 rounded-full bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 font-bold text-[10px] flex items-center justify-center shadow-xs">
               {itemCount}
             </span>
           )}
@@ -103,29 +99,18 @@ export default function BottomNavigation() {
         </span>
       </button>
 
-      {/* 4. Ví */}
-      <button
-        onClick={handleWalletClick}
-        className="flex flex-col items-center justify-center gap-1 text-zinc-400 hover:text-white py-1.5 px-2.5 transition-all cursor-pointer"
-      >
-        <Wallet className="w-5 h-5 stroke-[2]" />
-        <span className="text-[11px] font-semibold tracking-tight leading-none">
-          Ví
-        </span>
-      </button>
-
-      {/* 5. Tài khoản */}
+      {/* 4. Tài khoản */}
       <button
         onClick={handleAccountClick}
         className={`flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
           isProfile
-            ? 'bg-zinc-800 text-white rounded-xl py-1.5 px-3.5 shadow-xs'
-            : 'text-zinc-400 hover:text-white py-1.5 px-2.5'
+            ? 'bg-zinc-950 text-white dark:bg-zinc-800 dark:text-white rounded-xl py-1.5 px-3.5 shadow-xs font-bold'
+            : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white py-1.5 px-2.5'
         }`}
       >
         <LayoutGrid className="w-5 h-5 stroke-[2]" />
         <span className="text-[11px] font-semibold tracking-tight leading-none">
-          Tài khoản
+          {t('myProfile')}
         </span>
       </button>
     </nav>

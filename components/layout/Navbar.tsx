@@ -42,9 +42,10 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState('hero');
+
+  const isHome = pathname === '/' || pathname === '';
+  const isShop = pathname.startsWith('/shop');
 
   const { setCartOpen, currency, setCurrency, getCartItemCount } = useStore();
   const itemCount = getCartItemCount();
@@ -107,9 +108,9 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
 
   return (
     <>
-      {/* Permanent Fixed Glass Header (Does not hide on scroll, Pure Glassmorphism) */}
-      <header className="fixed top-0 sm:top-3 left-0 right-0 z-50 px-3 sm:px-6 max-w-7xl mx-auto w-full transition-all duration-300">
-        <div data-sora-opt="glass" className="relative w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 bg-white/85 dark:bg-[#09090B]/85 border border-[#E4E1D8] dark:border-[#27272A] shadow-xl backdrop-blur-2xl transition-colors duration-300">
+      {/* Header Cao Cấp & Thanh Lịch (Sticky - Đi theo khi cuộn trang) */}
+      <header className="sticky top-2 sm:top-3 z-50 px-3 sm:px-6 max-w-7xl mx-auto w-full transition-all duration-300">
+        <div data-sora-opt="glass" className="relative w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 bg-white/75 dark:bg-[#09090b]/80 border border-zinc-200/90 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-300">
           <div className="flex items-center justify-between">
             
             {/* Left: Brand Logo & Navigation Links */}
@@ -132,46 +133,83 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
 
               {/* Desktop Scrollspy Navigation Links */}
               <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 text-xs font-semibold">
-                <a
-                  href="#hero"
+                <Link
+                  href="/"
+                  onClick={(e) => {
+                    if (isHome) {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
                   className={`px-3 py-1.5 rounded-full transition-all ${
-                    activeSection === 'hero'
+                    isHome && activeSection === 'hero'
                       ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {t('home')}
-                </a>
-                <a
-                  href="#featured-products"
+                </Link>
+                <Link
+                  href="/#featured-products"
+                  onClick={(e) => {
+                    if (isHome) {
+                      e.preventDefault();
+                      const el = document.getElementById('featured-products');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
                   className={`px-3 py-1.5 rounded-full transition-all ${
-                    activeSection === 'featured-products'
+                    isHome && activeSection === 'featured-products'
                       ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {t('shop')}
-                </a>
-                <a
-                  href="#transparency"
+                </Link>
+                <Link
+                  href="/#transparency"
+                  onClick={(e) => {
+                    if (isHome) {
+                      e.preventDefault();
+                      const el = document.getElementById('transparency');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
                   className={`px-3 py-1.5 rounded-full transition-all ${
-                    activeSection === 'transparency'
+                    isHome && activeSection === 'transparency'
                       ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {t('transparency')}
-                </a>
-                <a
-                  href="#faq"
+                </Link>
+                <Link
+                  href="/#faq"
+                  onClick={(e) => {
+                    if (isHome) {
+                      e.preventDefault();
+                      const el = document.getElementById('faq');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
                   className={`px-3 py-1.5 rounded-full transition-all ${
-                    activeSection === 'faq'
+                    isHome && activeSection === 'faq'
                       ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {t('faq')}
-                </a>
+                </Link>
+                <Link
+                  href="/shop"
+                  className={`px-3 py-1.5 rounded-full transition-all ${
+                    isShop
+                      ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
+                  }`}
+                >
+                  {t('store')}
+                </Link>
               </nav>
             </div>
 
@@ -267,9 +305,9 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 ) : (
                   <button
                     onClick={handleDiscordLogin}
-                    className="flex items-center gap-2 px-4 py-2 text-zinc-950 dark:text-zinc-950 bg-white hover:bg-zinc-100 dark:bg-white dark:hover:bg-zinc-100 border border-zinc-300 dark:border-transparent rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer"
+                    className="flex items-center gap-2 px-4 py-2 text-white dark:text-zinc-950 bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 rounded-full font-bold text-xs shadow-sm transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
                   >
-                    <DiscordIcon className="w-4 h-4 fill-current text-zinc-950" />
+                    <DiscordIcon className="w-4 h-4 fill-current text-white dark:text-zinc-950" />
                     <span>Login Discord</span>
                   </button>
                 )}
@@ -292,34 +330,90 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
           <div className="md:hidden mt-2 w-full rounded-2xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-[#27272A] p-4 space-y-4 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-3 duration-200">
             {/* Navigation links */}
             <div className="flex flex-col space-y-1 text-sm font-semibold border-b border-zinc-200 dark:border-[#27272A] pb-3">
-              <a
-                href="#hero"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
+              <Link
+                href="/"
+                onClick={(e) => {
+                  if (isHome) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
+                  isHome && activeSection === 'hero'
+                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
+                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
               >
-                {t('home')}
-              </a>
-              <a
-                href="#featured-products"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
+                <span>{t('home')}</span>
+                {isHome && activeSection === 'hero' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
+              </Link>
+              <Link
+                href="/#featured-products"
+                onClick={(e) => {
+                  if (isHome) {
+                    e.preventDefault();
+                    const el = document.getElementById('featured-products');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
+                  isHome && activeSection === 'featured-products'
+                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
+                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
               >
-                {t('shop')}
-              </a>
-              <a
-                href="#transparency"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
+                <span>{t('shop')}</span>
+              </Link>
+              <Link
+                href="/#transparency"
+                onClick={(e) => {
+                  if (isHome) {
+                    e.preventDefault();
+                    const el = document.getElementById('transparency');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
+                  isHome && activeSection === 'transparency'
+                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
+                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
               >
-                {t('transparency')}
-              </a>
-              <a
-                href="#faq"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5"
+                <span>{t('transparency')}</span>
+              </Link>
+              <Link
+                href="/#faq"
+                onClick={(e) => {
+                  if (isHome) {
+                    e.preventDefault();
+                    const el = document.getElementById('faq');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
+                  isHome && activeSection === 'faq'
+                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
+                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
               >
-                {t('faq')}
-              </a>
+                <span>{t('faq')}</span>
+              </Link>
+              <Link
+                href="/shop"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
+                  isShop
+                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
+                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
+                }`}
+              >
+                <span>{t('store')}</span>
+                {isShop && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
+              </Link>
             </div>
 
             {/* Complete, Accessible Multi-Select Controls on Mobile */}

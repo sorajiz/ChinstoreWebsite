@@ -21,28 +21,22 @@ export default function AuroraBackground({ children }: { children?: React.ReactN
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full bg-[#F8F7F4] dark:bg-[#09090B] text-[#121214] dark:text-[#F4F4F5] antialiased selection:bg-brand-primary/30 selection:text-white transition-colors duration-300 overflow-x-clip">
-      {/* 1. Lưới Grid Caro Khung Vuông To (72px x 72px) Cao Cấp */}
+    <div className="relative min-h-screen w-full bg-[#F8F7F4] dark:bg-[#0c0c0e] text-[#121214] dark:text-[#F4F4F5] antialiased selection:bg-brand-primary/30 selection:text-white transition-colors duration-300 overflow-x-clip">
+      {/* 1. Nền Đen Obsidian Sang Trọng & Ánh Sáng Parallax Mịn Màng Chuẩn Ảnh Tham Khảo */}
       <div 
-        className="fixed inset-0 z-0 pointer-events-none opacity-[0.05] dark:opacity-[0.14]"
+        className="fixed inset-0 z-0 pointer-events-none hidden dark:block transition-opacity duration-300"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, currentColor 1px, transparent 1px),
-            linear-gradient(to bottom, currentColor 1px, transparent 1px)
-          `,
-          backgroundSize: '72px 72px',
-          maskImage: 'radial-gradient(ellipse 95% 75% at 50% 20%, black 40%, transparent 95%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 95% 75% at 50% 20%, black 40%, transparent 95%)'
+          background: 'radial-gradient(120% 75% at 50% -5%, #18181c 0%, #0c0c0e 65%)'
         }}
       />
 
-      {/* 2. Dải ánh sáng Parallax Ambient Glow siêu mịn */}
+      {/* 2. Dải ánh sáng Parallax Ambient Glow siêu mịn (Monochrome Đen Xám - Pure Dark Obsidian) */}
       <div 
         data-sora-opt="particle"
-        className="fixed inset-0 z-0 pointer-events-none overflow-hidden blur-[140px] opacity-20 dark:opacity-35"
+        className="fixed inset-0 z-0 pointer-events-none overflow-hidden blur-[140px] opacity-15 dark:opacity-25"
       >
         <div 
-          className="absolute rounded-full bg-gradient-to-br from-indigo-500/30 dark:from-indigo-600/35 via-purple-500/20 dark:via-purple-600/25 to-transparent transition-transform duration-700 ease-out"
+          className="absolute rounded-full bg-gradient-to-br from-zinc-300/20 dark:from-zinc-800/30 via-zinc-400/10 dark:via-zinc-900/20 to-transparent transition-transform duration-700 ease-out"
           style={{
             top: '-10%',
             left: '25%',
@@ -52,7 +46,7 @@ export default function AuroraBackground({ children }: { children?: React.ReactN
           }}
         />
         <div 
-          className="absolute rounded-full bg-gradient-to-bl from-cyan-500/15 dark:from-cyan-600/20 via-indigo-500/10 dark:via-indigo-600/15 to-transparent transition-transform duration-700 ease-out"
+          className="absolute rounded-full bg-gradient-to-bl from-zinc-400/15 dark:from-zinc-800/25 via-zinc-500/10 dark:via-zinc-900/15 to-transparent transition-transform duration-700 ease-out"
           style={{
             top: '40%',
             right: '-10%',
@@ -62,7 +56,7 @@ export default function AuroraBackground({ children }: { children?: React.ReactN
           }}
         />
         <div 
-          className="absolute rounded-full bg-gradient-to-tr from-purple-600/10 dark:from-purple-700/20 via-brand-primary/10 dark:via-brand-primary/15 to-transparent transition-transform duration-700 ease-out"
+          className="absolute rounded-full bg-gradient-to-tr from-zinc-500/10 dark:from-zinc-800/20 via-zinc-600/10 dark:via-zinc-900/10 to-transparent transition-transform duration-700 ease-out"
           style={{
             top: '75%',
             left: '-10%',

@@ -52,7 +52,7 @@ export default function LandingPageClient({
 
   return (
     <div className="flex flex-col min-h-screen bg-[#FDFCFB] dark:bg-[#09090B] text-zinc-900 dark:text-[#F4F4F5] transition-colors">
-      {/* 1. Header Navigation (Fixed Glass, Permanent) */}
+      {/* 1. Header Navigation (Không cố định, lướt tự nhiên theo trang) */}
       <Navbar onOpenTrackModal={() => setTrackerOpen(true)} />
 
       {/* 2. Cyber Hero Section */}
