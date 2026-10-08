@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/navigation';
 import { formatPrice } from '@/lib/utils';
 import { X, Search, CheckCircle2, Clock, XCircle, KeyRound, Copy, Check, Loader2, ExternalLink } from 'lucide-react';
@@ -19,6 +19,8 @@ export default function OrderTrackerModal({
   onPayPendingOrder,
 }: OrderTrackerModalProps) {
   const t = useTranslations('common');
+  const locale = useLocale();
+  const isEn = locale === 'en';
   const [orderCodeInput, setOrderCodeInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [orderResult, setOrderResult] = useState<any>(null);
@@ -41,12 +43,12 @@ export default function OrderTrackerModal({
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Không tìm thấy đơn hàng với mã này');
+        throw new Error(data.error || (isEn ? 'No order found with this code' : 'Không tìm thấy đơn hàng với mã này'));
       }
 
       setOrderResult(data.data);
     } catch (err: any) {
-      setErrorMsg(err.message || 'Không tìm thấy đơn hàng');
+      setErrorMsg(err.message || (isEn ? 'Order not found' : 'Không tìm thấy đơn hàng'));
     } finally {
       setLoading(false);
     }
@@ -55,7 +57,7 @@ export default function OrderTrackerModal({
   const handleCopyKey = (key: string, id: string) => {
     navigator.clipboard.writeText(key);
     setCopiedKey(id);
-    toast.success('Đã sao chép mã khóa!');
+    toast.success(isEn ? 'License key copied!' : 'Đã sao chép mã khóa!');
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
@@ -71,15 +73,17 @@ export default function OrderTrackerModal({
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-bold text-white font-display">
-              Tra Cứu Đơn Hàng & Kích Hoạt Key
+              {isEn ? 'Order Lookup & Key Activation' : 'Tra Cứu Đơn Hàng & Kích Hoạt Key'}
             </h2>
             <p className="text-xs text-slate-400 mt-1">
-              Nhập mã đơn hàng của bạn (VD: CHIN8392) để kiểm tra trạng thái và nhận tài nguyên
+              {isEn
+                ? 'Enter your order code (e.g. CHIN8392) to verify status and retrieve assets'
+                : 'Nhập mã đơn hàng của bạn (VD: CHIN8392) để kiểm tra trạng thái và nhận tài nguyên'}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -93,21 +97,21 @@ export default function OrderTrackerModal({
                 type="text"
                 value={orderCodeInput}
                 onChange={(e) => setOrderCodeInput(e.target.value)}
-                placeholder="Nhập mã đơn: CHIN..."
+                placeholder={isEn ? 'Enter order code: CHIN...' : 'Nhập mã đơn: CHIN...'}
                 className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-white placeholder-slate-500 text-sm font-mono uppercase focus:outline-none focus:border-cyan-400"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all disabled:opacity-50"
+              className="px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
                 <Search className="w-4 h-4" />
               )}
-              <span>Tra cứu</span>
+              <span>{isEn ? 'Lookup' : 'Tra cứu'}</span>
             </button>
           </form>
 
@@ -124,7 +128,7 @@ export default function OrderTrackerModal({
               {/* Header Status */}
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <div>
-                  <div className="text-[10px] text-slate-400">Mã đơn hàng:</div>
+                  <div className="text-[10px] text-slate-400">{isEn ? 'Order code:' : 'Mã đơn hàng:'}</div>
                   <div className="text-white font-bold text-sm">
                     {orderResult.orderCode}
                   </div>
@@ -134,12 +138,12 @@ export default function OrderTrackerModal({
                   {orderResult.status === 'PAID' ? (
                     <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[11px] font-bold flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" />
-                      ĐÃ THANH TOÁN
+                      {isEn ? 'PAID' : 'ĐÃ THANH TOÁN'}
                     </span>
                   ) : orderResult.status === 'PENDING' ? (
                     <span className="px-2.5 py-1 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 text-[11px] font-bold flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5 animate-spin" />
-                      CHỜ THANH TOÁN
+                      {isEn ? 'PENDING' : 'CHỜ THANH TOÁN'}
                     </span>
                   ) : (
                     <span className="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 text-[11px] font-bold flex items-center gap-1">
@@ -153,21 +157,21 @@ export default function OrderTrackerModal({
               {/* Order Details */}
               <div className="space-y-1.5 text-slate-300">
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Khách hàng:</span>
+                  <span className="text-slate-400">{isEn ? 'Customer:' : 'Khách hàng:'}</span>
                   <span>{orderResult.customerName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Email:</span>
+                  <span className="text-slate-400">{isEn ? 'Email:' : 'Email:'}</span>
                   <span>{orderResult.customerEmail}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Tổng tiền:</span>
+                  <span className="text-slate-400">{isEn ? 'Total:' : 'Tổng tiền:'}</span>
                   <span className="text-white font-bold">
                     {formatPrice(orderResult.totalVND, 'VND')}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Phương thức:</span>
+                  <span className="text-slate-400">{isEn ? 'Method:' : 'Phương thức:'}</span>
                   <span className="text-cyan-400">
                     {orderResult.paymentMethod === 'SEPAY'
                       ? 'VietQR SePay (MBBank)'
@@ -181,7 +185,7 @@ export default function OrderTrackerModal({
                 <div className="pt-3 border-t border-white/10 space-y-2">
                   <div className="text-[11px] text-cyan-400 font-bold uppercase flex items-center gap-1.5">
                     <KeyRound className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>Mã bản quyền / Tài nguyên đã cấp:</span>
+                    <span>{isEn ? 'License Keys / Delivered Assets:' : 'Mã bản quyền / Tài nguyên đã cấp:'}</span>
                   </div>
 
                   {orderResult.items?.map((item: any, idx: number) => (
@@ -203,7 +207,7 @@ export default function OrderTrackerModal({
                               `search-${idx}`
                             )
                           }
-                          className="p-1 rounded bg-white/10 text-white"
+                          className="p-1 rounded bg-white/10 text-white cursor-pointer"
                         >
                           {copiedKey === `search-${idx}` ? (
                             <Check className="w-3 h-3 text-emerald-400" />
@@ -225,7 +229,7 @@ export default function OrderTrackerModal({
                   className="flex-1 py-2.5 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(0,240,255,0.3)] transition-all btn-haptic"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
-                  <span>Mở Buồng Lái Đơn Hàng</span>
+                  <span>{isEn ? 'Open Order Cockpit' : 'Mở Buồng Lái Đơn Hàng'}</span>
                 </Link>
 
                 {orderResult.status === 'PAYMENT_PENDING' && onPayPendingOrder && (
@@ -234,9 +238,9 @@ export default function OrderTrackerModal({
                       onClose();
                       onPayPendingOrder(orderResult, orderResult.paymentDetails);
                     }}
-                    className="py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all btn-haptic"
+                    className="py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all btn-haptic cursor-pointer"
                   >
-                    <span>Thanh toán ngay</span>
+                    <span>{isEn ? 'Pay now' : 'Thanh toán ngay'}</span>
                   </button>
                 )}
               </div>

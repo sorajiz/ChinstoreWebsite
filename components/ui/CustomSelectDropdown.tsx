@@ -18,6 +18,8 @@ interface CustomSelectDropdownProps {
   triggerPrefix?: React.ReactNode;
   widthClass?: string;
   title?: string;
+  align?: 'left' | 'right';
+  className?: string;
 }
 
 export default function CustomSelectDropdown({
@@ -27,6 +29,8 @@ export default function CustomSelectDropdown({
   triggerPrefix,
   widthClass = 'w-44',
   title,
+  align = 'right',
+  className = '',
 }: CustomSelectDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,20 +57,34 @@ export default function CustomSelectDropdown({
     };
   }, [isOpen]);
 
+  // Khi mở dropdown trên mobile, đảm bảo cuộn nhẹ để nội dung hiển thị trọn vẹn
+  useEffect(() => {
+    if (isOpen && containerRef.current) {
+      setTimeout(() => {
+        containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+  }, [isOpen]);
+
+  const alignmentClass = align === 'left' ? 'left-0' : 'right-0';
+
   return (
-    <div ref={containerRef} className="relative inline-block text-left select-none">
-      {/* Trigger Button (Enlarged, comfortable touch target) */}
+    <div
+      ref={containerRef}
+      className={`relative select-none text-left ${className ? className : 'inline-block'}`}
+    >
+      {/* Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between sm:justify-start gap-2 h-9 sm:h-10 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-zinc-100 dark:bg-[#16161A] border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all shadow-xs active:scale-95 cursor-pointer"
+        className="w-full flex items-center justify-between gap-2 h-9 sm:h-10 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-zinc-100 dark:bg-[#16161A] border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all shadow-xs active:scale-95 cursor-pointer"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         title={title}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 truncate">
           {triggerPrefix && <span className="text-zinc-500 dark:text-zinc-400 shrink-0">{triggerPrefix}</span>}
-          <span className="font-mono font-bold tracking-tight">{currentOption?.label || selectedValue}</span>
+          <span className="font-mono font-bold tracking-tight truncate">{currentOption?.label || selectedValue}</span>
         </div>
         <ChevronDown
           className={`w-4 h-4 text-zinc-400 transition-transform duration-200 shrink-0 ${
@@ -75,10 +93,10 @@ export default function CustomSelectDropdown({
         />
       </button>
 
-      {/* Floating Dropdown Card (Matches Image 3 Visual Design) */}
+      {/* Floating Dropdown Card (Bật xuống dưới rõ ràng, không bị che trên mobile) */}
       {isOpen && (
         <div
-          className={`absolute right-0 mt-2 ${widthClass} z-50 rounded-2xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-zinc-800 p-2 shadow-2xl backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-150`}
+          className={`absolute ${alignmentClass} mt-2 min-w-[175px] sm:${widthClass} z-[90] rounded-2xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-zinc-800 p-2 shadow-2xl backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-150`}
           role="listbox"
         >
           {/* Inner Options Container */}
@@ -101,7 +119,7 @@ export default function CustomSelectDropdown({
                   role="option"
                   aria-selected={isSelected}
                 >
-                  {/* Custom Checkbox (Matching Image 3: Blue square with checkmark) */}
+                  {/* Custom Checkbox */}
                   <div
                     className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-colors ${
                       isSelected
@@ -113,10 +131,12 @@ export default function CustomSelectDropdown({
                   </div>
 
                   {/* Option Label */}
-                  <div className="flex flex-col flex-1 truncate">
-                    <span className="truncate">{opt.label}</span>
+                  <div className="flex flex-col min-w-0">
+                    <span className="font-mono text-zinc-900 dark:text-zinc-100 leading-tight">
+                      {opt.label}
+                    </span>
                     {opt.subLabel && (
-                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-normal truncate">
+                      <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-normal truncate">
                         {opt.subLabel}
                       </span>
                     )}

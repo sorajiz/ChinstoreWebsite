@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, ShieldCheck, CheckCircle2, Radio, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { useLocale } from 'next-intl';
 
 interface LiveTransactionRadarProps {
   status: string; // 'PAYMENT_PENDING' | 'PAID' | 'UNDERPAID' | 'MANUAL_REVIEW' | 'EXPIRED'
@@ -16,6 +17,8 @@ export default function LiveTransactionRadar({
   gateway,
   orderCode,
 }: LiveTransactionRadarProps) {
+  const locale = useLocale();
+  const isEn = locale === 'en';
   const previousStatus = useRef(status);
 
   // Trigger celebration explosion when transition to PAID occurs
@@ -69,7 +72,7 @@ export default function LiveTransactionRadar({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold text-white font-display">
-                    Đã Khớp Giao Dịch Thành Công
+                    {isEn ? 'Transaction Matched Successfully' : 'Đã Khớp Giao Dịch Thành Công'}
                   </span>
                   <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-mono font-bold border border-emerald-500/30">
                     PAID 100%
@@ -77,8 +80,12 @@ export default function LiveTransactionRadar({
                 </div>
                 <p className="text-xs text-emerald-300/80 font-sans mt-0.5">
                   {gateway === 'SEPAY'
-                    ? 'Hệ thống SePay IPN ghi nhận biến động số dư tức thì.'
-                    : 'Litecoin Mempool Engine đã phát hiện giao dịch On-Chain.'}
+                    ? (isEn
+                        ? 'SePay IPN webhook detected instant account credit.'
+                        : 'Hệ thống SePay IPN ghi nhận biến động số dư tức thì.')
+                    : (isEn
+                        ? 'Litecoin Mempool Engine detected On-Chain transaction.'
+                        : 'Litecoin Mempool Engine đã phát hiện giao dịch On-Chain.')}
                 </p>
               </div>
             </div>
@@ -112,8 +119,12 @@ export default function LiveTransactionRadar({
                 </div>
                 <p className="text-xs text-slate-300 truncate mt-0.5 font-sans">
                   {gateway === 'SEPAY'
-                    ? 'Đang lắng nghe biến động VietQR qua Webhook SePay...'
-                    : 'Đang quét giao dịch Mempool / BlockCypher On-Chain...'}
+                    ? (isEn
+                        ? 'Listening for VietQR balance updates via SePay Webhook...'
+                        : 'Đang lắng nghe biến động VietQR qua Webhook SePay...')
+                    : (isEn
+                        ? 'Scanning Mempool / BlockCypher On-Chain transactions...'
+                        : 'Đang quét giao dịch Mempool / BlockCypher On-Chain...')}
                 </p>
               </div>
             </div>

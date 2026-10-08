@@ -16,6 +16,14 @@ import {
   ChevronDown,
   LogOut,
   User as UserIcon,
+  Home,
+  ShieldCheck,
+  HelpCircle,
+  Store,
+  Wallet,
+  LayoutGrid,
+  Ticket,
+  FileText,
 } from 'lucide-react';
 import { CurrencyType } from '@/types';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -36,18 +44,26 @@ function DiscordIcon({ className = "w-4 h-4" }: { className?: string }) {
 export default function Navbar({ onOpenTrackModal }: NavbarProps) {
   const t = useTranslations('common');
   const locale = useLocale();
+  const isEn = locale === 'en';
   const router = useRouter();
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
   const isHome = pathname === '/' || pathname === '';
   const isShop = pathname.startsWith('/shop');
 
-  const { setCartOpen, currency, setCurrency, getCartItemCount } = useStore();
+  const {
+    currency,
+    setCurrency,
+    getCartItemCount,
+    setCartOpen,
+    isMobileMenuOpen,
+    setMobileMenuOpen,
+    setAuthModalOpen,
+  } = useStore();
   const itemCount = getCartItemCount();
 
   // Scroll logic: Header remains permanently visible at top with Glassmorphism, tracks active section
@@ -56,7 +72,6 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          // Scrollspy detection for active section
           const sections = ['hero', 'featured-products', 'transparency', 'faq'];
           for (const sectionId of sections) {
             const el = document.getElementById(sectionId);
@@ -78,7 +93,19 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Language options matching Image 3 style
+  // Prevent background scroll when mobile drawer is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Language options matching select style
   const languageOptions: SelectOption[] = [
     { value: 'vi', label: 'VI', subLabel: 'Tiếng Việt' },
     { value: 'en', label: 'EN', subLabel: 'English' },
@@ -90,7 +117,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
     }
   };
 
-  // Currency options matching Image 3 style
+  // Currency options matching select style
   const currencyOptions: SelectOption[] = [
     { value: 'VND', label: 'VND', subLabel: 'Việt Nam Đồng (₫)' },
     { value: 'USD', label: 'USD', subLabel: 'US Dollar ($)' },
@@ -101,9 +128,9 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
     setCurrency(newCurr as CurrencyType);
   };
 
-  // Handle direct Discord login
+  // Handle login: Chuyển thẳng sang trang /login riêng biệt chỉ có Discord
   const handleDiscordLogin = () => {
-    signIn('discord', { callbackUrl: window.location.href });
+    router.push('/login');
   };
 
   return (
@@ -113,7 +140,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
         <div data-sora-opt="glass" className="relative w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 bg-white/75 dark:bg-[#09090b]/80 border border-zinc-200/90 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.5)] backdrop-blur-2xl transition-all duration-300">
           <div className="flex items-center justify-between">
             
-            {/* Left: Brand Logo & Navigation Links */}
+            {/* Left: Brand Logo & Navigation Links (PC Header Giữ Nguyên) */}
             <div className="flex items-center space-x-6">
               <Link href="/" className="flex items-center space-x-2.5 group">
                 <div className="w-8 h-8 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-700/80 transition-transform duration-300 group-hover:scale-105 shadow-xs shrink-0">
@@ -216,7 +243,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
             {/* Right: Controls & Actions */}
             <div className="flex items-center space-x-2 sm:space-x-2.5">
               
-              {/* Currency Multi-Select Dropdown (Matching Image 3) - Desktop */}
+              {/* Currency Multi-Select Dropdown - Desktop */}
               <div className="hidden lg:block">
                 <CustomSelectDropdown
                   options={currencyOptions}
@@ -228,7 +255,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 />
               </div>
 
-              {/* Language Multi-Select Dropdown (Matching Image 3) - Desktop */}
+              {/* Language Multi-Select Dropdown - Desktop */}
               <div className="hidden sm:block">
                 <CustomSelectDropdown
                   options={languageOptions}
@@ -240,17 +267,18 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 />
               </div>
 
-              {/* Compact Pure Sun/Moon Theme Toggle (Turns to full circle in light mode) */}
+              {/* Compact Sun/Moon Theme Toggle */}
               <div className="flex items-center justify-center p-0.5" title="Chuyển chế độ Sáng / Tối">
                 <ThemeToggle id="header-theme-toggle" />
               </div>
 
-              {/* Cart Button */}
+              {/* Cart Button: Mở giỏ hàng popup (PC: Drawer phải như cũ; Mobile: Bottom Sheet Ảnh 2) */}
               <button
                 id="open-cart-btn"
                 onClick={() => setCartOpen(true)}
                 className="relative p-2 rounded-full bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D] text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-all hover:scale-105 active:scale-95 group cursor-pointer"
-                aria-label="Open cart drawer"
+                aria-label="Mở giỏ hàng"
+                title="Giỏ hàng"
               >
                 <ShoppingBag className="w-4 h-4" />
                 {itemCount > 0 && (
@@ -260,7 +288,7 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 )}
               </button>
 
-              {/* Discord Login Button / User Avatar (Desktop) */}
+              {/* Discord Login Button / User Avatar (Desktop PC) */}
               <div className="hidden md:block">
                 {session?.user ? (
                   <div className="relative">
@@ -313,145 +341,230 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                 )}
               </div>
 
-              {/* Mobile Hamburger Toggle Button (Clean & Compact) */}
+
+              {/* Mobile Hamburger Toggle Button -> Mở Side Drawer Menu */}
               <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                onClick={() => setMobileMenuOpen(true)}
                 className="md:hidden p-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white bg-[#EFECE5] dark:bg-[#18181C] border border-[#DDD8CE] dark:border-[#27272D] transition-colors cursor-pointer"
-                aria-label="Menu"
+                aria-label="Open mobile menu"
               >
-                {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+                <Menu className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Full-Width Dropdown Menu (Enhanced Responsive Multi-Selects) */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-2 w-full rounded-2xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-[#27272A] p-4 space-y-4 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-3 duration-200">
-            {/* Navigation links */}
-            <div className="flex flex-col space-y-1 text-sm font-semibold border-b border-zinc-200 dark:border-[#27272A] pb-3">
-              <Link
-                href="/"
-                onClick={(e) => {
-                  if (isHome) {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                  setMobileMenuOpen(false);
-                }}
-                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
-                  isHome && activeSection === 'hero'
-                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
-                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
-                }`}
-              >
-                <span>{t('home')}</span>
-                {isHome && activeSection === 'hero' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
-              </Link>
-              <Link
-                href="/#featured-products"
-                onClick={(e) => {
-                  if (isHome) {
-                    e.preventDefault();
-                    const el = document.getElementById('featured-products');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }
-                  setMobileMenuOpen(false);
-                }}
-                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
-                  isHome && activeSection === 'featured-products'
-                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
-                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
-                }`}
-              >
-                <span>{t('shop')}</span>
-              </Link>
-              <Link
-                href="/#transparency"
-                onClick={(e) => {
-                  if (isHome) {
-                    e.preventDefault();
-                    const el = document.getElementById('transparency');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }
-                  setMobileMenuOpen(false);
-                }}
-                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
-                  isHome && activeSection === 'transparency'
-                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
-                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
-                }`}
-              >
-                <span>{t('transparency')}</span>
-              </Link>
-              <Link
-                href="/#faq"
-                onClick={(e) => {
-                  if (isHome) {
-                    e.preventDefault();
-                    const el = document.getElementById('faq');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }
-                  setMobileMenuOpen(false);
-                }}
-                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
-                  isHome && activeSection === 'faq'
-                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
-                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
-                }`}
-              >
-                <span>{t('faq')}</span>
-              </Link>
-              <Link
-                href="/shop"
+      {/* ========================================================================= */}
+      {/* MOBILE MENU DRAWER: Đồng bộ các mục với Header PC                          */}
+      {/* ========================================================================= */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-[120] overflow-hidden">
+          {/* Backdrop */}
+          <div
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+          />
+
+          {/* Drawer Panel: Slide in from right */}
+          <aside
+            className="fixed top-0 bottom-0 right-0 z-10 w-[84%] max-w-[340px] sm:max-w-[360px] h-[100dvh] max-h-[100dvh] bg-white dark:bg-[#121215] text-zinc-900 dark:text-white shadow-2xl flex flex-col border-l border-zinc-200/90 dark:border-white/10 transition-colors duration-200 animate-in slide-in-from-right duration-300 ease-out"
+          >
+            {/* Top Bar: [Menu] ... [✕] */}
+            <div className="px-5 py-4 border-b border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between shrink-0">
+              <h2 className="text-base sm:text-lg font-bold text-zinc-950 dark:text-white font-sans tracking-tight">
+                Menu
+              </h2>
+              <button
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-between ${
-                  isShop
-                    ? 'bg-black/10 dark:bg-white/10 text-slate-900 dark:text-white font-bold'
-                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-black/5 dark:hover:bg-white/5'
-                }`}
+                className="p-1 rounded-lg text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                aria-label="Close menu"
               >
-                <span>{t('store')}</span>
-                {isShop && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />}
-              </Link>
+                <X className="w-5 h-5 stroke-[2]" />
+              </button>
             </div>
 
-            {/* Complete, Accessible Multi-Select Controls on Mobile */}
-            <div className="space-y-2 pt-1">
-              <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider">Cấu hình hiển thị</div>
-              <div className="grid grid-cols-2 gap-2">
-                <CustomSelectDropdown
-                  options={languageOptions}
-                  selectedValue={locale}
-                  onSelect={handleLanguageSelect}
-                  triggerPrefix={<Globe className="w-3.5 h-3.5" />}
-                  widthClass="w-full"
-                  title="Ngôn ngữ"
-                />
+            {/* Scrollable Content (Lướt lên lướt xuống mượt mà trên mọi thiết bị mobile) */}
+            <div
+              className="flex-1 overflow-y-auto overscroll-contain touch-pan-y px-4 py-4 pb-36 space-y-4 scrollbar-thin"
+              style={{ WebkitOverflowScrolling: 'touch' }}
+            >
+              {/* User Account Card */}
+              <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-[#18181C] border border-zinc-200/80 dark:border-zinc-800 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-zinc-700/80 flex items-center justify-center font-bold text-sm text-zinc-800 dark:text-zinc-200 shadow-2xs shrink-0">
+                  {session?.user?.name ? (
+                    session.user.name.charAt(0).toUpperCase()
+                  ) : (
+                    <UserIcon className="w-5 h-5 text-zinc-400" />
+                  )}
+                </div>
 
-                <CustomSelectDropdown
-                  options={currencyOptions}
-                  selectedValue={currency}
-                  onSelect={handleCurrencySelect}
-                  triggerPrefix={<Coins className="w-3.5 h-3.5" />}
-                  widthClass="w-full"
-                  title="Tiền tệ"
-                />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-bold text-zinc-950 dark:text-white truncate">
+                    {session?.user?.name || (isEn ? 'Guest' : 'Khách')}
+                  </div>
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+                    {session?.user?.email || (isEn ? 'Not signed in' : 'Chưa đăng nhập')}
+                  </div>
+                </div>
+              </div>
+
+              {/* SECTION 1: Điều hướng (Đồng bộ chuẩn 100% với Header PC) */}
+              <div className="space-y-1">
+                <div className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider px-2 py-1">
+                  {isEn ? 'Navigation' : 'Điều hướng'}
+                </div>
+
+                {/* 1. Trang chủ */}
+                <Link
+                  href="/"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (isHome) {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    isHome && activeSection === 'hero'
+                      ? 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-bold'
+                      : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Home className="w-4 h-4 text-zinc-600 dark:text-zinc-400 stroke-[2]" />
+                  <span>{t('home')}</span>
+                </Link>
+
+                {/* 2. Sản phẩm */}
+                <Link
+                  href="/#featured-products"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    const el = document.getElementById('featured-products');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    isHome && activeSection === 'featured-products'
+                      ? 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-bold'
+                      : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4 text-zinc-600 dark:text-zinc-400 stroke-[2]" />
+                  <span>{t('shop')}</span>
+                </Link>
+
+                {/* 3. Cam kết */}
+                <Link
+                  href="/#transparency"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    const el = document.getElementById('transparency');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    isHome && activeSection === 'transparency'
+                      ? 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-bold'
+                      : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <ShieldCheck className="w-4 h-4 text-zinc-600 dark:text-zinc-400 stroke-[2]" />
+                  <span>{t('transparency')}</span>
+                </Link>
+
+                {/* 4. Hỏi đáp */}
+                <Link
+                  href="/#faq"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    const el = document.getElementById('faq');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    isHome && activeSection === 'faq'
+                      ? 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-bold'
+                      : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <HelpCircle className="w-4 h-4 text-zinc-600 dark:text-zinc-400 stroke-[2]" />
+                  <span>{t('faq')}</span>
+                </Link>
+
+                {/* 5. Cửa hàng */}
+                <Link
+                  href="/shop"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    isShop
+                      ? 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-bold'
+                      : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Store className="w-4 h-4 text-zinc-600 dark:text-zinc-400 stroke-[2]" />
+                  <span>{t('store')}</span>
+                </Link>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-zinc-200/80 dark:border-zinc-800 my-2" />
+
+              {/* SECTION 2: Tài khoản (Đã xóa nạp tiền và voucher theo yêu cầu) */}
+              <div className="space-y-1">
+                <div className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider px-2 py-1">
+                  {isEn ? 'Account' : 'Tài khoản'}
+                </div>
+
+                {/* Dashboard */}
+                <Link
+                  href="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors"
+                >
+                  <LayoutGrid className="w-4 h-4 text-zinc-600 dark:text-zinc-400 stroke-[2]" />
+                  <span>Dashboard</span>
+                </Link>
+              </div>
+
+              {/* Cài đặt Ngôn ngữ & Tiền tệ */}
+              <div className="pt-2 border-t border-zinc-200/80 dark:border-zinc-800">
+                <div className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider px-2 py-1">
+                  {isEn ? 'Preferences' : 'Cấu hình hiển thị'}
+                </div>
+                <div className="grid grid-cols-2 gap-2.5 pt-1">
+                  <CustomSelectDropdown
+                    options={languageOptions}
+                    selectedValue={locale}
+                    onSelect={handleLanguageSelect}
+                    triggerPrefix={<Globe className="w-3.5 h-3.5" />}
+                    widthClass="w-full"
+                    title={isEn ? 'Language' : 'Ngôn ngữ'}
+                    align="left"
+                    className="w-full"
+                  />
+                  <CustomSelectDropdown
+                    options={currencyOptions}
+                    selectedValue={currency}
+                    onSelect={handleCurrencySelect}
+                    triggerPrefix={<Coins className="w-3.5 h-3.5" />}
+                    widthClass="w-full"
+                    title={isEn ? 'Currency' : 'Tiền tệ'}
+                    align="right"
+                    className="w-full"
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Discord Login Button on Mobile */}
-            <div className="pt-2">
+            {/* Bottom Pinned Button: Đăng xuất hoặc Login */}
+            <div className="p-4 border-t border-zinc-100 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-[#151518]/50 shrink-0">
               {session?.user ? (
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    router.push('/profile');
+                    signOut({ callbackUrl: '/' });
                   }}
-                  className="w-full flex items-center justify-center gap-2 py-3 text-zinc-950 dark:text-white bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl font-bold transition-colors"
+                  className="w-full py-3 px-4 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-semibold text-sm flex items-center justify-center gap-2 border border-zinc-200/80 dark:border-zinc-700/80 transition-colors cursor-pointer"
                 >
-                  <UserIcon className="w-4 h-4" />
-                  <span>Tài Khoản: {session.user.name}</span>
+                  <LogOut className="w-4 h-4 stroke-[2]" />
+                  <span>{t('logout')}</span>
                 </button>
               ) : (
                 <button
@@ -459,16 +572,16 @@ export default function Navbar({ onOpenTrackModal }: NavbarProps) {
                     setMobileMenuOpen(false);
                     handleDiscordLogin();
                   }}
-                  className="w-full flex items-center justify-center gap-2 py-3 text-zinc-950 dark:text-zinc-950 bg-white hover:bg-zinc-100 border border-zinc-300 dark:border-zinc-700 rounded-xl font-bold shadow-md transition-all active:scale-95"
+                  className="w-full py-3 px-4 rounded-xl bg-zinc-950 hover:bg-zinc-850 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
                 >
                   <DiscordIcon className="w-4 h-4 fill-current" />
-                  <span>Login Discord</span>
+                  <span>{isEn ? 'Sign in with Discord' : 'Login Discord'}</span>
                 </button>
               )}
             </div>
-          </div>
-        )}
-      </header>
+          </aside>
+        </div>
+      )}
     </>
   );
 }

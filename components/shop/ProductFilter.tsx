@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useStore } from '@/lib/store';
 import { Search, SlidersHorizontal, X, ArrowUpDown, Check, RotateCcw, DollarSign } from 'lucide-react';
 import { Category } from '@/types';
@@ -14,6 +14,8 @@ interface ProductFilterProps {
 
 export default function ProductFilter({ categories, totalResults }: ProductFilterProps) {
   const t = useTranslations('shop');
+  const locale = useLocale();
+  const isEn = locale === 'en';
   const {
     searchQuery,
     setSearchQuery,
@@ -89,7 +91,9 @@ export default function ProductFilter({ categories, totalResults }: ProductFilte
           >
             <SlidersHorizontal className="w-3.5 h-3.5 text-[#5865F2]" />
             <span>
-              {maxPrice < 50000000 ? `Dưới ${formatPrice(maxPrice, currency)}` : 'Khoảng giá'}
+              {maxPrice < 50000000
+                ? (isEn ? `Under ${formatPrice(maxPrice, currency)}` : `Dưới ${formatPrice(maxPrice, currency)}`)
+                : (isEn ? 'Price range' : 'Khoảng giá')}
             </span>
           </button>
 
@@ -142,7 +146,7 @@ export default function ProductFilter({ categories, totalResults }: ProductFilte
             <button
               onClick={handleResetFilters}
               className="p-2 rounded-xl bg-[#EFECE5] dark:bg-[#202024] border border-[#E5E1D8] dark:border-[#27272A] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
-              title="Đặt lại bộ lọc"
+              title={isEn ? 'Reset filters' : 'Đặt lại bộ lọc'}
             >
               <RotateCcw className="w-4 h-4" />
             </button>
@@ -156,10 +160,10 @@ export default function ProductFilter({ categories, totalResults }: ProductFilte
           <div className="flex items-center justify-between text-xs font-sans">
             <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
               <DollarSign className="w-3.5 h-3.5 text-[#5865F2]" />
-              <span>Giá tối đa:</span>
+              <span>{isEn ? 'Max price:' : 'Giá tối đa:'}</span>
             </span>
             <span className="text-[#5865F2] font-bold text-sm">
-              {maxPrice >= 50000000 ? 'Không giới hạn' : formatPrice(maxPrice, currency)}
+              {maxPrice >= 50000000 ? (isEn ? 'Unlimited' : 'Không giới hạn') : formatPrice(maxPrice, currency)}
             </span>
           </div>
           <input

@@ -86,7 +86,7 @@ export default function DiscordServerWidget() {
         <div className="pt-4 space-y-3">
           <div className="space-y-1.5">
             <p className="text-[11px] text-zinc-500 dark:text-[#949BA4] font-mono tracking-wide">
-              {stats.foundedDate}
+              {isVi ? stats.foundedDate : (stats.foundedDate.includes('Thành lập') ? 'Established Nov 2025' : stats.foundedDate)}
             </p>
             <div className="flex items-start gap-3">
               <div className="relative w-11 h-11 rounded-xl overflow-hidden border-2 border-zinc-200 dark:border-[#27272A] shrink-0 bg-zinc-100 dark:bg-zinc-900 pointer-events-none">

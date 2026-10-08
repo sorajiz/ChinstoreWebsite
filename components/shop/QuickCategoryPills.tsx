@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ArrowRight, Gamepad2, Bot, Film, Pickaxe } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 interface QuickCategoryPillsProps {
   onSelectCategory?: (categorySlug: string) => void;
@@ -9,28 +10,31 @@ interface QuickCategoryPillsProps {
 }
 
 export function QuickCategoryPills({ onSelectCategory, activeCategory }: QuickCategoryPillsProps) {
+  const locale = useLocale();
+  const isEn = locale === 'en';
+
   const items = [
     {
-      title: 'Game & ứng dụng',
-      subtitle: 'Nạp game, tài khoản và thẻ cào',
+      title: isEn ? 'Games & Apps' : 'Game & ứng dụng',
+      subtitle: isEn ? 'Game top-ups, accounts & licenses' : 'Nạp game, tài khoản và thẻ cào',
       slug: 'gaming-accounts',
       icon: Gamepad2,
     },
     {
-      title: 'Góc Discord',
-      subtitle: 'Trang trí avatar và hồ sơ',
+      title: isEn ? 'Discord Corner' : 'Góc Discord',
+      subtitle: isEn ? 'Avatar decos & profile boosts' : 'Trang trí avatar và hồ sơ',
       slug: 'discord-services',
       icon: Bot,
     },
     {
-      title: 'Netflix & Media',
-      subtitle: 'Khám phá dịch vụ Netflix & Spotify',
+      title: isEn ? 'Netflix & Media' : 'Netflix & Media',
+      subtitle: isEn ? 'Netflix 4K & Spotify subscriptions' : 'Khám phá dịch vụ Netflix & Spotify',
       slug: 'streaming-vpn',
       icon: Film,
     },
     {
-      title: 'Minecraft Alts',
-      subtitle: 'Full Access & Hypixel MVP+',
+      title: isEn ? 'Minecraft Alts' : 'Minecraft Alts',
+      subtitle: isEn ? 'Full Access & Hypixel MVP+' : 'Full Access & Hypixel MVP+',
       slug: 'minecraft-alts',
       icon: Pickaxe,
     },

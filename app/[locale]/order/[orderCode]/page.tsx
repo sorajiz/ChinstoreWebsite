@@ -31,23 +31,27 @@ export default async function OrderCockpitPage({
     },
   });
 
+  const isEn = params.locale === 'en';
+
   if (!order) {
     return (
       <div className="min-h-screen bg-[#07080d] flex items-center justify-center p-4">
         <div className="max-w-md w-full p-8 rounded-3xl glass-card border border-white/10 text-center space-y-4">
           <AlertCircle className="w-12 h-12 text-rose-400 mx-auto" />
           <h2 className="text-xl font-bold text-white font-display">
-            Không Tìm Thấy Đơn Hàng #{orderCode}
+            {isEn ? `Order #${orderCode} Not Found` : `Không Tìm Thấy Đơn Hàng #${orderCode}`}
           </h2>
           <p className="text-xs text-slate-400">
-            Mã đơn hàng không tồn tại hoặc đã bị xóa khỏi hệ thống.
+            {isEn
+              ? 'This order code does not exist or has been removed from the system.'
+              : 'Mã đơn hàng không tồn tại hoặc đã bị xóa khỏi hệ thống.'}
           </p>
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-xs font-mono border border-cyan-500/30 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Quay lại Cửa Hàng</span>
+            <span>{isEn ? 'Back to Store' : 'Quay lại Cửa Hàng'}</span>
           </Link>
         </div>
       </div>
@@ -64,7 +68,9 @@ export default async function OrderCockpitPage({
         order.stock.authTag
       );
     } catch (e) {
-      decryptedData = 'Lỗi giải mã: Vui lòng liên hệ Admin qua Telegram để nhận dữ liệu tài khoản';
+      decryptedData = isEn
+        ? 'Decryption error: Please contact Admin via Telegram to receive account credentials'
+        : 'Lỗi giải mã: Vui lòng liên hệ Admin qua Telegram để nhận dữ liệu tài khoản';
     }
   }
 

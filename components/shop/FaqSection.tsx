@@ -80,6 +80,8 @@ export default function FaqSection() {
             <p className="text-xs sm:text-sm text-zinc-600 dark:text-[#94949E] leading-relaxed pt-2">
               {t('faqSubtitle')}
             </p>
+
+
           </div>
 
           {/* Right Column: Clean Accordion */}

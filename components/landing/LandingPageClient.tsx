@@ -13,6 +13,8 @@ import CartDrawer from '@/components/shop/CartDrawer';
 import OrderTrackerModal from '@/components/shop/OrderTrackerModal';
 import CheckoutModal from '@/components/shop/CheckoutModal';
 import QuickViewModal from '@/components/shop/QuickViewModal';
+import MfaAccountDetailModal from '@/components/shop/MfaAccountDetailModal';
+import AuthModal from '@/components/auth/AuthModal';
 import Footer from '@/components/layout/Footer';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import RollingArrowButton from '@/components/ui/RollingArrowButton';
@@ -33,6 +35,8 @@ export default function LandingPageClient({
   const [isTrackerOpen, setTrackerOpen] = useState(false);
   const [isCheckoutOpen, setCheckoutOpen] = useState(false);
 
+  const [selectedQuickCategory, setSelectedQuickCategory] = useState<string>('all');
+
   const handleOrderCreated = (orderData: any) => {
     router.push(`/order/${orderData.orderCode}`);
   };
@@ -42,12 +46,7 @@ export default function LandingPageClient({
   };
 
   const handleSelectQuickCategory = (categorySlug: string) => {
-    const el = document.getElementById('featured-products');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      router.push(`/shop?category=${categorySlug}`);
-    }
+    router.push(`/shop?category=${categorySlug}`);
   };
 
   return (
@@ -58,9 +57,11 @@ export default function LandingPageClient({
       {/* 2. Cyber Hero Section */}
       <HeroSection onQuickCheckout={handleQuickCheckout} />
 
-      {/* 3. Quick Category Horizontal Strip */}
+      {/* 3. Quick Category Horizontal Strip - Bấm chuyển sang trang shop */}
       <ScrollReveal delayMs={100}>
-        <QuickCategoryPills onSelectCategory={handleSelectQuickCategory} />
+        <QuickCategoryPills
+          onSelectCategory={handleSelectQuickCategory}
+        />
       </ScrollReveal>
 
       {/* 4. Trending & Featured Products Section (Clean 4 Cards + 'Khám phá sản phẩm →') */}
@@ -122,6 +123,8 @@ export default function LandingPageClient({
       {/* Global Drawers & Modals */}
       <CartDrawer onProceedToCheckout={() => setCheckoutOpen(true)} />
       <QuickViewModal onQuickCheckout={handleQuickCheckout} />
+      <MfaAccountDetailModal onQuickCheckout={handleQuickCheckout} />
+      <AuthModal />
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setCheckoutOpen(false)}

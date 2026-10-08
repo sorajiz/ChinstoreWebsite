@@ -2,8 +2,9 @@
 
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
-import { Link } from '@/navigation';
+import { useTranslations, useLocale } from 'next-intl';
+import { useSession } from 'next-auth/react';
+import { Link, useRouter } from '@/navigation';
 import { useStore } from '@/lib/store';
 import { Product, Category } from '@/types';
 import { formatPrice } from '@/lib/utils';
@@ -14,11 +15,6 @@ import {
   Tag,
   AppWindow,
   LayoutGrid,
-  Eye,
-  Wrench,
-  RotateCw,
-  Plus,
-  Minus,
 } from 'lucide-react';
 import RollingArrowButton from '@/components/ui/RollingArrowButton';
 import { toast } from 'sonner';
@@ -27,67 +23,80 @@ interface FeaturedProductsSectionProps {
   products: Product[];
   categories: Category[];
   onQuickCheckout?: (product: Product) => void;
+  activeCategory?: string;
+  onResetCategory?: () => void;
 }
 
 export default function FeaturedProductsSection({
   products,
   categories,
   onQuickCheckout,
+  activeCategory = 'all',
+  onResetCategory,
 }: FeaturedProductsSectionProps) {
+  const router = useRouter();
   const t = useTranslations('featuredProducts');
-  const { currency, addItem, setQuickViewProduct } = useStore();
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [quantities, setQuantities] = useState<Record<string, number>>({});
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const locale = useLocale();
+  const isEn = locale === 'en';
+  const { data: session } = useSession();
+  const {
+    currency,
+    addItem,
+    setQuickViewProduct,
+    setViewMfaProduct,
+    setAuthModalOpen,
+  } = useStore();
 
   const filteredProducts = useMemo(() => {
-    if (selectedCategory === 'all') {
+    if (!activeCategory || activeCategory === 'all') {
       return products;
     }
-    return products.filter((p) => p.category?.slug === selectedCategory);
-  }, [products, selectedCategory]);
-
-  const getProductQty = (id: string) => quantities[id] || 1;
-
-  const updateProductQty = (id: string, delta: number) => {
-    setQuantities((prev) => {
-      const current = prev[id] || 1;
-      const next = Math.max(1, current + delta);
-      return { ...prev, [id]: next };
+    const cat = activeCategory.toLowerCase();
+    const result = products.filter((p) => {
+      const slug = (p.category?.slug || '').toLowerCase();
+      const name = (p.name || '').toLowerCase();
+      if (slug === cat || slug.includes(cat) || cat.includes(slug)) return true;
+      if (cat === 'gaming-accounts' && (slug.includes('game') || slug.includes('acc') || name.includes('game') || name.includes('steam') || name.includes('valorant'))) return true;
+      if (cat === 'discord-services' && (slug.includes('discord') || name.includes('nitro') || name.includes('boost'))) return true;
+      if (cat === 'streaming-vpn' && (slug.includes('stream') || name.includes('netflix') || name.includes('spotify') || name.includes('youtube') || name.includes('vpn'))) return true;
+      if (cat === 'minecraft-alts' && (slug.includes('minecraft') || name.includes('hypixel') || name.includes('optifine'))) return true;
+      return false;
     });
-  };
-
-  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
-    e.stopPropagation();
-    const qty = getProductQty(product.id);
-    addItem(product, qty);
-    toast.success(`Đã thêm (${qty}) "${product.name}" vào giỏ hàng!`, {
-      icon: <ShoppingCart className="w-4 h-4 text-white" />,
-    });
-  };
+    return result.length > 0 ? result : products;
+  }, [products, activeCategory]);
 
   const handleBuyNow = (e: React.MouseEvent, product: Product) => {
     e.stopPropagation();
-    const qty = getProductQty(product.id);
-    addItem(product, qty);
+    if (!session?.user) {
+      toast.info(isEn ? 'Please login with Discord to proceed with checkout!' : 'Vui lòng đăng nhập Discord để tiếp tục thanh toán và nhận tài khoản tức thì!');
+      router.push('/login');
+      return;
+    }
+    addItem(product, 1);
     if (onQuickCheckout) {
       onQuickCheckout(product);
     }
   };
 
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    setTimeout(() => {
-      setIsRefreshing(false);
-      toast.success(t('refresh') + ' thành công!');
-    }, 600);
+  const handleOpenProduct = (product: Product) => {
+    const isMinecraft =
+      product.name.toLowerCase().includes('minecraft') ||
+      product.name.toLowerCase().includes('hypixel') ||
+      product.name.toLowerCase().includes('optifine') ||
+      product.category?.slug === 'minecraft-alts';
+
+    if (isMinecraft) {
+      setViewMfaProduct(product);
+    } else {
+      setQuickViewProduct(product);
+    }
   };
 
   return (
-    <section id="featured-products" data-sora-opt="content" className="py-12 sm:py-16 relative z-10">
+    <section id="featured-products" data-sora-opt="content" className="py-12 sm:py-16 relative z-10 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Section Header matching Image 3 */}
+        {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-1.5">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-[#F4F4F5] font-sans">
@@ -103,35 +112,24 @@ export default function FeaturedProductsSection({
           </RollingArrowButton>
         </div>
 
-
-        {/* Product Cards Grid: Exactly 4 products for clean, compact layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProducts.slice(0, 4).map((product, idx) => (
+        {/* Product Cards Grid: 4 thẻ thịnh hành chuẩn trang chủ */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          {products.slice(0, 4).map((product, idx) => (
             <ProductCardItem
               key={product.id}
               product={product}
               index={idx}
-              quantity={getProductQty(product.id)}
-              onQtyChange={(delta) => updateProductQty(product.id, delta)}
               currency={currency}
-              t={t}
-              onAddToCart={(e) => handleAddToCart(e, product)}
+              isEn={isEn}
               onBuyNow={(e) => handleBuyNow(e, product)}
-              onQuickView={() => setQuickViewProduct(product)}
+              onQuickView={() => handleOpenProduct(product)}
             />
           ))}
         </div>
 
-        {/* Bottom Status Bar matching Image 3 */}
+        {/* Bottom Status Bar (Đã bỏ nút Làm Mới theo yêu cầu Ảnh 2) */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 pt-4 border-t border-zinc-200 dark:border-zinc-800/80 gap-3">
           <span>{t('publicPricing')}</span>
-          <button
-            onClick={handleRefresh}
-            className="flex items-center gap-1.5 hover:text-zinc-950 dark:hover:text-white font-medium transition-colors cursor-pointer"
-          >
-            <RotateCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-            <span>{t('refresh')}</span>
-          </button>
         </div>
 
       </div>
@@ -139,25 +137,19 @@ export default function FeaturedProductsSection({
   );
 }
 
-// Single Product Card Component matching Image 3
+// Single Product Card Component matching Image 3 & Image 1
 function ProductCardItem({
   product,
   index,
-  quantity,
-  onQtyChange,
   currency,
-  t,
-  onAddToCart,
+  isEn,
   onBuyNow,
   onQuickView,
 }: {
   product: Product;
   index: number;
-  quantity: number;
-  onQtyChange: (delta: number) => void;
   currency: any;
-  t: any;
-  onAddToCart: (e: React.MouseEvent) => void;
+  isEn: boolean;
   onBuyNow: (e: React.MouseEvent) => void;
   onQuickView: () => void;
 }) {
@@ -165,23 +157,23 @@ function ProductCardItem({
   const [imgError, setImgError] = useState(false);
 
   const stockCount = product.availableCount ?? 1;
-  const isManual = index % 4 === 0;
 
   return (
     <div
       onClick={onQuickView}
-      className="group rounded-3xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-[#27272A] overflow-hidden shadow-xs hover:shadow-xl hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+      className="group rounded-2xl sm:rounded-3xl bg-white dark:bg-[#121215] border border-zinc-200 dark:border-[#27272A] overflow-hidden shadow-xs hover:shadow-xl hover:border-zinc-400 dark:hover:border-zinc-700 transition-all duration-300 cursor-pointer flex flex-col justify-between"
     >
       <div>
-        {/* Top Image Box */}
+        {/* Top Image Box (Đã bỏ icon con mắt theo yêu cầu) */}
         <div className="relative w-full aspect-[4/3] bg-zinc-100 dark:bg-[#18181C] flex items-center justify-center overflow-hidden border-b border-zinc-200 dark:border-[#27272A]">
+
           {hasImage && !imgError ? (
             <Image
               src={product.images![0]}
               alt={product.name}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
               onError={() => setImgError(true)}
             />
           ) : (
@@ -193,96 +185,63 @@ function ProductCardItem({
               )}
             </div>
           )}
-
-
-
-          {/* Quick View Button on Hover */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onQuickView();
-            }}
-            className="absolute top-3 right-3 p-2 rounded-xl bg-black/70 hover:bg-zinc-800 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 shadow-md cursor-pointer"
-            title={t('quickView')}
-          >
-            <Eye className="w-3.5 h-3.5" />
-          </button>
         </div>
 
-        {/* Content Info matching Image 3 */}
-        <div className="p-4 space-y-2">
+        {/* Content Info */}
+        <div className="p-3 sm:p-4 space-y-1.5">
           {/* Category Line */}
-          <div className="flex items-center text-[11px] text-zinc-500 dark:text-[#94949E]">
-            <span className="font-semibold capitalize">
+          <div className="flex items-center text-[10px] sm:text-[11px] text-zinc-500 dark:text-[#94949E]">
+            <span className="font-semibold capitalize truncate">
               {product.category?.name || 'Vật phẩm'}
             </span>
           </div>
 
           {/* Product Title */}
-          <h3 className="text-sm font-bold text-zinc-950 dark:text-[#F4F4F5] line-clamp-2 leading-snug group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
+          <h3 className="text-xs sm:text-sm font-bold text-zinc-950 dark:text-[#F4F4F5] line-clamp-2 leading-snug group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors min-h-[2rem] sm:min-h-[2.5rem]">
             {product.name}
           </h3>
 
           {/* Price */}
-          <div className="text-base font-black text-zinc-950 dark:text-white pt-1 font-mono">
+          <div className="text-sm sm:text-base font-black text-zinc-950 dark:text-white pt-0.5 font-mono">
             {formatPrice(product.priceVND, currency)}
           </div>
 
-          {/* Stock Count */}
-          <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-            {t('itemsLeft', { count: product.availableCount ?? 1 })}
+          {/* Stock: In Stock / Out of Stock (Còn hàng / Hết hàng tiếng Việt) */}
+          <div className={`text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 pt-0.5 ${
+            stockCount > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${stockCount > 0 ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
+            <span>
+              {stockCount > 0
+                ? (isEn ? 'In Stock' : 'Còn hàng')
+                : (isEn ? 'Out of Stock' : 'Hết hàng')}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Quantity Selector + Actions matching Image 3 & Image 1 */}
-      <div className="px-4 pb-4 pt-1 space-y-2.5">
-        {/* Quantity Row */}
-        <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
-          <span className="font-mono text-[11px]">{t('quantity')}</span>
-          <div className="flex items-center rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-[#18181C] overflow-hidden">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onQtyChange(-1);
-              }}
-              className="px-2 py-0.5 text-zinc-600 dark:text-zinc-300 hover:text-white hover:bg-zinc-700/50 text-xs font-bold transition-colors cursor-pointer"
-            >
-              <Minus className="w-3 h-3" />
-            </button>
-            <span className="px-2.5 py-0.5 font-mono text-[11px] font-bold text-zinc-900 dark:text-white">
-              {quantity}
-            </span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onQtyChange(1);
-              }}
-              className="px-2 py-0.5 text-zinc-600 dark:text-zinc-300 hover:text-white hover:bg-zinc-700/50 text-xs font-bold transition-colors cursor-pointer"
-            >
-              <Plus className="w-3 h-3" />
-            </button>
-          </div>
-        </div>
-
-        {/* Action Buttons matching Image 1 */}
-        <div className="grid grid-cols-2 gap-2">
-          {/* Button 1: Dark Grey / Black [🛒 Thêm vào giỏ] */}
+      {/* 2 Nút thao tác: [ Chọn Gói ] và [ Mua Ngay ] vừa vặn mobile, không phình to (Đã bỏ ô số lượng) */}
+      <div className="px-2.5 sm:px-4 pb-2.5 sm:pb-4 pt-1">
+        <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+          {/* Nút 1: Chọn Gói */}
           <button
-            onClick={onAddToCart}
-            className="py-2.5 px-3 rounded-xl bg-[#121215] dark:bg-[#18181C] hover:bg-[#202025] dark:hover:bg-[#222228] text-white border border-[#27272E] text-xs font-bold transition-all flex items-center justify-center gap-1.5 active:scale-95 shadow-xs cursor-pointer"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuickView();
+            }}
+            className="py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-[#1a1a1e] dark:hover:bg-[#25252a] text-zinc-900 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800 text-[10px] sm:text-xs font-bold text-center transition-all cursor-pointer active:scale-98 shadow-2xs whitespace-nowrap"
           >
-            <ShoppingCart className="w-3.5 h-3.5 stroke-[2]" />
-            <span className="truncate">{t('addToCart')}</span>
+            {isEn ? 'Options' : 'Chọn Gói'}
           </button>
 
-          {/* Button 2: Crisp Light Grey / White [→ Mua] */}
+          {/* Nút 2: Mua Ngay */}
           <button
+            type="button"
             onClick={onBuyNow}
-            className="py-2.5 px-3 rounded-xl bg-white hover:bg-zinc-100 dark:bg-[#F4F4F5] dark:hover:bg-zinc-200 text-zinc-950 text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+            className="py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl bg-zinc-950 hover:bg-zinc-850 text-white dark:bg-white dark:hover:bg-zinc-200 dark:text-zinc-950 text-[10px] sm:text-xs font-bold text-center transition-all cursor-pointer active:scale-98 shadow-xs whitespace-nowrap flex items-center justify-center gap-1"
           >
-            <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>{t('buy')}</span>
+            <span>{isEn ? 'Buy Now' : 'Mua Ngay'}</span>
           </button>
         </div>
       </div>

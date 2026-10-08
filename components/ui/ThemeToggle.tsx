@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useLocale } from 'next-intl';
 
 export default function ThemeToggle({ id = "themeToggle" }: { id?: string }) {
+  const locale = useLocale();
+  const isEn = locale === 'en';
   const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(true);
 
@@ -45,7 +48,11 @@ export default function ThemeToggle({ id = "themeToggle" }: { id?: string }) {
       <label
         htmlFor={id}
         className="themeToggle st-sunMoonThemeToggleBtn text-slate-400 hover:text-slate-700 dark:hover:text-white"
-        title={isDark ? 'Chuyển sang Giao diện Sáng' : 'Chuyển sang Giao diện Tối'}
+        title={
+          isDark
+            ? (isEn ? 'Switch to Light Mode' : 'Chuyển sang Giao diện Sáng')
+            : (isEn ? 'Switch to Dark Mode' : 'Chuyển sang Giao diện Tối')
+        }
       >
         <input
           type="checkbox"

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from '@/navigation';
+import { useLocale } from 'next-intl';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import {
@@ -26,6 +27,8 @@ import { formatPrice } from '@/lib/utils';
 export default function ProfilePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const locale = useLocale();
+  const isEn = locale === 'en';
 
   const [orders, setOrders] = useState<any[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -62,7 +65,7 @@ export default function ProfilePage() {
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
-    toast.success('Đã sao chép vào bộ nhớ tạm!');
+    toast.success(isEn ? 'Copied to clipboard!' : 'Đã sao chép vào bộ nhớ tạm!');
     setTimeout(() => setCopiedId(null), 2000);
   };
 
@@ -74,7 +77,7 @@ export default function ProfilePage() {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-    toast.success('Đã tải xuống file thông tin tài khoản!');
+    toast.success(isEn ? 'Credentials file downloaded!' : 'Đã tải xuống file thông tin tài khoản!');
   };
 
   const handleUnlinkDiscord = async () => {
@@ -89,7 +92,7 @@ export default function ProfilePage() {
         toast.error(data.error);
       }
     } catch (err) {
-      toast.error('Lỗi khi hủy liên kết');
+      toast.error(isEn ? 'Error unlinking account' : 'Lỗi khi hủy liên kết');
     } finally {
       setUnlinking(false);
     }
@@ -114,18 +117,20 @@ export default function ProfilePage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
             <h1 className="text-3xl font-black font-display tracking-tight text-white">
-              Hồ Sơ Cá Nhân & Tủ Đồ Số
+              {isEn ? 'Profile & Digital Inventory' : 'Hồ Sơ Cá Nhân & Tủ Đồ Số'}
             </h1>
             <p className="text-xs text-slate-400 mt-1">
-              Quản lý tài khoản, liên kết Discord và xem lại các tài nguyên đã mua
+              {isEn
+                ? 'Manage your account, Discord integration, and review purchased digital items'
+                : 'Quản lý tài khoản, liên kết Discord và xem lại các tài nguyên đã mua'}
             </p>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: '/' })}
-            className="self-start px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-rose-500/20 text-xs font-semibold text-rose-300 border border-white/10 hover:border-rose-500/40 flex items-center gap-2 transition-all"
+            className="self-start px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-rose-500/20 text-xs font-semibold text-rose-300 border border-white/10 hover:border-rose-500/40 flex items-center gap-2 transition-all cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
-            <span>Đăng Xuất</span>
+            <span>{isEn ? 'Sign Out' : 'Đăng Xuất'}</span>
           </button>
         </div>
 
@@ -139,12 +144,12 @@ export default function ProfilePage() {
               </div>
               <div>
                 <h3 className="text-base font-bold text-white font-display">
-                  {user?.name || 'Khách hàng'}
+                  {user?.name || (isEn ? 'Customer' : 'Khách hàng')}
                 </h3>
                 <div className="text-xs text-slate-400">{user?.email}</div>
                 <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 text-[10px] font-mono border border-cyan-500/30">
                   <Shield className="w-3 h-3" />
-                  <span>Vai trò: {user?.role || 'USER'}</span>
+                  <span>{isEn ? 'Role:' : 'Vai trò:'} {user?.role || 'USER'}</span>
                 </div>
               </div>
             </div>
@@ -161,15 +166,15 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white font-display">
-                    Tài Khoản Discord
+                    {isEn ? 'Discord Account' : 'Tài Khoản Discord'}
                   </h4>
                   <div className="text-xs text-slate-400">
                     {user?.discordUsername ? (
                       <span className="text-emerald-400 font-mono">
-                        Đã liên kết: {user.discordUsername}
+                        {isEn ? `Linked: ${user.discordUsername}` : `Đã liên kết: ${user.discordUsername}`}
                       </span>
                     ) : (
-                      'Chưa liên kết tài khoản Discord'
+                      isEn ? 'Discord account not linked' : 'Chưa liên kết tài khoản Discord'
                     )}
                   </div>
                 </div>
@@ -179,21 +184,23 @@ export default function ProfilePage() {
                 <button
                   onClick={handleUnlinkDiscord}
                   disabled={unlinking}
-                  className="px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-rose-500/20 text-[11px] font-semibold text-rose-300 border border-white/10 hover:border-rose-500/40 transition-all"
+                  className="px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-rose-500/20 text-[11px] font-semibold text-rose-300 border border-white/10 hover:border-rose-500/40 transition-all cursor-pointer"
                 >
-                  {unlinking ? 'Đang hủy...' : 'Hủy liên kết'}
+                  {unlinking ? (isEn ? 'Unlinking...' : 'Đang hủy...') : (isEn ? 'Unlink' : 'Hủy liên kết')}
                 </button>
               ) : (
                 <button
                   onClick={() => signIn('discord')}
-                  className="px-3 py-1.5 rounded-xl bg-[#5865F2] hover:bg-[#4752c4] text-white text-[11px] font-bold shadow-md transition-all"
+                  className="px-3 py-1.5 rounded-xl bg-[#5865F2] hover:bg-[#4752c4] text-white text-[11px] font-bold shadow-md transition-all cursor-pointer"
                 >
-                  Liên kết ngay
+                  {isEn ? 'Link Now' : 'Liên kết ngay'}
                 </button>
               )}
             </div>
             <p className="text-[11px] text-slate-400">
-              Liên kết Discord giúp bạn đăng nhập 1-click tức thì và nhận thông báo hỗ trợ từ bot của ChinStore.
+              {isEn
+                ? 'Linking Discord enables 1-click logins and automated instant support from ChinStore bot.'
+                : 'Liên kết Discord giúp bạn đăng nhập 1-click tức thì và nhận thông báo hỗ trợ từ bot của ChinStore.'}
             </p>
           </div>
         </div>
@@ -203,26 +210,26 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold font-display text-white flex items-center gap-2">
               <KeyRound className="w-5 h-5 text-cyan-400" />
-              <span>Kho Hàng Số Đã Mua ({orders.length})</span>
+              <span>{isEn ? 'Purchased Digital Items' : 'Kho Hàng Số Đã Mua'} ({orders.length})</span>
             </h2>
             <button
               onClick={fetchOrders}
-              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-mono"
+              className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-mono cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loadingOrders ? 'animate-spin' : ''}`} />
-              <span>Làm mới</span>
+              <span>{isEn ? 'Refresh' : 'Làm mới'}</span>
             </button>
           </div>
 
           {loadingOrders ? (
             <div className="p-12 text-center text-slate-500 font-mono text-xs">
-              Đang tải lịch sử đơn hàng...
+              {isEn ? 'Loading order history...' : 'Đang tải lịch sử đơn hàng...'}
             </div>
           ) : orders.length === 0 ? (
             <div className="p-12 text-center rounded-3xl glass-card border border-white/5 space-y-2">
-              <p className="text-sm text-slate-400">Bạn chưa mua sản phẩm nào.</p>
-              <a href="/#catalog" className="text-xs text-cyan-400 hover:underline">
-                Khám phá cửa hàng ngay
+              <p className="text-sm text-slate-400">{isEn ? 'You have not purchased any products yet.' : 'Bạn chưa mua sản phẩm nào.'}</p>
+              <a href="/shop" className="text-xs text-cyan-400 hover:underline">
+                {isEn ? 'Explore store now' : 'Khám phá cửa hàng ngay'}
               </a>
             </div>
           ) : (
@@ -239,7 +246,7 @@ export default function ProfilePage() {
                         #{ord.orderCode}
                       </span>
                       <span className="text-xs text-slate-400 font-mono">
-                        {new Date(ord.createdAt).toLocaleString('vi-VN')}
+                        {new Date(ord.createdAt).toLocaleString(isEn ? 'en-US' : 'vi-VN')}
                       </span>
                     </div>
 
@@ -248,31 +255,31 @@ export default function ProfilePage() {
                       {ord.status === 'PAID' && (
                         <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold flex items-center gap-1.5 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
                           <CheckCircle2 className="w-3.5 h-3.5" />
-                          ĐÃ THANH TOÁN
+                          {isEn ? 'PAID' : 'ĐÃ THANH TOÁN'}
                         </span>
                       )}
                       {ord.status === 'PAYMENT_PENDING' && (
                         <span className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 text-xs font-bold flex items-center gap-1.5">
                           <Clock className="w-3.5 h-3.5 animate-spin" />
-                          CHỜ THANH TOÁN
+                          {isEn ? 'PENDING' : 'CHỜ THANH TOÁN'}
                         </span>
                       )}
                       {ord.status === 'MANUAL_REVIEW' && (
                         <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5">
                           <AlertTriangle className="w-3.5 h-3.5" />
-                          CHỜ DUYỆT THỦ CÔNG
+                          {isEn ? 'MANUAL REVIEW' : 'CHỜ DUYỆT THỦ CÔNG'}
                         </span>
                       )}
                       {ord.status === 'UNDERPAID' && (
                         <span className="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/40 text-xs font-bold flex items-center gap-1.5">
                           <AlertTriangle className="w-3.5 h-3.5" />
-                          CHUYỂN THIẾU TIỀN
+                          {isEn ? 'UNDERPAID' : 'CHUYỂN THIẾU TIỀN'}
                         </span>
                       )}
                       {ord.status === 'EXPIRED' && (
                         <span className="px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 text-xs font-bold flex items-center gap-1.5">
                           <XCircle className="w-3.5 h-3.5" />
-                          ĐƠN HẾT HẠN
+                          {isEn ? 'EXPIRED' : 'ĐƠN HẾT HẠN'}
                         </span>
                       )}
                     </div>
@@ -295,10 +302,12 @@ export default function ProfilePage() {
                     <div className="p-3 rounded-2xl bg-purple-950/30 border border-purple-500/30 text-xs text-purple-300 space-y-1">
                       <div className="font-bold flex items-center gap-1.5">
                         <AlertTriangle className="w-4 h-4 text-purple-400" />
-                        <span>Đơn hàng chuyển vào hàng đợi xử lý thủ công (Late Payment)</span>
+                        <span>{isEn ? 'Order queued for manual processing (Late Payment)' : 'Đơn hàng chuyển vào hàng đợi xử lý thủ công (Late Payment)'}</span>
                       </div>
                       <p className="text-[11px] text-slate-300 leading-relaxed">
-                        Lý do: {ord.reviewReason || 'Nhận thanh toán sau khi đơn đã hết hạn'}. Số tiền của bạn đã được ghi nhận an toàn. Vui lòng liên hệ Admin/Telegram để nhận tài khoản mới hoặc hoàn tiền 100%.
+                        {isEn
+                          ? `Reason: ${ord.reviewReason || 'Payment received after order expired'}. Your funds have been safely recorded. Please contact Admin/Telegram to receive fresh credentials or a 100% refund.`
+                          : `Lý do: ${ord.reviewReason || 'Nhận thanh toán sau khi đơn đã hết hạn'}. Số tiền của bạn đã được ghi nhận an toàn. Vui lòng liên hệ Admin/Telegram để nhận tài khoản mới hoặc hoàn tiền 100%.`}
                       </p>
                     </div>
                   )}
@@ -309,26 +318,26 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between text-xs">
                         <span className="font-mono text-cyan-400 font-bold uppercase flex items-center gap-1.5">
                           <KeyRound className="w-3.5 h-3.5" />
-                          Dữ liệu tài khoản / License Key (Đã giải mã AES-256-GCM)
+                          <span>{isEn ? 'Account Data / License Key (Decrypted AES-256-GCM)' : 'Dữ liệu tài khoản / License Key (Đã giải mã AES-256-GCM)'}</span>
                         </span>
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => handleCopy(ord.decryptedData, ord.id)}
-                            className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-mono flex items-center gap-1 transition-all"
+                            className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer"
                           >
                             {copiedId === ord.id ? (
                               <Check className="w-3.5 h-3.5 text-emerald-400" />
                             ) : (
                               <Copy className="w-3.5 h-3.5" />
                             )}
-                            <span>Copy tất cả</span>
+                            <span>{isEn ? 'Copy all' : 'Copy tất cả'}</span>
                           </button>
                           <button
                             onClick={() => handleDownloadTxt(ord.orderCode, ord.decryptedData)}
-                            className="px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-[11px] font-mono flex items-center gap-1 transition-all"
+                            className="px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer"
                           >
                             <Download className="w-3.5 h-3.5" />
-                            <span>Tải .txt</span>
+                            <span>{isEn ? 'Download .txt' : 'Tải .txt'}</span>
                           </button>
                         </div>
                       </div>
@@ -338,8 +347,8 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="text-[11px] text-slate-400 flex items-center justify-between">
-                        <span>Chính sách: {ord.items[0]?.warrantyPolicy || 'Bảo hành 24h'}</span>
-                        <span className="text-emerald-400">Giao hàng tự động tức thì</span>
+                        <span>{isEn ? 'Policy:' : 'Chính sách:'} {ord.items[0]?.warrantyPolicy || (isEn ? '24h Warranty' : 'Bảo hành 24h')}</span>
+                        <span className="text-emerald-400">{isEn ? 'Instant automated delivery' : 'Giao hàng tự động tức thì'}</span>
                       </div>
                     </div>
                   )}
